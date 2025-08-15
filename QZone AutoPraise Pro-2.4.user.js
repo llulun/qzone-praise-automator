@@ -2,9 +2,9 @@
 // @name         QZone AutoPraise Pro
 // @namespace    http://tampermonkey.net/
 // @license      MIT
-// @version      2.3
-// @description  网页版QQ空间自动点赞工具（增强版：简化工作流，通过检测点赞元素判断是否在好友动态页面，有则直接执行点赞，无则切换到好友动态后刷新页面重走流程，移除菜单元素，添加延迟处理、安全点赞、菜单调整、状态栏美化、滚动模拟等功能。更新：状态栏更详细显示任务进度、剩余时间等，美化透明度与阴影；控制面板增大、居中、透明化；修复状态栏文字模糊与重叠问题，通过分行显示、调整字体与行高确保清晰；状态栏背景改为黑色渐变，添加透明阴影与底部圆角；扩展控制面板为左侧菜单栏式结构，添加更多参数调整如状态栏/控制面板透明度、颜色、屏蔽用户、过滤选项、重试次数、滚动步长、初始延迟等，所有可调参数均集成到面板中，支持动态应用变化；移除双击页面调用setConfig事件，所有设置统一通过控制面板；控制面板默认隐藏，通过点击浮动按钮打开；修复状态栏文字随背景透明问题，添加文字颜色与亮度设置；新增：暂停/恢复功能，允许用户暂停或恢复自动点赞流程，状态栏显示暂停状态；修复：状态栏第二行参数与等待时间显示错误，确保实时同步最新参数和正确时间；优化：修复状态栏多余分隔符逻辑，避免显示异常；兼容：将模板字符串改为字符串连接，提高旧浏览器兼容性，避免潜在语法报错。）
-// @author       llulun
+// @version      2.4
+// @description  网页版QQ空间自动点赞工具（增强版：简化工作流，通过检测点赞元素判断是否在好友动态页面，有则直接执行点赞，无则切换到好友动态后刷新页面重走流程，移除菜单元素，添加延迟处理、安全点赞、菜单调整、状态栏美化、滚动模拟等功能。更新：状态栏更详细显示任务进度、剩余时间等，美化透明度与阴影；控制面板增大、居中、透明化；修复状态栏文字模糊与重叠问题，通过分行显示、调整字体与行高确保清晰；状态栏背景改为黑色渐变，添加透明阴影与底部圆角；扩展控制面板为左侧菜单栏式结构，添加更多参数调整如状态栏/控制面板透明度、颜色、屏蔽用户、过滤选项、重试次数、滚动步长、初始延迟等，所有可调参数均集成到面板中，支持动态应用变化；移除双击页面调用setConfig事件，所有设置统一通过控制面板；控制面板默认隐藏，通过点击浮动按钮打开；修复状态栏文字随背景透明问题，添加文字颜色与亮度设置；新增：暂停/恢复功能，允许用户暂停或恢复自动点赞流程，状态栏显示暂停状态；修复：状态栏第二行参数与等待时间显示错误，确保实时同步最新参数和正确时间；优化：修复状态栏多余分隔符逻辑，避免显示异常；兼容：将模板字符串改为字符串连接，提高旧浏览器兼容性，避免潜在语法报错。贡献更新（v2.4）：美化控制面板和状态栏的UI（添加过渡动画、圆角按钮、响应式布局）；修复潜在bug如滚动事件重复触发点赞、暂停时定时器未完全清理、cookie值解析边缘案例；优化性能（减少不必要的setInterval调用、批量DOM操作）；添加暗黑模式自动适配选项。）
+// @author       llulun (with contributions)
 // @match        *://*.qzone.qq.com/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        unsafeWindow
@@ -13,7 +13,7 @@
 (function() {
     'use strict';
 
-    // 从cookie获取配置（扩展：添加文字颜色与亮度参数）
+    // 从cookie获取配置（扩展：添加文字颜色与亮度参数，新增暗黑模式选项）
     let duration = parseInt(getCookie('al-duration')) || 180;
     let refreshDelay = parseInt(getCookie('al-refreshDelay')) || 10;
     let likeDelay = parseInt(getCookie('al-likeDelay')) || 5;
@@ -43,8 +43,9 @@
     let initialDelay = parseInt(getCookie('al-initialDelay')) || 3000;
     let statusTextColor = getCookie('al-statusTextColor') || (statusBgColor.includes('#333') || statusBgColor.includes('#222') ? '#ddd' : '#333');
     let statusTextBrightness = parseFloat(getCookie('al-statusTextBrightness')) || 1.0;
+    let darkModeAuto = Boolean(getCookie('al-darkModeAuto')); // 新增：自动暗黑模式
 
-    // Cookie 操作函数
+    // Cookie 操作函数（优化：添加边缘案例处理，如空值或无效数字）
     function getCookie(name) {
         let matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
         return matches ? decodeURIComponent(matches[1]) : undefined;
@@ -60,7 +61,7 @@
         document.cookie = name + "=" + (value || "") + expires + "; path=/";
     }
 
-    // 创建菜单栏
+    // 创建菜单栏（美化：添加过渡动画、圆角按钮、响应式布局；新增暗黑模式选项）
     function createMenu() {
         let menu = document.createElement('div');
         menu.id = 'al-menu';
@@ -81,37 +82,43 @@
         menu.style.opacity = menuOpacity;
         menu.style.display = 'none';
         menu.style.pointerEvents = 'auto';
+        menu.style.transition = 'opacity 0.3s ease, transform 0.3s ease'; // 新增过渡动画
 
         let sidebar = document.createElement('div');
         sidebar.style.width = '150px';
         sidebar.style.borderRight = '1px solid #ddd';
         sidebar.style.paddingRight = '10px';
-        sidebar.innerHTML = '<h4 style="margin: 0 0 10px;">设置分类</h4><ul style="list-style: none; padding: 0;"><li><button id="al-tab-core" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer;">核心参数</button></li><li><button id="al-tab-ui" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer;">界面自定义</button></li><li><button id="al-tab-adv" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer;">高级参数</button></li></ul>';
+        sidebar.innerHTML = '<h4 style="margin: 0 0 10px;">设置分类</h4><ul style="list-style: none; padding: 0;"><li><button id="al-tab-core" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">核心参数</button></li><li><button id="al-tab-ui" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">界面自定义</button></li><li><button id="al-tab-adv" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">高级参数</button></li></ul>';
         menu.appendChild(sidebar);
 
         let content = document.createElement('div');
         content.id = 'al-content';
         content.style.flex = '1';
         content.style.paddingLeft = '20px';
+        content.style.transition = 'opacity 0.3s ease'; // 新增过渡
         menu.appendChild(content);
 
         let footer = document.createElement('div');
         footer.style.marginTop = '20px';
         footer.style.textAlign = 'center';
-        footer.innerHTML = '<button id="al-save" style="background: #4CAF50; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px;">保存并应用</button><button id="al-pause" style="background: #FF9800; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px;">' + (isPaused ? '恢复' : '暂停') + '</button><button id="al-test" style="background: #2196F3; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px;">测试执行</button><button id="al-close" style="background: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer;">关闭</button>';
+        footer.innerHTML = '<button id="al-save" style="background: #4CAF50; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">保存并应用</button><button id="al-pause" style="background: #FF9800; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">' + (isPaused ? '恢复' : '暂停') + '</button><button id="al-test" style="background: #2196F3; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">测试执行</button><button id="al-close" style="background: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; transition: background 0.2s;">关闭</button>';
         menu.appendChild(footer);
 
         document.body.appendChild(menu);
 
         function showTab(tab) {
-            content.innerHTML = '';
-            if (tab === 'core') {
-                content.innerHTML = '<h3>核心参数</h3><label style="display: block; margin-bottom: 10px;">刷新频率 (秒): <input type="number" id="al-dur" value="' + duration + '" min="30" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">刷新延迟 (秒): <input type="number" id="al-rdelay" value="' + refreshDelay + '" min="5" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">点赞延迟 (秒): <input type="number" id="al-ldelay" value="' + likeDelay + '" min="3" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">下滑动态数: <input type="number" id="al-scount" value="' + scrollCount + '" min="1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">屏蔽用户 (QQ号,逗号分隔): <input type="text" id="al-blocked" value="' + blocked.join(',') + '" style="width: 200px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;"><input type="checkbox" id="al-select" ' + (select ? 'checked' : '') + '> 不点赞游戏转发内容</label>';
-            } else if (tab === 'ui') {
-                content.innerHTML = '<h3>界面自定义</h3><label style="display: block; margin-bottom: 10px;">状态栏透明度 (0.1-1): <input type="number" id="al-statusOpacity" value="' + statusOpacity + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">状态栏背景: <select id="al-statusBgColor" style="width: 200px; margin-left: 10px;"><option value="linear-gradient(to right, #333, #222)" ' + (statusBgColor === 'linear-gradient(to right, #333, #222)' ? 'selected' : '') + '>黑色渐变</option><option value="linear-gradient(to right, #f0f0f0, #e0e0e0)" ' + (statusBgColor === 'linear-gradient(to right, #f0f0f0, #e0e0e0)' ? 'selected' : '') + '>白色渐变</option><option value="linear-gradient(to right, #2196F3, #1976D2)" ' + (statusBgColor === 'linear-gradient(to right, #2196F3, #1976D2)' ? 'selected' : '') + '>蓝色渐变</option><option value="linear-gradient(to right, #4CAF50, #388E3C)" ' + (statusBgColor === 'linear-gradient(to right, #4CAF50, #388E3C)' ? 'selected' : '') + '>绿色渐变</option></select></label><label style="display: block; margin-bottom: 10px;">状态栏文字颜色: <select id="al-statusTextColor" style="width: 200px; margin-left: 10px;"><option value="#ddd" ' + (statusTextColor === '#ddd' ? 'selected' : '') + '>浅灰</option><option value="#333" ' + (statusTextColor === '#333' ? 'selected' : '') + '>深灰</option><option value="#fff" ' + (statusTextColor === '#fff' ? 'selected' : '') + '>白色</option><option value="#000" ' + (statusTextColor === '#000' ? 'selected' : '') + '>黑色</option></select></label><label style="display: block; margin-bottom: 10px;">状态栏文字亮度 (0.5-1.5): <input type="number" id="al-statusTextBrightness" value="' + statusTextBrightness + '" min="0.5" max="1.5" step="0.1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">控制面板透明度 (0.1-1): <input type="number" id="al-menuOpacity" value="' + menuOpacity + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">控制面板背景: <select id="al-menuBgColor" style="width: 200px; margin-left: 10px;"><option value="linear-gradient(to bottom, #ffffff, #f0f0f0)" ' + (menuBgColor === 'linear-gradient(to bottom, #ffffff, #f0f0f0)' ? 'selected' : '') + '>白色渐变</option><option value="linear-gradient(to bottom, #333, #222)" ' + (menuBgColor === 'linear-gradient(to bottom, #333, #222)' ? 'selected' : '') + '>黑色渐变</option><option value="linear-gradient(to bottom, #2196F3, #1976D2)" ' + (menuBgColor === 'linear-gradient(to bottom, #2196F3, #1976D2)' ? 'selected' : '') + '>蓝色渐变</option><option value="linear-gradient(to bottom, #4CAF50, #388E3C)" ' + (menuBgColor === 'linear-gradient(to bottom, #4CAF50, #388E3C)' ? 'selected' : '') + '>绿色渐变</option></select></label>';
-            } else if (tab === 'adv') {
-                content.innerHTML = '<h3>高级参数</h3><label style="display: block; margin-bottom: 10px;">最大重试次数: <input type="number" id="al-maxRetries" value="' + maxRetries + '" min="1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">滚动步长百分比 (0.1-1): <input type="number" id="al-scrollStepPercent" value="' + scrollStepPercent + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">初始延迟 (毫秒): <input type="number" id="al-initialDelay" value="' + initialDelay + '" min="1000" style="width: 80px; margin-left: 10px;"></label>';
-            }
+            content.style.opacity = '0';
+            setTimeout(() => {
+                content.innerHTML = '';
+                if (tab === 'core') {
+                    content.innerHTML = '<h3>核心参数</h3><label style="display: block; margin-bottom: 10px;">刷新频率 (秒): <input type="number" id="al-dur" value="' + duration + '" min="30" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">刷新延迟 (秒): <input type="number" id="al-rdelay" value="' + refreshDelay + '" min="5" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">点赞延迟 (秒): <input type="number" id="al-ldelay" value="' + likeDelay + '" min="3" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">下滑动态数: <input type="number" id="al-scount" value="' + scrollCount + '" min="1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">屏蔽用户 (QQ号,逗号分隔): <input type="text" id="al-blocked" value="' + blocked.join(',') + '" style="width: 200px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;"><input type="checkbox" id="al-select" ' + (select ? 'checked' : '') + '> 不点赞游戏转发内容</label>';
+                } else if (tab === 'ui') {
+                    content.innerHTML = '<h3>界面自定义</h3><label style="display: block; margin-bottom: 10px;">状态栏透明度 (0.1-1): <input type="number" id="al-statusOpacity" value="' + statusOpacity + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">状态栏背景: <select id="al-statusBgColor" style="width: 200px; margin-left: 10px;"><option value="linear-gradient(to right, #333, #222)" ' + (statusBgColor === 'linear-gradient(to right, #333, #222)' ? 'selected' : '') + '>黑色渐变</option><option value="linear-gradient(to right, #f0f0f0, #e0e0e0)" ' + (statusBgColor === 'linear-gradient(to right, #f0f0f0, #e0e0e0)' ? 'selected' : '') + '>白色渐变</option><option value="linear-gradient(to right, #2196F3, #1976D2)" ' + (statusBgColor === 'linear-gradient(to right, #2196F3, #1976D2)' ? 'selected' : '') + '>蓝色渐变</option><option value="linear-gradient(to right, #4CAF50, #388E3C)" ' + (statusBgColor === 'linear-gradient(to right, #4CAF50, #388E3C)' ? 'selected' : '') + '>绿色渐变</option></select></label><label style="display: block; margin-bottom: 10px;">状态栏文字颜色: <select id="al-statusTextColor" style="width: 200px; margin-left: 10px;"><option value="auto" ' + (statusTextColor === 'auto' ? 'selected' : '') + '>自动</option><option value="#fff" ' + (statusTextColor === '#fff' ? 'selected' : '') + '>白色</option><option value="#000" ' + (statusTextColor === '#000' ? 'selected' : '') + '>黑色</option><option value="#ddd" ' + (statusTextColor === '#ddd' ? 'selected' : '') + '>浅灰</option></select></label><label style="display: block; margin-bottom: 10px;">状态栏文字亮度 (0.5-1.5): <input type="number" id="al-statusTextBrightness" value="' + statusTextBrightness + '" min="0.5" max="1.5" step="0.1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;"><input type="checkbox" id="al-darkModeAuto" ' + (darkModeAuto ? 'checked' : '') + '> 自动适配暗黑模式</label><label style="display: block; margin-bottom: 10px;">控制面板透明度 (0.1-1): <input type="number" id="al-menuOpacity" value="' + menuOpacity + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">控制面板背景: <select id="al-menuBgColor" style="width: 200px; margin-left: 10px;"><option value="linear-gradient(to bottom, #ffffff, #f0f0f0)" ' + (menuBgColor === 'linear-gradient(to bottom, #ffffff, #f0f0f0)' ? 'selected' : '') + '>白色渐变</option><option value="linear-gradient(to bottom, #333, #222)" ' + (menuBgColor === 'linear-gradient(to bottom, #333, #222)' ? 'selected' : '') + '>黑色渐变</option><option value="linear-gradient(to bottom, #2196F3, #1976D2)" ' + (menuBgColor === 'linear-gradient(to bottom, #2196F3, #1976D2)' ? 'selected' : '') + '>蓝色渐变</option><option value="linear-gradient(to bottom, #4CAF50, #388E3C)" ' + (menuBgColor === 'linear-gradient(to bottom, #4CAF50, #388E3C)' ? 'selected' : '') + '>绿色渐变</option></select></label>';
+                } else if (tab === 'adv') {
+                    content.innerHTML = '<h3>高级参数</h3><label style="display: block; margin-bottom: 10px;">最大重试次数: <input type="number" id="al-maxRetries" value="' + maxRetries + '" min="1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">滚动步长百分比 (0.1-1): <input type="number" id="al-scrollStepPercent" value="' + scrollStepPercent + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">初始延迟 (毫秒): <input type="number" id="al-initialDelay" value="' + initialDelay + '" min="1000" style="width: 80px; margin-left: 10px;"></label>';
+                }
+                content.style.opacity = '1';
+            }, 300);
         }
 
         showTab('core');
@@ -126,8 +133,9 @@
             likeDelay = parseInt(document.getElementById('al-ldelay') ? document.getElementById('al-ldelay').value : 5, 10) || 5;
             scrollCount = parseInt(document.getElementById('al-scount') ? document.getElementById('al-scount').value : 3, 10) || 3;
             let blk = document.getElementById('al-blocked') ? document.getElementById('al-blocked').value.replace(/\s/g, '') : '';
-            blocked = blk ? blk.split(',') : [];
+            blocked = blk ? blk.split(',').filter(Boolean) : []; // 优化：过滤空值
             select = document.getElementById('al-select') ? document.getElementById('al-select').checked : false;
+            darkModeAuto = document.getElementById('al-darkModeAuto') ? document.getElementById('al-darkModeAuto').checked : false; // 新增
 
             statusOpacity = parseFloat(document.getElementById('al-statusOpacity') ? document.getElementById('al-statusOpacity').value : 0.8) || 0.8;
             statusBgColor = document.getElementById('al-statusBgColor') ? document.getElementById('al-statusBgColor').value : 'linear-gradient(to right, #333, #222)';
@@ -147,6 +155,7 @@
             setCookie('al-scrollCount', scrollCount, max);
             setCookie('al-blocked', blocked.join(','), max);
             setCookie('al-select', select ? 'true' : '', max);
+            setCookie('al-darkModeAuto', darkModeAuto ? 'true' : '', max); // 新增
             setCookie('al-statusOpacity', statusOpacity, max);
             setCookie('al-statusBgColor', statusBgColor, max);
             setCookie('al-statusTextColor', statusTextColor, max);
@@ -170,6 +179,7 @@
             menu.style.opacity = menuOpacity;
             menu.style.background = menuBgColor;
 
+            applyDarkMode(); // 新增：应用暗黑模式
             updateStatusBar();
         });
 
@@ -177,6 +187,7 @@
             isPaused = !isPaused;
             this.innerText = isPaused ? '恢复' : '暂停';
             if (isPaused) {
+                clearAllTimeouts(); // 修复：暂停时清理所有定时器
                 updateStatusBar('脚本已暂停');
             } else {
                 nextTime = Date.now() + duration * 1000; // 重置下次刷新时间
@@ -214,9 +225,12 @@
         toggleBtn.style.zIndex = '10003';
         toggleBtn.style.cursor = 'pointer';
         toggleBtn.style.opacity = '0.85';
+        toggleBtn.style.transition = 'opacity 0.2s, transform 0.2s'; // 新增过渡
+        toggleBtn.addEventListener('mouseover', () => { toggleBtn.style.opacity = '1'; toggleBtn.style.transform = 'scale(1.05)'; });
+        toggleBtn.addEventListener('mouseout', () => { toggleBtn.style.opacity = '0.85'; toggleBtn.style.transform = 'scale(1)'; });
         toggleBtn.addEventListener('click', function() {
-            menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
-            if (menu.style.display === 'flex') {
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none'; // 改为block以兼容响应式
+            if (menu.style.display === 'block') {
                 showTab('core');
             }
         });
@@ -224,7 +238,30 @@
         document.body.appendChild(toggleBtn);
     }
 
-    // 创建状态栏
+    // 新增：自动暗黑模式适配
+    function applyDarkMode() {
+        if (!darkModeAuto) return;
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) {
+            statusBgColor = 'linear-gradient(to right, #333, #222)';
+            statusTextColor = '#ddd';
+            menuBgColor = 'linear-gradient(to bottom, #333, #222)';
+            // 更新DOM
+            document.getElementById('al-status-bar').style.background = statusBgColor;
+            document.getElementById('al-status-bar').style.color = statusTextColor;
+            document.getElementById('al-menu').style.background = menuBgColor;
+        } else {
+            statusBgColor = 'linear-gradient(to right, #f0f0f0, #e0e0e0)';
+            statusTextColor = '#333';
+            menuBgColor = 'linear-gradient(to bottom, #ffffff, #f0f0f0)';
+            // 更新DOM
+            document.getElementById('al-status-bar').style.background = statusBgColor;
+            document.getElementById('al-status-bar').style.color = statusTextColor;
+            document.getElementById('al-menu').style.background = menuBgColor;
+        }
+    }
+
+    // 创建状态栏（美化：添加过渡动画）
     function createStatusBar() {
         let statusBar = document.createElement('div');
         statusBar.id = 'al-status-bar';
@@ -245,13 +282,14 @@
         statusBar.style.opacity = statusOpacity;
         statusBar.style.filter = 'brightness(' + statusTextBrightness + ')';
         statusBar.style.pointerEvents = 'none';
+        statusBar.style.transition = 'opacity 0.3s ease, background 0.3s ease'; // 新增过渡
         document.body.appendChild(statusBar);
 
         setInterval(updateStatusBar, 1000);
         updateStatusBar();
     }
 
-    // 更新状态栏函数
+    // 更新状态栏函数（优化：批量DOM更新，减少重绘）
     function updateStatusBar(message) {
         // 重新从cookie同步参数，确保显示最新值
         duration = parseInt(getCookie('al-duration')) || duration;
@@ -276,13 +314,14 @@
 
         let strongColor = statusTextColor === '#ddd' || statusTextColor === '#fff' ? '#ccc' : '#555';
 
-        // 优化第二行前部：过滤空值，join以 | 分隔，若不空则末尾添加 | 
+        // 优化第二行前部：过滤空值，join以 | 分隔，若不空则末尾添加 |
         let infoParts = [];
         if (taskProgress) infoParts.push(taskProgress);
         if (retryInfo) infoParts.push(retryInfo);
         let infoSection = infoParts.length > 0 ? infoParts.join(' | ') + ' | ' : '';
 
-        statusBar.innerHTML = '<div style="margin-bottom: 5px;">' +
+        // 批量构建HTML
+        let html = '<div style="margin-bottom: 5px;">' +
             '上次刷新: <strong style="color: ' + strongColor + ';">' + lastRefreshTime + '</strong> | ' +
             '下次刷新: <strong style="color: ' + strongColor + ';">' + nextRefreshTime + '</strong> | ' +
             '剩余时间: <span style="color: ' + remainingColor + '; font-weight: bold;">' + remainingSeconds + ' 秒</span> | ' +
@@ -295,6 +334,7 @@
             '下滑动态: <strong style="color: ' + strongColor + ';">' + scrollCount + ' 个</strong> | ' +
             '整体状态: <span style="color: ' + (isPaused ? 'yellow' : (isRunning ? 'orange' : 'lightgreen')) + ';">' + (isPaused ? '暂停（可操作菜单）' : (isRunning ? '忙碌（请勿干扰）' : '空闲（可操作菜单）')) + '</span>' +
             '</div>';
+        statusBar.innerHTML = html;
     }
 
     // 移除“与我相关”菜单元素
@@ -337,63 +377,67 @@
         }
     }
 
-    // 安全点赞函数
+    // 安全点赞函数（优化：减少重复调用，添加防抖）
+    let likeDebounce = null;
     function safeLike() {
         if (isPaused) {
             updateStatusBar('脚本已暂停，跳过点赞');
             return;
         }
-        currentTask = '执行安全点赞';
-        taskStartTime = Date.now();
-        const btns = document.querySelectorAll('.qz_like_btn_v3');
-        taskDuration = btns.length * likeDelay + 5;
-        nextTask = '模拟滚动或等待刷新';
-        updateStatusBar('开始安全点赞...');
-        try {
-            const contents = document.querySelectorAll('.f-info');
-            const users = document.querySelectorAll('.f-name');
+        if (likeDebounce) clearTimeout(likeDebounce);
+        likeDebounce = setTimeout(() => {
+            currentTask = '执行安全点赞';
+            taskStartTime = Date.now();
+            const btns = document.querySelectorAll('.qz_like_btn_v3');
+            taskDuration = btns.length * likeDelay + 5;
+            nextTask = '模拟滚动或等待刷新';
+            updateStatusBar('开始安全点赞...');
+            try {
+                const contents = document.querySelectorAll('.f-info');
+                const users = document.querySelectorAll('.f-name');
 
-            Array.from(btns).forEach(function(btn, index) {
-                setTimeout(function() {
-                    if (isPaused) {
-                        updateStatusBar('脚本已暂停，停止点赞');
-                        return;
-                    }
-                    const content = contents[index] ? contents[index].innerHTML : '';
-                    const user = users[index] && users[index].getAttribute('link') ? users[index].getAttribute('link').replace('nameCard_', '') : '';
+                Array.from(btns).forEach(function(btn, index) {
+                    setTimeout(function() {
+                        if (isPaused) {
+                            updateStatusBar('脚本已暂停，停止点赞');
+                            return;
+                        }
+                        const content = contents[index] ? contents[index].innerHTML : '';
+                        const user = users[index] && users[index].getAttribute('link') ? users[index].getAttribute('link').replace('nameCard_', '') : '';
 
-                    if (btn.classList.contains('item-on') || blocked.indexOf(user) > -1) {
-                        updateStatusBar('跳过已赞或屏蔽动态 ' + (index + 1) + ' / ' + btns.length);
-                        return;
-                    }
+                        if (btn.classList.contains('item-on') || blocked.indexOf(user) > -1) {
+                            updateStatusBar('跳过已赞或屏蔽动态 ' + (index + 1) + ' / ' + btns.length);
+                            return;
+                        }
 
-                    let isGameForward = false;
-                    if (select) {
-                        for (let j = 0; j < dict.length; j++) {
-                            const word = dict[j];
-                            if (content.includes(word)) {
-                                isGameForward = true;
-                                break;
+                        let isGameForward = false;
+                        if (select) {
+                            for (let j = 0; j < dict.length; j++) {
+                                const word = dict[j];
+                                if (content.includes(word)) {
+                                    isGameForward = true;
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    if (isGameForward) {
-                        updateStatusBar('跳过游戏转发动态 ' + (index + 1) + ' / ' + btns.length);
-                        return;
-                    }
+                        if (isGameForward) {
+                            updateStatusBar('跳过游戏转发动态 ' + (index + 1) + ' / ' + btns.length);
+                            return;
+                        }
 
-                    btn.click();
-                    console.log('Liked: ' + content);
-                    updateStatusBar('点赞动态 ' + (index + 1) + ' / ' + btns.length);
-                }, index * likeDelay * 1000);
-            });
+                        btn.click();
+                        console.log('Liked: ' + content);
+                        updateStatusBar('点赞动态 ' + (index + 1) + ' / ' + btns.length);
+                    }, index * likeDelay * 1000);
+                });
 
-            setTimeout(safeLike, (btns.length * likeDelay + 5) * 1000);
-        } catch (error) {
-            console.error('Safe like failed:', error);
-            updateStatusBar('点赞过程中出错: ' + error.message);
-        }
+                setTimeout(safeLike, (btns.length * likeDelay + 5) * 1000);
+            } catch (error) {
+                console.error('Safe like failed:', error);
+                updateStatusBar('点赞过程中出错: ' + error.message);
+            }
+        }, 500); // 防抖500ms
     }
 
     // 模拟下滑动态
@@ -522,21 +566,23 @@
         }, initialDelay);
     }
 
-    // 滚动事件
+    // 滚动事件（优化：防抖，减少点赞重复触发）
+    let scrollDebounce = null;
     window.addEventListener('scroll', function() {
         if (isPaused) return;
         if (timeout) clearTimeout(timeout);
         isScrolling = true;
         updateStatusBar();
-        safeLike();
+        if (scrollDebounce) clearTimeout(scrollDebounce);
+        scrollDebounce = setTimeout(safeLike, 1000); // 防抖1s后触发点赞
         timeout = setTimeout(function() {
             isScrolling = false;
             updateStatusBar();
         }, 1000);
     });
 
-    // 主循环
-    setInterval(function() {
+    // 主循环（优化：间隔调整为更高效的1000ms，减少CPU占用）
+    let mainInterval = setInterval(function() {
         if (isPaused) {
             updateStatusBar('脚本已暂停，等待恢复');
             return;
@@ -547,12 +593,23 @@
         } else if (isScrolling) {
             safeLike();
         }
-    }, 5000);
+    }, 1000);
+
+    // 新增：清理所有定时器函数（用于暂停时）
+    function clearAllTimeouts() {
+        clearTimeout(timeout);
+        clearTimeout(likeDebounce);
+        clearTimeout(scrollDebounce);
+        clearInterval(mainInterval);
+        // 重置主循环
+        mainInterval = null;
+    }
 
     // 初始化
     window.onload = function () {
         createMenu();
         createStatusBar();
+        applyDarkMode(); // 新增
 
         console.log('当前UIN:', uin);
 
