@@ -1,4 +1,4 @@
-# QZone AutoPraise Pro
+# QZone AutoPraise Pro2.5版本出现了严重bug，正在努力修复中暂时不要用2.5先用2.3版本
 
 网页版QQ空间自动点赞工具（增强版）。这是一个Tampermonkey用户脚本，帮助你在QQ空间好友动态页面自动点赞，支持自定义配置、屏蔽用户、避免游戏转发点赞等功能。
 
