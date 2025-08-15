@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         QZone AutoPraise Pro Fixed
-// @namespace    http://tampermonkey.net/
+// @name         QZone AutoPraise 精简稳定版
+// @namespace    https://github.com/llulun/QZone-AutoPraise-Lite
 // @version      2.0
-// @description  QQ空间自动点赞工具 - 回归简单稳定版本
-// @author       llulun (Fixed)
+// @description  QQ空间自动点赞工具 - 精简稳定版
+// @author       llulun
 // @match        *://*.qzone.qq.com/*
 // @grant        none
 // ==/UserScript==
