@@ -2,8 +2,8 @@
 // @name         QZone AutoPraise Pro
 // @namespace    http://tampermonkey.net/
 // @license      MIT
-// @version      2.4
-// @description  网页版QQ空间自动点赞工具（增强版：简化工作流，通过检测点赞元素判断是否在好友动态页面，有则直接执行点赞，无则切换到好友动态后刷新页面重走流程，移除菜单元素，添加延迟处理、安全点赞、菜单调整、状态栏美化、滚动模拟等功能。更新：状态栏更详细显示任务进度、剩余时间等，美化透明度与阴影；控制面板增大、居中、透明化；修复状态栏文字模糊与重叠问题，通过分行显示、调整字体与行高确保清晰；状态栏背景改为黑色渐变，添加透明阴影与底部圆角；扩展控制面板为左侧菜单栏式结构，添加更多参数调整如状态栏/控制面板透明度、颜色、屏蔽用户、过滤选项、重试次数、滚动步长、初始延迟等，所有可调参数均集成到面板中，支持动态应用变化；移除双击页面调用setConfig事件，所有设置统一通过控制面板；控制面板默认隐藏，通过点击浮动按钮打开；修复状态栏文字随背景透明问题，添加文字颜色与亮度设置；新增：暂停/恢复功能，允许用户暂停或恢复自动点赞流程，状态栏显示暂停状态；修复：状态栏第二行参数与等待时间显示错误，确保实时同步最新参数和正确时间；优化：修复状态栏多余分隔符逻辑，避免显示异常；兼容：将模板字符串改为字符串连接，提高旧浏览器兼容性，避免潜在语法报错。贡献更新（v2.4）：美化控制面板和状态栏的UI（添加过渡动画、圆角按钮、响应式布局）；修复潜在bug如滚动事件重复触发点赞、暂停时定时器未完全清理、cookie值解析边缘案例；优化性能（减少不必要的setInterval调用、批量DOM操作）；添加暗黑模式自动适配选项。）
+// @version      2.5
+// @description  网页版QQ空间自动点赞工具（增强版：简化工作流，通过检测点赞元素判断是否在好友动态页面，有则直接执行点赞，无则切换到好友动态后刷新页面重走流程，移除菜单元素，添加延迟处理、安全点赞、菜单调整、状态栏美化、滚动模拟等功能。更新：状态栏更详细显示任务进度、剩余时间等，美化透明度与阴影；控制面板增大、居中、透明化；修复状态栏文字模糊与重叠问题，通过分行显示、调整字体与行高确保清晰；状态栏背景改为黑色渐变，添加透明阴影与底部圆角；扩展控制面板为左侧菜单栏式结构，添加更多参数调整如状态栏/控制面板透明度、颜色、屏蔽用户、过滤选项、重试次数、滚动步长、初始延迟等，所有可调参数均集成到面板中，支持动态应用变化；移除双击页面调用setConfig事件，所有设置统一通过控制面板；控制面板默认隐藏，通过点击浮动按钮打开；修复状态栏文字随背景透明问题，添加文字颜色与亮度设置；新增：暂停/恢复功能，允许用户暂停或恢复自动点赞流程，状态栏显示暂停状态；修复：状态栏第二行参数与等待时间显示错误，确保实时同步最新参数和正确时间；优化：修复状态栏多余分隔符逻辑，避免显示异常；兼容：将模板字符串改为字符串连接，提高旧浏览器兼容性，避免潜在语法报错。贡献更新（v2.4）：美化控制面板和状态栏的UI（添加过渡动画、圆角按钮、响应式布局）；修复潜在bug如滚动事件重复触发点赞、暂停时定时器未完全清理、cookie值解析边缘案例；优化性能（减少不必要的setInterval调用、批量DOM操作）；添加暗黑模式自动适配选项。贡献更新（v2.5）：修复bug：在点赞或滚动任务执行过程中，如果任务时间超过刷新间隔，导致倒计时重置的问题（通过在任务开始时推迟nextTime来避免中断）；美化状态栏：添加进度条表示当前任务进度、使用emoji图标增强视觉反馈、优化字体和间距以提高可读性。）
 // @author       llulun (with contributions)
 // @match        *://*.qzone.qq.com/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
@@ -261,7 +261,7 @@
         }
     }
 
-    // 创建状态栏（美化：添加过渡动画）
+    // 创建状态栏（美化：添加过渡动画，优化字体）
     function createStatusBar() {
         let statusBar = document.createElement('div');
         statusBar.id = 'al-status-bar';
@@ -270,10 +270,10 @@
         statusBar.style.left = '0';
         statusBar.style.width = '100%';
         statusBar.style.background = statusBgColor;
-        statusBar.style.padding = '10px 20px';
+        statusBar.style.padding = '12px 24px'; // 增加padding提高可读性
         statusBar.style.zIndex = '10001';
-        statusBar.style.fontSize = '14px';
-        statusBar.style.lineHeight = '1.5';
+        statusBar.style.fontSize = '15px'; // 稍大字体
+        statusBar.style.lineHeight = '1.6'; // 增加行高
         statusBar.style.textAlign = 'center';
         statusBar.style.boxShadow = '0 4px 12px rgba(0,0,0,0.5)';
         statusBar.style.borderRadius = '0 0 10px 10px';
@@ -289,7 +289,7 @@
         updateStatusBar();
     }
 
-    // 更新状态栏函数（优化：批量DOM更新，减少重绘）
+    // 更新状态栏函数（优化：批量DOM更新，减少重绘；美化：添加emoji图标和简单进度条）
     function updateStatusBar(message) {
         // 重新从cookie同步参数，确保显示最新值
         duration = parseInt(getCookie('al-duration')) || duration;
@@ -306,11 +306,12 @@
         let nextRefreshTime = new Date(nextTime).toLocaleTimeString();
         let remainingSeconds = Math.max(0, Math.ceil((nextTime - Date.now()) / 1000));
         let remainingColor = remainingSeconds < 30 ? 'red' : 'green';
-        let scrollingStatus = isScrolling ? '<span style="color: lightblue; font-weight: bold;">滚动中（动态加载中）</span>' : '<span style="color: gray;">静止（无滚动）</span>';
-        let currentStep = message || (isPaused ? '<span style="color: yellow; font-weight: bold;">已暂停</span>' : (isRunning ? '<span style="color: orange; font-weight: bold;">执行中：' + currentTask + '</span>' : '<span style="color: lightgreen; font-weight: bold;">等待下次刷新</span>'));
+        let scrollingStatus = isScrolling ? '<span style="color: lightblue; font-weight: bold;">滚动中（动态加载中） 🔄</span>' : '<span style="color: gray;">静止（无滚动） ⏹️</span>'; // 添加emoji
+        let currentStep = message || (isPaused ? '<span style="color: yellow; font-weight: bold;">已暂停 ⏸️</span>' : (isRunning ? '<span style="color: orange; font-weight: bold;">执行中：' + currentTask + ' 🚀</span>' : '<span style="color: lightgreen; font-weight: bold;">等待下次刷新 ⏰</span>'));
         let taskRemaining = taskDuration > 0 ? Math.max(0, Math.ceil((taskStartTime + taskDuration * 1000 - Date.now()) / 1000)) : 0;
-        let taskProgress = taskRemaining > 0 ? '<span style="color: violet;">当前任务剩余：' + taskRemaining + '秒，完成后执行：' + nextTask + '</span>' : '';
-        let retryInfo = retryCount > 0 ? '<span style="color: brown;">重试次数：' + retryCount + '/' + maxRetries + '（若失败将重置）</span>' : '';
+        let taskProgressPercent = taskDuration > 0 ? Math.round((1 - (taskRemaining / taskDuration)) * 100) : 0;
+        let taskProgress = taskRemaining > 0 ? '<span style="color: violet;">当前任务剩余：' + taskRemaining + '秒 (' + taskProgressPercent + '%)，完成后执行：' + nextTask + ' 📊</span>' : ''; // 添加百分比进度
+        let retryInfo = retryCount > 0 ? '<span style="color: brown;">重试次数：' + retryCount + '/' + maxRetries + '（若失败将重置） ⚠️</span>' : '';
 
         let strongColor = statusTextColor === '#ddd' || statusTextColor === '#fff' ? '#ccc' : '#555';
 
@@ -320,14 +321,14 @@
         if (retryInfo) infoParts.push(retryInfo);
         let infoSection = infoParts.length > 0 ? infoParts.join(' | ') + ' | ' : '';
 
-        // 批量构建HTML
-        let html = '<div style="margin-bottom: 5px;">' +
-            '上次刷新: <strong style="color: ' + strongColor + ';">' + lastRefreshTime + '</strong> | ' +
+        // 批量构建HTML，美化间距
+        let html = '<div style="margin-bottom: 8px; font-weight: bold;">' + // 增加margin
+            '上次刷新: <strong style="color: ' + strongColor + ';">' + lastRefreshTime + ' ⏱️</strong> | ' +
             '下次刷新: <strong style="color: ' + strongColor + ';">' + nextRefreshTime + '</strong> | ' +
             '剩余时间: <span style="color: ' + remainingColor + '; font-weight: bold;">' + remainingSeconds + ' 秒</span> | ' +
             '滚动状态: ' + scrollingStatus + ' | ' +
             '当前步骤: ' + currentStep +
-            '</div><div>' +
+            '</div><div style="font-size: 14px;">' + // 第二行稍小字体
             infoSection +
             '刷新间隔: <strong style="color: ' + strongColor + ';">' + duration + ' 秒</strong> | ' +
             '延迟设置: 刷新<strong style="color: ' + strongColor + ';">' + refreshDelay + 's</strong> / 点赞<strong style="color: ' + strongColor + ';">' + likeDelay + 's</strong> | ' +
@@ -377,7 +378,7 @@
         }
     }
 
-    // 安全点赞函数（优化：减少重复调用，添加防抖）
+    // 安全点赞函数（优化：减少重复调用，添加防抖；修复：在开始时推迟nextTime避免刷新中断）
     let likeDebounce = null;
     function safeLike() {
         if (isPaused) {
@@ -391,11 +392,14 @@
             const btns = document.querySelectorAll('.qz_like_btn_v3');
             taskDuration = btns.length * likeDelay + 5;
             nextTask = '模拟滚动或等待刷新';
+            // 修复bug：推迟nextTime以避免任务中刷新
+            nextTime = Math.max(nextTime, Date.now() + taskDuration * 1000 + 5000); // +5s buffer
             updateStatusBar('开始安全点赞...');
             try {
                 const contents = document.querySelectorAll('.f-info');
                 const users = document.querySelectorAll('.f-name');
 
+                let effectiveLikes = 0; // 计数实际点赞数，用于调整taskDuration如果很多跳过
                 Array.from(btns).forEach(function(btn, index) {
                     setTimeout(function() {
                         if (isPaused) {
@@ -429,8 +433,12 @@
                         btn.click();
                         console.log('Liked: ' + content);
                         updateStatusBar('点赞动态 ' + (index + 1) + ' / ' + btns.length);
+                        effectiveLikes++;
                     }, index * likeDelay * 1000);
                 });
+
+                // 调整：如果很多跳过，重新计算taskDuration
+                taskDuration = effectiveLikes * likeDelay + 5;
 
                 setTimeout(safeLike, (btns.length * likeDelay + 5) * 1000);
             } catch (error) {
@@ -440,7 +448,7 @@
         }, 500); // 防抖500ms
     }
 
-    // 模拟下滑动态
+    // 模拟下滑动态（修复：在开始时推迟nextTime）
     function simulateScroll() {
         if (isPaused) {
             updateStatusBar('脚本已暂停，跳过滚动');
@@ -450,6 +458,8 @@
         taskStartTime = Date.now();
         taskDuration = scrollCount * 3 + 3;
         nextTask = '回到顶部并等待';
+        // 修复bug：推迟nextTime
+        nextTime = Math.max(nextTime, Date.now() + taskDuration * 1000 + 5000);
         updateStatusBar('模拟下滑动态...');
         let scrollStep = window.innerHeight * scrollStepPercent;
 
