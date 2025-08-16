@@ -2,8 +2,8 @@
 // @name         QZone AutoPraise Pro
 // @namespace    http://tampermonkey.net/
 // @license      MIT
-// @version      2.5
-// @description  网页版QQ空间自动点赞工具（增强版：简化工作流，通过检测点赞元素判断是否在好友动态页面，有则直接执行点赞，无则切换到好友动态后刷新页面重走流程，移除菜单元素，添加延迟处理、安全点赞、菜单调整、状态栏美化、滚动模拟等功能。更新：状态栏更详细显示任务进度、剩余时间等，美化透明度与阴影；控制面板增大、居中、透明化；修复状态栏文字模糊与重叠问题，通过分行显示、调整字体与行高确保清晰；状态栏背景改为黑色渐变，添加透明阴影与底部圆角；扩展控制面板为左侧菜单栏式结构，添加更多参数调整如状态栏/控制面板透明度、颜色、屏蔽用户、过滤选项、重试次数、滚动步长、初始延迟等，所有可调参数均集成到面板中，支持动态应用变化；移除双击页面调用setConfig事件，所有设置统一通过控制面板；控制面板默认隐藏，通过点击浮动按钮打开；修复状态栏文字随背景透明问题，添加文字颜色与亮度设置；新增：暂停/恢复功能，允许用户暂停或恢复自动点赞流程，状态栏显示暂停状态；修复：状态栏第二行参数与等待时间显示错误，确保实时同步最新参数和正确时间；优化：修复状态栏多余分隔符逻辑，避免显示异常；兼容：将模板字符串改为字符串连接，提高旧浏览器兼容性，避免潜在语法报错。贡献更新（v2.4）：美化控制面板和状态栏的UI（添加过渡动画、圆角按钮、响应式布局）；修复潜在bug如滚动事件重复触发点赞、暂停时定时器未完全清理、cookie值解析边缘案例；优化性能（减少不必要的setInterval调用、批量DOM操作）；添加暗黑模式自动适配选项。贡献更新（v2.5）：修复bug：在点赞或滚动任务执行过程中，如果任务时间超过刷新间隔，导致倒计时重置的问题（通过在任务开始时推迟nextTime来避免中断）；美化状态栏：添加进度条表示当前任务进度、使用emoji图标增强视觉反馈、优化字体和间距以提高可读性。）
+// @version      2.6
+// @description  网页版QQ空间自动点赞工具（增强版：简化工作流，通过检测点赞元素判断是否在好友动态页面，有则直接执行点赞，无则切换到好友动态后刷新页面重走流程，移除菜单元素，添加延迟处理、安全点赞、菜单调整、状态栏美化、滚动模拟等功能。更新：状态栏更详细显示任务进度、剩余时间等，美化透明度与阴影；控制面板增大、居中、透明化；修复状态栏文字模糊与重叠问题，通过分行显示、调整字体与行高确保清晰；状态栏背景改为黑色渐变，添加透明阴影与底部圆角；扩展控制面板为左侧菜单栏式结构，添加更多参数调整如状态栏/控制面板透明度、颜色、屏蔽用户、过滤选项、重试次数、滚动步长、初始延迟等，所有可调参数均集成到面板中，支持动态应用变化；移除双击页面调用setConfig事件，所有设置统一通过控制面板；控制面板默认隐藏，通过点击浮动按钮打开；修复状态栏文字随背景透明问题，添加文字颜色与亮度设置；新增：暂停/恢复功能，允许用户暂停或恢复自动点赞流程，状态栏显示暂停状态；修复：状态栏第二行参数与等待时间显示错误，确保实时同步最新参数和正确时间；优化：修复状态栏多余分隔符逻辑，避免显示异常；兼容：将模板字符串改为字符串连接，提高旧浏览器兼容性，避免潜在语法报错。贡献更新（v2.4）：美化控制面板和状态栏的UI（添加过渡动画、圆角按钮、响应式布局）；修复潜在bug如滚动事件重复触发点赞、暂停时定时器未完全清理、cookie值解析边缘案例；优化性能（减少不必要的setInterval调用、批量DOM操作）；添加暗黑模式自动适配选项。贡献更新（v2.5）：修复bug：在点赞或滚动任务执行过程中，如果任务时间超过刷新间隔，导致倒计时重置的问题（通过在任务开始时推迟nextTime来避免中断）；美化状态栏：添加进度条表示当前任务进度、使用emoji图标增强视觉反馈、优化字体和间距以提高可读性。贡献更新（v2.6）：修复状态栏逻辑问题：防止safeLike重复调用导致nextTime多次推迟和倒计时跳动；优化点赞逻辑，仅调度实际需要点赞的动态，避免不必要延迟和卡在“跳过”步骤；如果所有动态被跳过，立即完成任务并更新状态栏为等待刷新，而不是等待无谓时间或显示跳过消息。）
 // @author       llulun (with contributions)
 // @match        *://*.qzone.qq.com/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
@@ -378,77 +378,94 @@
         }
     }
 
-    // 安全点赞函数（优化：减少重复调用，添加防抖；修复：在开始时推迟nextTime避免刷新中断）
+    // 安全点赞函数（优化：仅调度实际点赞，防止重复调用）
     let likeDebounce = null;
     function safeLike() {
         if (isPaused) {
             updateStatusBar('脚本已暂停，跳过点赞');
             return;
         }
+        if (currentTask === '执行安全点赞') {
+            console.log('点赞任务已在执行，跳过重复调用');
+            return; // 防止重复
+        }
         if (likeDebounce) clearTimeout(likeDebounce);
         likeDebounce = setTimeout(() => {
             currentTask = '执行安全点赞';
             taskStartTime = Date.now();
             const btns = document.querySelectorAll('.qz_like_btn_v3');
-            taskDuration = btns.length * likeDelay + 5;
+            const contents = document.querySelectorAll('.f-info');
+            const users = document.querySelectorAll('.f-name');
+            let toLike = []; // 收集需要点赞的btns和index
+            let skipped = 0;
+
+            Array.from(btns).forEach(function(btn, index) {
+                const content = contents[index] ? contents[index].innerHTML : '';
+                const user = users[index] && users[index].getAttribute('link') ? users[index].getAttribute('link').replace('nameCard_', '') : '';
+
+                if (btn.classList.contains('item-on') || blocked.indexOf(user) > -1) {
+                    console.log('跳过已赞或屏蔽动态 ' + (index + 1));
+                    skipped++;
+                    return;
+                }
+
+                let isGameForward = false;
+                if (select) {
+                    for (let j = 0; j < dict.length; j++) {
+                        if (content.includes(dict[j])) {
+                            isGameForward = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (isGameForward) {
+                    console.log('跳过游戏转发动态 ' + (index + 1));
+                    skipped++;
+                    return;
+                }
+
+                toLike.push({btn, content, index});
+            });
+
+            let effectiveLikes = toLike.length;
+            taskDuration = effectiveLikes * likeDelay + 1; // 最小1s
             nextTask = '模拟滚动或等待刷新';
-            // 修复bug：推迟nextTime以避免任务中刷新
-            nextTime = Math.max(nextTime, Date.now() + taskDuration * 1000 + 5000); // +5s buffer
-            updateStatusBar('开始安全点赞...');
-            try {
-                const contents = document.querySelectorAll('.f-info');
-                const users = document.querySelectorAll('.f-name');
+            // 推迟nextTime，只一次
+            nextTime = Math.max(nextTime, Date.now() + taskDuration * 1000 + 5000);
+            updateStatusBar('开始安全点赞... (需点赞: ' + effectiveLikes + ', 跳过: ' + skipped + ')');
 
-                let effectiveLikes = 0; // 计数实际点赞数，用于调整taskDuration如果很多跳过
-                Array.from(btns).forEach(function(btn, index) {
-                    setTimeout(function() {
-                        if (isPaused) {
-                            updateStatusBar('脚本已暂停，停止点赞');
-                            return;
-                        }
-                        const content = contents[index] ? contents[index].innerHTML : '';
-                        const user = users[index] && users[index].getAttribute('link') ? users[index].getAttribute('link').replace('nameCard_', '') : '';
-
-                        if (btn.classList.contains('item-on') || blocked.indexOf(user) > -1) {
-                            updateStatusBar('跳过已赞或屏蔽动态 ' + (index + 1) + ' / ' + btns.length);
-                            return;
-                        }
-
-                        let isGameForward = false;
-                        if (select) {
-                            for (let j = 0; j < dict.length; j++) {
-                                const word = dict[j];
-                                if (content.includes(word)) {
-                                    isGameForward = true;
-                                    break;
-                                }
-                            }
-                        }
-
-                        if (isGameForward) {
-                            updateStatusBar('跳过游戏转发动态 ' + (index + 1) + ' / ' + btns.length);
-                            return;
-                        }
-
-                        btn.click();
-                        console.log('Liked: ' + content);
-                        updateStatusBar('点赞动态 ' + (index + 1) + ' / ' + btns.length);
-                        effectiveLikes++;
-                    }, index * likeDelay * 1000);
-                });
-
-                // 调整：如果很多跳过，重新计算taskDuration
-                taskDuration = effectiveLikes * likeDelay + 5;
-
-                setTimeout(safeLike, (btns.length * likeDelay + 5) * 1000);
-            } catch (error) {
-                console.error('Safe like failed:', error);
-                updateStatusBar('点赞过程中出错: ' + error.message);
+            if (effectiveLikes === 0) {
+                // 如果所有跳过，立即完成
+                currentTask = '';
+                taskDuration = 0;
+                updateStatusBar('所有动态已赞或跳过，等待下次刷新');
+                return;
             }
+
+            toLike.forEach(function(item, idx) {
+                setTimeout(function() {
+                    if (isPaused) {
+                        updateStatusBar('脚本已暂停，停止点赞');
+                        return;
+                    }
+                    item.btn.click();
+                    console.log('Liked: ' + item.content);
+                    updateStatusBar('点赞动态 ' + (item.index + 1) + ' / ' + btns.length);
+                }, idx * likeDelay * 1000);
+            });
+
+            // 完成重置
+            setTimeout(function() {
+                if (isPaused) return;
+                currentTask = '';
+                taskDuration = 0;
+                updateStatusBar('点赞完成，等待下次刷新');
+            }, taskDuration * 1000);
         }, 500); // 防抖500ms
     }
 
-    // 模拟下滑动态（修复：在开始时推迟nextTime）
+    // 模拟下滑动态（移除safeLike调用，让scroll event处理）
     function simulateScroll() {
         if (isPaused) {
             updateStatusBar('脚本已暂停，跳过滚动');
@@ -458,7 +475,7 @@
         taskStartTime = Date.now();
         taskDuration = scrollCount * 3 + 3;
         nextTask = '回到顶部并等待';
-        // 修复bug：推迟nextTime
+        // 推迟nextTime
         nextTime = Math.max(nextTime, Date.now() + taskDuration * 1000 + 5000);
         updateStatusBar('模拟下滑动态...');
         let scrollStep = window.innerHeight * scrollStepPercent;
@@ -472,8 +489,7 @@
                     return;
                 }
                 smoothScrollTo(targetScroll, 500);
-                window.dispatchEvent(new Event('scroll'));
-                safeLike();
+                window.dispatchEvent(new Event('scroll')); // 触发scroll event，debounce后调用safeLike
                 updateStatusBar('滚动到动态组 ' + (stepIndex + 1) + '/' + scrollCount + '，加载更多内容');
                 let loadMoreBtn = document.querySelector('.load-more') || document.querySelector('a[title="加载更多"]');
                 if (loadMoreBtn) {
