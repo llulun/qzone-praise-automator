@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         QZone AutoPraise 精简稳定版
-// @namespace    https://github.com/llulun/QZone-AutoPraise-Lite
+// @namespace    https://github.com/llulun/qzone-autopraise-pro
 // @version      2.0
 // @description  QQ空间自动点赞工具 - 精简稳定版
 // @author       llulun
