@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         QZone Auto Liker
+// @name         QZone Praise Automator
 // @namespace    https://github.com/llulun/qzone-autopraise-pro
 // @license      MIT
 // @version      2.7.2
