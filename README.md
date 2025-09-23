@@ -4,6 +4,7 @@ QZone Praise Automator 是一个网页版 QQ 空间自动点赞工具，支持�
 =======
 <meta name="google-site-verification" content="y7DrufT5JDdrS9O1bY2jKTzVMHeC1xCra_9eN3Z0kOY" />
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 [![Version](https://img.shields.io/badge/Version-2.7.2-blue.svg)](https://github.com/llulun/qzone-autopraise-pro/releases/tag/v2.7.2)
 [![Stars](https://img.shields.io/github/stars/llulun/qzone-autopraise-pro)](https://github.com/llulun/qzone-autopraise-pro/stargazers)
 [![Forks](https://img.shields.io/github/forks/llulun/qzone-autopraise-pro)](https://github.com/llulun/qzone-autopraise-pro/network/members)
