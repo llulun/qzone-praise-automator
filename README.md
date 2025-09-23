@@ -5,7 +5,9 @@ Zone Auto Liker 是一个网页版 QQ 空间自动点赞工具，支持自动检
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/Version-2.7.2-blue.svg)](https://github.com/llulun/qzone-autopraise-pro/releases/tag/v2.7.2)
-
+[![Stars](https://img.shields.io/github/stars/llulun/qzone-autopraise-pro)](https://github.com/llulun/qzone-autopraise-pro/stargazers)
+[![Forks](https://img.shields.io/github/forks/llulun/qzone-autopraise-pro)](https://github.com/llulun/qzone-autopraise-pro/network/members)
+![Control Panel](docs/control-panel.png)
 ## Features
 
 - **自动点赞**：检测好友动态页面，安全点赞未赞内容，支持屏蔽用户和过滤游戏转发。
@@ -39,7 +41,9 @@ Zone Auto Liker 是一个网页版 QQ 空间自动点赞工具，支持自动检
 - 点击 “保存并应用” 立即生效（部分需刷新页面）。
 - 状态栏（页面顶部）实时显示运行状态、剩余时间等。
 - 支持暂停/恢复和测试执行按钮。
-
+## Compatibility
+- Browsers: Chrome, Firefox
+- Extensions: Tampermonkey v4+ or Violentmonkey
 **示例配置**：
 - 刷新频率：180 秒
 - 点赞延迟：5 秒
