@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         QZone AutoPraise Pro
+// @name         QZone Auto Liker
 // @namespace    https://github.com/llulun/qzone-autopraise-pro
 // @license      MIT
-// @version      2.6
+// @version      2.7.2
 // @description  网页版QQ空间自动点赞工具（增强版：简化工作流，通过检测点赞元素判断是否在好友动态页面，有则直接执行点赞，无则切换到好友动态后刷新页面重走流程，移除菜单元素，添加延迟处理、安全点赞、菜单调整、状态栏美化、滚动模拟等功能。更新：状态栏更详细显示任务进度、剩余时间等，美化透明度与阴影；控制面板增大、居中、透明化；修复状态栏文字模糊与重叠问题，通过分行显示、调整字体与行高确保清晰；状态栏背景改为黑色渐变，添加透明阴影与底部圆角；扩展控制面板为左侧菜单栏式结构，添加更多参数调整如状态栏/控制面板透明度、颜色、屏蔽用户、过滤选项、重试次数、滚动步长、初始延迟等，所有可调参数均集成到面板中，支持动态应用变化；移除双击页面调用setConfig事件，所有设置统一通过控制面板；控制面板默认隐藏，通过点击浮动按钮打开；修复状态栏文字随背景透明问题，添加文字颜色与亮度设置；新增：暂停/恢复功能，允许用户暂停或恢复自动点赞流程，状态栏显示暂停状态；修复：状态栏第二行参数与等待时间显示错误，确保实时同步最新参数和正确时间；优化：修复状态栏多余分隔符逻辑，避免显示异常；兼容：将模板字符串改为字符串连接，提高旧浏览器兼容性，避免潜在语法报错。贡献更新（v2.4）：美化控制面板和状态栏的UI（添加过渡动画、圆角按钮、响应式布局）；修复潜在bug如滚动事件重复触发点赞、暂停时定时器未完全清理、cookie值解析边缘案例；优化性能（减少不必要的setInterval调用、批量DOM操作）；添加暗黑模式自动适配选项。贡献更新（v2.5）：修复bug：在点赞或滚动任务执行过程中，如果任务时间超过刷新间隔，导致倒计时重置的问题（通过在任务开始时推迟nextTime来避免中断）；美化状态栏：添加进度条表示当前任务进度、使用emoji图标增强视觉反馈、优化字体和间距以提高可读性。贡献更新（v2.6）：修复状态栏逻辑问题：防止safeLike重复调用导致nextTime多次推迟和倒计时跳动；优化点赞逻辑，仅调度实际需要点赞的动态，避免不必要延迟和卡在“跳过”步骤；如果所有动态被跳过，立即完成任务并更新状态栏为等待刷新，而不是等待无谓时间或显示跳过消息。）
 // @author       llulun (with contributions)
 // @match        *://*.qzone.qq.com/*
@@ -44,6 +44,8 @@
     let statusTextColor = getCookie('al-statusTextColor') || (statusBgColor.includes('#333') || statusBgColor.includes('#222') ? '#ddd' : '#333');
     let statusTextBrightness = parseFloat(getCookie('al-statusTextBrightness')) || 1.0;
     let darkModeAuto = Boolean(getCookie('al-darkModeAuto')); // 新增：自动暗黑模式
+    let logLevel = getCookie('al-logLevel') || 'INFO'; // 新增：日志级别，默认 INFO
+    let logs = []; // 新增：存储日志的数组，最大500条
 
     // Cookie 操作函数（优化：添加边缘案例处理，如空值或无效数字）
     function getCookie(name) {
@@ -61,7 +63,40 @@
         document.cookie = name + "=" + (value || "") + expires + "; path=/";
     }
 
-    // 创建菜单栏（美化：添加过渡动画、圆角按钮、响应式布局；新增暗黑模式选项）
+    // 新增：日志函数（修改：同时存储到logs数组，并输出到控制台）
+    function log(level, message) {
+        try {
+            if (!shouldLog(level)) return;
+            let now = new Date();
+            let timestamp = now.getFullYear() + '-' +
+                            ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
+                            ('0' + now.getDate()).slice(-2) + ' ' +
+                            ('0' + now.getHours()).slice(-2) + ':' +
+                            ('0' + now.getMinutes()).slice(-2) + ':' +
+                            ('0' + now.getSeconds()).slice(-2);
+            let fullMessage = '[' + timestamp + '] [' + level + '] ' + message;
+            let consoleMethod = console.log;
+            if (level === 'WARN') consoleMethod = console.warn;
+            if (level === 'ERROR') consoleMethod = console.error;
+            consoleMethod(fullMessage);
+
+            // 存储到logs数组，限制最大500条
+            logs.push(fullMessage);
+            if (logs.length > 500) {
+                logs.shift();
+            }
+        } catch (e) {
+            // 静默失败，避免日志影响主流程
+        }
+    }
+
+    // 新增：判断是否应输出日志（基于当前级别）
+    function shouldLog(level) {
+        const levels = { 'INFO': 0, 'WARN': 1, 'ERROR': 2 };
+        return levels[logLevel] <= levels[level];
+    }
+
+    // 创建菜单栏（美化：添加过渡动画、圆角按钮、响应式布局；新增暗黑模式选项；新增日志查看标签）
     function createMenu() {
         let menu = document.createElement('div');
         menu.id = 'al-menu';
@@ -88,7 +123,7 @@
         sidebar.style.width = '150px';
         sidebar.style.borderRight = '1px solid #ddd';
         sidebar.style.paddingRight = '10px';
-        sidebar.innerHTML = '<h4 style="margin: 0 0 10px;">设置分类</h4><ul style="list-style: none; padding: 0;"><li><button id="al-tab-core" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">核心参数</button></li><li><button id="al-tab-ui" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">界面自定义</button></li><li><button id="al-tab-adv" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">高级参数</button></li></ul>';
+        sidebar.innerHTML = '<h4 style="margin: 0 0 10px;">设置分类</h4><ul style="list-style: none; padding: 0;"><li><button id="al-tab-core" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">核心参数</button></li><li><button id="al-tab-ui" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">界面自定义</button></li><li><button id="al-tab-adv" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">高级参数</button></li><li><button id="al-tab-logs" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">查看日志</button></li></ul>'; // 新增：查看日志标签
         menu.appendChild(sidebar);
 
         let content = document.createElement('div');
@@ -115,7 +150,13 @@
                 } else if (tab === 'ui') {
                     content.innerHTML = '<h3>界面自定义</h3><label style="display: block; margin-bottom: 10px;">状态栏透明度 (0.1-1): <input type="number" id="al-statusOpacity" value="' + statusOpacity + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">状态栏背景: <select id="al-statusBgColor" style="width: 200px; margin-left: 10px;"><option value="linear-gradient(to right, #333, #222)" ' + (statusBgColor === 'linear-gradient(to right, #333, #222)' ? 'selected' : '') + '>黑色渐变</option><option value="linear-gradient(to right, #f0f0f0, #e0e0e0)" ' + (statusBgColor === 'linear-gradient(to right, #f0f0f0, #e0e0e0)' ? 'selected' : '') + '>白色渐变</option><option value="linear-gradient(to right, #2196F3, #1976D2)" ' + (statusBgColor === 'linear-gradient(to right, #2196F3, #1976D2)' ? 'selected' : '') + '>蓝色渐变</option><option value="linear-gradient(to right, #4CAF50, #388E3C)" ' + (statusBgColor === 'linear-gradient(to right, #4CAF50, #388E3C)' ? 'selected' : '') + '>绿色渐变</option></select></label><label style="display: block; margin-bottom: 10px;">状态栏文字颜色: <select id="al-statusTextColor" style="width: 200px; margin-left: 10px;"><option value="auto" ' + (statusTextColor === 'auto' ? 'selected' : '') + '>自动</option><option value="#fff" ' + (statusTextColor === '#fff' ? 'selected' : '') + '>白色</option><option value="#000" ' + (statusTextColor === '#000' ? 'selected' : '') + '>黑色</option><option value="#ddd" ' + (statusTextColor === '#ddd' ? 'selected' : '') + '>浅灰</option></select></label><label style="display: block; margin-bottom: 10px;">状态栏文字亮度 (0.5-1.5): <input type="number" id="al-statusTextBrightness" value="' + statusTextBrightness + '" min="0.5" max="1.5" step="0.1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;"><input type="checkbox" id="al-darkModeAuto" ' + (darkModeAuto ? 'checked' : '') + '> 自动适配暗黑模式</label><label style="display: block; margin-bottom: 10px;">控制面板透明度 (0.1-1): <input type="number" id="al-menuOpacity" value="' + menuOpacity + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">控制面板背景: <select id="al-menuBgColor" style="width: 200px; margin-left: 10px;"><option value="linear-gradient(to bottom, #ffffff, #f0f0f0)" ' + (menuBgColor === 'linear-gradient(to bottom, #ffffff, #f0f0f0)' ? 'selected' : '') + '>白色渐变</option><option value="linear-gradient(to bottom, #333, #222)" ' + (menuBgColor === 'linear-gradient(to bottom, #333, #222)' ? 'selected' : '') + '>黑色渐变</option><option value="linear-gradient(to bottom, #2196F3, #1976D2)" ' + (menuBgColor === 'linear-gradient(to bottom, #2196F3, #1976D2)' ? 'selected' : '') + '>蓝色渐变</option><option value="linear-gradient(to bottom, #4CAF50, #388E3C)" ' + (menuBgColor === 'linear-gradient(to bottom, #4CAF50, #388E3C)' ? 'selected' : '') + '>绿色渐变</option></select></label>';
                 } else if (tab === 'adv') {
-                    content.innerHTML = '<h3>高级参数</h3><label style="display: block; margin-bottom: 10px;">最大重试次数: <input type="number" id="al-maxRetries" value="' + maxRetries + '" min="1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">滚动步长百分比 (0.1-1): <input type="number" id="al-scrollStepPercent" value="' + scrollStepPercent + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">初始延迟 (毫秒): <input type="number" id="al-initialDelay" value="' + initialDelay + '" min="1000" style="width: 80px; margin-left: 10px;"></label>';
+                    content.innerHTML = '<h3>高级参数</h3><label style="display: block; margin-bottom: 10px;">最大重试次数: <input type="number" id="al-maxRetries" value="' + maxRetries + '" min="1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">滚动步长百分比 (0.1-1): <input type="number" id="al-scrollStepPercent" value="' + scrollStepPercent + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">初始延迟 (毫秒): <input type="number" id="al-initialDelay" value="' + initialDelay + '" min="1000" style="width: 80px; margin-left: 10px;"></label><label style="display: block; margin-bottom: 10px;">日志级别: <select id="al-logLevel" style="width: 100px; margin-left: 10px;"><option value="INFO" ' + (logLevel === 'INFO' ? 'selected' : '') + '>INFO</option><option value="WARN" ' + (logLevel === 'WARN' ? 'selected' : '') + '>WARN</option><option value="ERROR" ' + (logLevel === 'ERROR' ? 'selected' : '') + '>ERROR</option></select></label>'; // 新增：日志级别选项
+                } else if (tab === 'logs') { // 新增：日志查看标签
+                    content.innerHTML = '<h3>系统日志</h3><div id="al-log-viewer" style="height: 300px; overflow-y: scroll; background: #f8f8f8; border: 1px solid #ddd; padding: 10px; font-family: monospace; font-size: 12px; white-space: pre-wrap;">' + logs.join('<br>') + '</div><button id="al-clear-logs" style="margin-top: 10px; background: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">清除日志</button>';
+                    document.getElementById('al-clear-logs').addEventListener('click', function() {
+                        logs = [];
+                        showTab('logs'); // 刷新日志视图
+                    });
                 }
                 content.style.opacity = '1';
             }, 300);
@@ -126,6 +167,7 @@
         document.getElementById('al-tab-core').addEventListener('click', function() { showTab('core'); });
         document.getElementById('al-tab-ui').addEventListener('click', function() { showTab('ui'); });
         document.getElementById('al-tab-adv').addEventListener('click', function() { showTab('adv'); });
+        document.getElementById('al-tab-logs').addEventListener('click', function() { showTab('logs'); }); // 新增：日志标签事件
 
         document.getElementById('al-save').addEventListener('click', function() {
             duration = parseInt(document.getElementById('al-dur') ? document.getElementById('al-dur').value : 180, 10) || 180;
@@ -147,6 +189,7 @@
             maxRetries = parseInt(document.getElementById('al-maxRetries') ? document.getElementById('al-maxRetries').value : 3, 10) || 3;
             scrollStepPercent = parseFloat(document.getElementById('al-scrollStepPercent') ? document.getElementById('al-scrollStepPercent').value : 0.9) || 0.9;
             initialDelay = parseInt(document.getElementById('al-initialDelay') ? document.getElementById('al-initialDelay').value : 3000, 10) || 3000;
+            logLevel = document.getElementById('al-logLevel') ? document.getElementById('al-logLevel').value : 'INFO'; // 新增：保存日志级别
 
             const max = Number.MAX_SAFE_INTEGER;
             setCookie('al-duration', duration, max);
@@ -165,6 +208,7 @@
             setCookie('al-maxRetries', maxRetries, max);
             setCookie('al-scrollStepPercent', scrollStepPercent, max);
             setCookie('al-initialDelay', initialDelay, max);
+            setCookie('al-logLevel', logLevel, max); // 新增：保存日志级别到 cookie
 
             nextTime = Date.now() + duration * 1000;
             alert('设置已保存并应用！部分变化可能需刷新页面生效。');
@@ -189,12 +233,14 @@
             if (isPaused) {
                 clearAllTimeouts(); // 修复：暂停时清理所有定时器
                 updateStatusBar('脚本已暂停');
+                log('INFO', '脚本暂停/恢复: 暂停'); // 新增日志
             } else {
                 nextTime = Date.now() + duration * 1000; // 重置下次刷新时间
                 updateStatusBar('脚本已恢复运行');
                 if (!isRunning) {
                     executeWorkflow();
                 }
+                log('INFO', '脚本暂停/恢复: 恢复'); // 新增日志
             }
         });
 
@@ -236,6 +282,8 @@
         });
 
         document.body.appendChild(toggleBtn);
+
+        log('INFO', '菜单面板加载完成'); // 新增日志
     }
 
     // 新增：自动暗黑模式适配
@@ -287,6 +335,8 @@
 
         setInterval(updateStatusBar, 1000);
         updateStatusBar();
+
+        log('INFO', '状态栏加载完成'); // 新增日志
     }
 
     // 更新状态栏函数（优化：批量DOM更新，减少重绘；美化：添加emoji图标和简单进度条）
@@ -301,6 +351,10 @@
         if (!statusBar) return;
 
         message = message || '';
+
+        if (message) {
+            log('INFO', '状态栏更新: ' + message); // 新增日志，仅当有消息时
+        }
 
         let lastRefreshTime = new Date(lastRefresh).toLocaleTimeString();
         let nextRefreshTime = new Date(nextTime).toLocaleTimeString();
@@ -358,153 +412,172 @@
 
     // 进入“好友动态”页面
     function goToFriendFeed() {
-        currentTask = '切换到好友动态页面';
-        taskStartTime = Date.now();
-        taskDuration = 5;
-        nextTask = '刷新页面并重试流程';
-        updateStatusBar('点赞元素不存在，切换到好友动态页面...');
-        console.log('切换到好友动态，UIN:', uin);
+        try {
+            log('INFO', '进入好友动态页面'); // 新增日志
+            currentTask = '切换到好友动态页面';
+            taskStartTime = Date.now();
+            taskDuration = 5;
+            nextTask = '刷新页面并重试流程';
+            updateStatusBar('点赞元素不存在，切换到好友动态页面...');
+            console.log('切换到好友动态，UIN:', uin);
 
-        let friendTab = document.getElementById('tab_menu_friend') || document.querySelector('li[type="friend"] a') || document.querySelector('.feed-control-tab a:not(.item-on)');
-        if (friendTab) {
-            friendTab.click();
-            console.log('点击左侧菜单栏“好友动态”tab');
-        } else if (uin) {
-            location.href = 'https://user.qzone.qq.com/' + uin + '/infocenter';
-            console.log('直接导航到infocenter');
-        } else {
-            refresh();
-            console.log('无tab可用，刷新页面');
+            let friendTab = document.getElementById('tab_menu_friend') || document.querySelector('li[type="friend"] a') || document.querySelector('.feed-control-tab a:not(.item-on)');
+            if (friendTab) {
+                friendTab.click();
+                console.log('点击左侧菜单栏“好友动态”tab');
+            } else if (uin) {
+                location.href = 'https://user.qzone.qq.com/' + uin + '/infocenter';
+                console.log('直接导航到infocenter');
+            } else {
+                refresh();
+                console.log('无tab可用，刷新页面');
+            }
+        } catch (e) {
+            log('ERROR', '进入好友动态页面异常: ' + e.message); // 新增异常捕获
         }
     }
 
     // 安全点赞函数（优化：仅调度实际点赞，防止重复调用）
     let likeDebounce = null;
     function safeLike() {
-        if (isPaused) {
-            updateStatusBar('脚本已暂停，跳过点赞');
-            return;
-        }
-        if (currentTask === '执行安全点赞') {
-            console.log('点赞任务已在执行，跳过重复调用');
-            return; // 防止重复
-        }
-        if (likeDebounce) clearTimeout(likeDebounce);
-        likeDebounce = setTimeout(() => {
-            currentTask = '执行安全点赞';
-            taskStartTime = Date.now();
-            const btns = document.querySelectorAll('.qz_like_btn_v3');
-            const contents = document.querySelectorAll('.f-info');
-            const users = document.querySelectorAll('.f-name');
-            let toLike = []; // 收集需要点赞的btns和index
-            let skipped = 0;
-
-            Array.from(btns).forEach(function(btn, index) {
-                const content = contents[index] ? contents[index].innerHTML : '';
-                const user = users[index] && users[index].getAttribute('link') ? users[index].getAttribute('link').replace('nameCard_', '') : '';
-
-                if (btn.classList.contains('item-on') || blocked.indexOf(user) > -1) {
-                    console.log('跳过已赞或屏蔽动态 ' + (index + 1));
-                    skipped++;
-                    return;
-                }
-
-                let isGameForward = false;
-                if (select) {
-                    for (let j = 0; j < dict.length; j++) {
-                        if (content.includes(dict[j])) {
-                            isGameForward = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (isGameForward) {
-                    console.log('跳过游戏转发动态 ' + (index + 1));
-                    skipped++;
-                    return;
-                }
-
-                toLike.push({btn, content, index});
-            });
-
-            let effectiveLikes = toLike.length;
-            taskDuration = effectiveLikes * likeDelay + 1; // 最小1s
-            nextTask = '模拟滚动或等待刷新';
-            // 推迟nextTime，只一次
-            nextTime = Math.max(nextTime, Date.now() + taskDuration * 1000 + 5000);
-            updateStatusBar('开始安全点赞... (需点赞: ' + effectiveLikes + ', 跳过: ' + skipped + ')');
-
-            if (effectiveLikes === 0) {
-                // 如果所有跳过，立即完成
-                currentTask = '';
-                taskDuration = 0;
-                updateStatusBar('所有动态已赞或跳过，等待下次刷新');
+        try {
+            if (isPaused) {
+                updateStatusBar('脚本已暂停，跳过点赞');
                 return;
             }
+            if (currentTask === '执行安全点赞') {
+                console.log('点赞任务已在执行，跳过重复调用');
+                return; // 防止重复
+            }
+            if (likeDebounce) clearTimeout(likeDebounce);
+            likeDebounce = setTimeout(() => {
+                currentTask = '执行安全点赞';
+                taskStartTime = Date.now();
+                const btns = document.querySelectorAll('.qz_like_btn_v3');
+                const contents = document.querySelectorAll('.f-info');
+                const users = document.querySelectorAll('.f-name');
+                let toLike = []; // 收集需要点赞的btns和index
+                let skipped = 0;
 
-            toLike.forEach(function(item, idx) {
-                setTimeout(function() {
-                    if (isPaused) {
-                        updateStatusBar('脚本已暂停，停止点赞');
+                Array.from(btns).forEach(function(btn, index) {
+                    const content = contents[index] ? contents[index].innerHTML : '';
+                    const user = users[index] && users[index].getAttribute('link') ? users[index].getAttribute('link').replace('nameCard_', '') : '';
+
+                    if (btn.classList.contains('item-on') || blocked.indexOf(user) > -1) {
+                        console.log('跳过已赞或屏蔽动态 ' + (index + 1));
+                        skipped++;
                         return;
                     }
-                    item.btn.click();
-                    console.log('Liked: ' + item.content);
-                    updateStatusBar('点赞动态 ' + (item.index + 1) + ' / ' + btns.length);
-                }, idx * likeDelay * 1000);
-            });
 
-            // 完成重置
-            setTimeout(function() {
-                if (isPaused) return;
-                currentTask = '';
-                taskDuration = 0;
-                updateStatusBar('点赞完成，等待下次刷新');
-            }, taskDuration * 1000);
-        }, 500); // 防抖500ms
+                    let isGameForward = false;
+                    if (select) {
+                        for (let j = 0; j < dict.length; j++) {
+                            if (content.includes(dict[j])) {
+                                isGameForward = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (isGameForward) {
+                        console.log('跳过游戏转发动态 ' + (index + 1));
+                        skipped++;
+                        return;
+                    }
+
+                    toLike.push({btn, content, index});
+                });
+
+                let effectiveLikes = toLike.length;
+                taskDuration = effectiveLikes * likeDelay + 1; // 最小1s
+                nextTask = '模拟滚动或等待刷新';
+                // 推迟nextTime，只一次
+                nextTime = Math.max(nextTime, Date.now() + taskDuration * 1000 + 5000);
+                updateStatusBar('开始安全点赞... (需点赞: ' + effectiveLikes + ', 跳过: ' + skipped + ')');
+                log('INFO', '开始安全点赞 (需点赞: ' + effectiveLikes + ', 跳过: ' + skipped + ')'); // 新增日志
+
+                if (effectiveLikes === 0) {
+                    // 如果所有跳过，立即完成
+                    currentTask = '';
+                    taskDuration = 0;
+                    updateStatusBar('所有动态已赞或跳过，等待下次刷新');
+                    return;
+                }
+
+                toLike.forEach(function(item, idx) {
+                    setTimeout(function() {
+                        if (isPaused) {
+                            updateStatusBar('脚本已暂停，停止点赞');
+                            return;
+                        }
+                        item.btn.click();
+                        console.log('Liked: ' + item.content);
+                        updateStatusBar('点赞动态 ' + (item.index + 1) + ' / ' + btns.length);
+                        log('INFO', '点赞动态 ' + (item.index + 1)); // 新增日志：每次点赞
+                    }, idx * likeDelay * 1000);
+                });
+
+                // 完成重置
+                setTimeout(function() {
+                    if (isPaused) return;
+                    currentTask = '';
+                    taskDuration = 0;
+                    updateStatusBar('点赞完成，等待下次刷新');
+                    log('INFO', '点赞完成'); // 新增日志
+                }, taskDuration * 1000);
+            }, 500); // 防抖500ms
+        } catch (e) {
+            log('ERROR', '安全点赞异常: ' + e.message); // 新增异常捕获
+        }
     }
 
     // 模拟下滑动态（移除safeLike调用，让scroll event处理）
     function simulateScroll() {
-        if (isPaused) {
-            updateStatusBar('脚本已暂停，跳过滚动');
-            return;
-        }
-        currentTask = '模拟下滑动态';
-        taskStartTime = Date.now();
-        taskDuration = scrollCount * 3 + 3;
-        nextTask = '回到顶部并等待';
-        // 推迟nextTime
-        nextTime = Math.max(nextTime, Date.now() + taskDuration * 1000 + 5000);
-        updateStatusBar('模拟下滑动态...');
-        let scrollStep = window.innerHeight * scrollStepPercent;
+        try {
+            if (isPaused) {
+                updateStatusBar('脚本已暂停，跳过滚动');
+                return;
+            }
+            currentTask = '模拟下滑动态';
+            taskStartTime = Date.now();
+            taskDuration = scrollCount * 3 + 3;
+            nextTask = '回到顶部并等待';
+            // 推迟nextTime
+            nextTime = Math.max(nextTime, Date.now() + taskDuration * 1000 + 5000);
+            updateStatusBar('模拟下滑动态...');
+            log('INFO', '模拟滚动开始'); // 新增日志
+            let scrollStep = window.innerHeight * scrollStepPercent;
 
-        Array.from({length: scrollCount}).forEach(function(_, i) {
-            var stepIndex = i;
-            var targetScroll = (stepIndex + 1) * scrollStep;
+            Array.from({length: scrollCount}).forEach(function(_, i) {
+                var stepIndex = i;
+                var targetScroll = (stepIndex + 1) * scrollStep;
+                setTimeout(function() {
+                    if (isPaused) {
+                        updateStatusBar('脚本已暂停，停止滚动');
+                        return;
+                    }
+                    smoothScrollTo(targetScroll, 500);
+                    window.dispatchEvent(new Event('scroll')); // 触发scroll event，debounce后调用safeLike
+                    updateStatusBar('滚动到动态组 ' + (stepIndex + 1) + '/' + scrollCount + '，加载更多内容');
+                    log('INFO', '滚动到动态组 ' + (stepIndex + 1) + '/' + scrollCount); // 新增日志
+                    let loadMoreBtn = document.querySelector('.load-more') || document.querySelector('a[title="加载更多"]');
+                    if (loadMoreBtn) {
+                        loadMoreBtn.click();
+                        console.log('点击加载更多按钮作为备用');
+                    }
+                }, stepIndex * 3000);
+            });
             setTimeout(function() {
-                if (isPaused) {
-                    updateStatusBar('脚本已暂停，停止滚动');
-                    return;
-                }
-                smoothScrollTo(targetScroll, 500);
-                window.dispatchEvent(new Event('scroll')); // 触发scroll event，debounce后调用safeLike
-                updateStatusBar('滚动到动态组 ' + (stepIndex + 1) + '/' + scrollCount + '，加载更多内容');
-                let loadMoreBtn = document.querySelector('.load-more') || document.querySelector('a[title="加载更多"]');
-                if (loadMoreBtn) {
-                    loadMoreBtn.click();
-                    console.log('点击加载更多按钮作为备用');
-                }
-            }, stepIndex * 3000);
-        });
-        setTimeout(function() {
-            if (isPaused) return;
-            smoothScrollTo(0, 1000);
-            updateStatusBar('回到顶部，等待下次刷新');
-            currentTask = '';
-            taskDuration = 0;
-        }, scrollCount * 3000 + 3000);
+                if (isPaused) return;
+                smoothScrollTo(0, 1000);
+                updateStatusBar('回到顶部，等待下次刷新');
+                currentTask = '';
+                taskDuration = 0;
+                log('INFO', '模拟滚动结束，回到顶部'); // 新增日志
+            }, scrollCount * 3000 + 3000);
+        } catch (e) {
+            log('ERROR', '模拟滚动异常: ' + e.message); // 新增异常捕获
+        }
     }
 
     // 平滑滚动辅助函数
@@ -533,20 +606,25 @@
 
     // 刷新页面
     function refresh() {
-        if (isPaused) {
-            updateStatusBar('脚本已暂停，跳过刷新');
-            return;
+        try {
+            if (isPaused) {
+                updateStatusBar('脚本已暂停，跳过刷新');
+                return;
+            }
+            log('INFO', '刷新页面触发'); // 新增日志
+            currentTask = '刷新页面';
+            taskStartTime = Date.now();
+            taskDuration = refreshDelay;
+            nextTask = '执行工作流';
+            lastRefresh = Date.now();
+            setCookie('al-lastRefresh', lastRefresh, Number.MAX_SAFE_INTEGER);
+            nextTime = Date.now() + duration * 1000;
+            setCookie('al-justRefreshed', 'true', 60);
+            location.reload();
+            updateStatusBar('页面刷新完成，从头开始流程');
+        } catch (e) {
+            log('ERROR', '刷新页面异常: ' + e.message); // 新增异常捕获
         }
-        currentTask = '刷新页面';
-        taskStartTime = Date.now();
-        taskDuration = refreshDelay;
-        nextTask = '执行工作流';
-        lastRefresh = Date.now();
-        setCookie('al-lastRefresh', lastRefresh, Number.MAX_SAFE_INTEGER);
-        nextTime = Date.now() + duration * 1000;
-        setCookie('al-justRefreshed', 'true', 60);
-        location.reload();
-        updateStatusBar('页面刷新完成，从头开始流程');
     }
 
     // 执行整个工作流
@@ -562,33 +640,42 @@
         taskDuration = 10;
         nextTask = '点赞或切换页面';
         updateStatusBar('开始执行工作流');
+        log('INFO', '开始执行工作流'); // 新增日志
 
         setTimeout(function() {
-            if (isPaused) {
-                isRunning = false;
-                updateStatusBar('脚本已暂停，工作流停止');
-                return;
-            }
-            if (isInFriendFeedPage()) {
-                updateStatusBar('检测到点赞元素，直接执行点赞...');
-                safeLike();
-                simulateScroll();
-            } else {
-                updateStatusBar('未检测到点赞元素，切换并刷新页面...');
-                retryCount++;
-                if (retryCount > maxRetries) {
-                    updateStatusBar('重试次数超过上限，停止执行');
+            try {
+                if (isPaused) {
                     isRunning = false;
-                    retryCount = 0;
+                    updateStatusBar('脚本已暂停，工作流停止');
                     return;
                 }
-                goToFriendFeed();
-                refresh();
-                setTimeout(executeWorkflow, refreshDelay * 1000);
+                if (isInFriendFeedPage()) {
+                    updateStatusBar('检测到点赞元素，直接执行点赞...');
+                    log('INFO', '检测到好友动态页面，直接执行点赞'); // 新增日志
+                    safeLike();
+                    simulateScroll();
+                } else {
+                    updateStatusBar('未检测到点赞元素，切换并刷新页面...');
+                    retryCount++;
+                    log('WARN', '重试切换页面，当前重试次数: ' + retryCount); // 新增日志
+                    if (retryCount > maxRetries) {
+                        updateStatusBar('重试次数超过上限，停止执行');
+                        log('ERROR', '重试次数超过上限'); // 新增日志
+                        isRunning = false;
+                        retryCount = 0;
+                        return;
+                    }
+                    goToFriendFeed();
+                    refresh();
+                    setTimeout(executeWorkflow, refreshDelay * 1000);
+                }
+                isRunning = false;
+                currentTask = '';
+                taskDuration = 0;
+            } catch (e) {
+                log('ERROR', '执行工作流异常: ' + e.message); // 新增异常捕获
+                isRunning = false;
             }
-            isRunning = false;
-            currentTask = '';
-            taskDuration = 0;
         }, initialDelay);
     }
 
@@ -609,15 +696,19 @@
 
     // 主循环（优化：间隔调整为更高效的1000ms，减少CPU占用）
     let mainInterval = setInterval(function() {
-        if (isPaused) {
-            updateStatusBar('脚本已暂停，等待恢复');
-            return;
-        }
-        var time = Date.now();
-        if (time >= nextTime || testMode) {
-            refresh();
-        } else if (isScrolling) {
-            safeLike();
+        try {
+            if (isPaused) {
+                updateStatusBar('脚本已暂停，等待恢复');
+                return;
+            }
+            var time = Date.now();
+            if (time >= nextTime || testMode) {
+                refresh();
+            } else if (isScrolling) {
+                safeLike();
+            }
+        } catch (e) {
+            log('ERROR', '主循环异常: ' + e.message); // 新增异常捕获
         }
     }, 1000);
 
@@ -633,17 +724,23 @@
 
     // 初始化
     window.onload = function () {
-        createMenu();
-        createStatusBar();
-        applyDarkMode(); // 新增
+        try {
+            createMenu();
+            createStatusBar();
+            applyDarkMode(); // 新增
 
-        console.log('当前UIN:', uin);
+            console.log('当前UIN:', uin);
 
-        removeMeRelatedMenu();
+            removeMeRelatedMenu();
 
-        if (getCookie('al-justRefreshed')) {
-            setCookie('al-justRefreshed', '', -1);
-            setTimeout(executeWorkflow, 3000);
+            if (getCookie('al-justRefreshed')) {
+                setCookie('al-justRefreshed', '', -1);
+                setTimeout(executeWorkflow, 3000);
+            }
+
+            log('INFO', '脚本初始化完成'); // 新增日志
+        } catch (e) {
+            log('ERROR', '脚本初始化异常: ' + e.message); // 新增异常捕获
         }
     };
 
