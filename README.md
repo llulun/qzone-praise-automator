@@ -1,6 +1,7 @@
 # QZone Auto Liker
 
- QZone Auto Liker 是一个网页版 QQ 空间自动点赞工具，支持自动检测好友动态、点赞、滚动加载、刷新页面等功能。增强版包括简化工作流、延迟处理、安全点赞、菜单调整、状态栏美化、滚动模拟等。最新版本添加了系统日志模块，支持日志级别配置和面板内查看日志。
+Zone Auto Liker 是一个网页版 QQ 空间自动点赞工具，支持自动检测好友动态、点赞、滚动加载、刷新页面等功能。增强版包括简化工作流、延迟处理、安全点赞、菜单调整、状态栏美化、滚动模拟等。最新版本添加了系统日志模块，支持日志级别配置和面板内查看日志。
+=======
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/Version-2.7.2-blue.svg)](https://github.com/llulun/qzone-autopraise-pro/releases/tag/v2.7.2)
@@ -20,7 +21,7 @@
 ## Installation
 
 1. 安装 Tampermonkey 或 Violentmonkey 浏览器扩展（推荐 Tampermonkey，从 Chrome Web Store 或 Firefox Add-ons 下载）。
-2. 下载本仓库的 `QZone AutoPraise Pro.user.js` 文件（点击 Raw > 右键保存，或下载 ZIP 解压）。
+2. 下载本仓库的 `QZone Auto Liker.js` 文件（点击 Raw > 右键保存，或下载 ZIP 解压）。
 3. 打开 Tampermonkey Dashboard（浏览器工具栏 > Tampermonkey > Dashboard）。
 4. 点击 “+” 创建新脚本，或通过 “Utilities” > “Import from file” 导入文件。
 5. 保存后，脚本将自动启用，匹配 `*://*.qzone.qq.com/*`。
