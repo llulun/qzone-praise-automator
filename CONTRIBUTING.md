@@ -8,4 +8,4 @@ Welcome! To contribute:
 4. Push and open a Pull Request.
 5. Follow code style guidelines.
 
-Report bugs in Issues. Contact: your-mail@llulun.top
+Report bugs in Issues. Contact: mail@llulun.top
