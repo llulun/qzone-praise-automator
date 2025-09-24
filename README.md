@@ -76,5 +76,5 @@ QZone Praise Automator 是一个网页版 QQ 空间自动点赞工具，支持�
 MIT License. 见 [LICENSE](LICENSE) 文件。
 
 作者：llulun (with contributions)  
-仓库：https://github.com/llulun/qzone-praise-automator
+仓库: https://github.com/llulun/qzone-praise-automator
 问题反馈：https://github.com/llulun/qzone-praise-automator/issues
