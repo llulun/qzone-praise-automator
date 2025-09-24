@@ -1,4 +1,4 @@
-# Contributing to QZone AutoPraise Pro
+# Contributing to QZone Praise Automator
 
 Welcome! To contribute:
 
