@@ -4,9 +4,9 @@ QZone Praise Automator 是一个网页版 QQ 空间自动点赞工具，支持�
 =======
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-2.7.2-blue.svg)](https://github.com/llulun/qzone-autopraise-pro/releases/tag/v2.7.2)
-[![Stars](https://img.shields.io/github/stars/llulun/qzone-autopraise-pro)](https://github.com/llulun/qzone-autopraise-pro/stargazers)
-[![Forks](https://img.shields.io/github/forks/llulun/qzone-autopraise-pro)](https://github.com/llulun/qzone-autopraise-pro/network/members)
+[![Version](https://img.shields.io/badge/Version-2.7.2-blue.svg)](https://github.com/llulun/qzone-praise-automator/releases/tag/v2.7.2)
+[![Stars](https://img.shields.io/github/stars/llulun/qzone-praise-automator)](https://github.com/llulun/qzone-praise-automator/stargazers)
+[![Forks](https://img.shields.io/github/forks/llulun/qzone-praise-automator)](https://github.com/llulun/qzone-praise-automator/network/members)
 ![Control Panel](docs/control-panel.png)
 ## Features
 
@@ -76,5 +76,5 @@ QZone Praise Automator 是一个网页版 QQ 空间自动点赞工具，支持�
 MIT License. 见 [LICENSE](LICENSE) 文件。
 
 作者：llulun (with contributions)  
-仓库：https://github.com/llulun/qzone-autopraise-pro  
-问题反馈：https://github.com/llulun/qzone-autopraise-pro/issues
+仓库: https://github.com/llulun/qzone-praise-automator
+问题反馈：https://github.com/llulun/qzone-praise-automator/issues
