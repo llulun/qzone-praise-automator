@@ -4,7 +4,7 @@ QZone Praise Automator 是一个网页版 QQ 空间自动点赞工具，支持�
 =======
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-2.7.2-blue.svg)](https://github.com/llulun/qzone-praise-automator/releases/tag/v2.7.2)
+[![Version](https://img.shields.io/badge/Version-2.8.5-blue.svg)](https://github.com/llulun/qzone-praise-automator/releases/tag/v2.8.5)
 [![Stars](https://img.shields.io/github/stars/llulun/qzone-praise-automator)](https://github.com/llulun/qzone-praise-automator/stargazers)
 [![Forks](https://img.shields.io/github/forks/llulun/qzone-praise-automator)](https://github.com/llulun/qzone-praise-automator/network/members)
 ![Control Panel](docs/control-panel.png)
@@ -58,23 +58,27 @@ QZone Praise Automator 是一个网页版 QQ 空间自动点赞工具，支持�
 
 ## Changelog
 
+### v2.8.5 (2025-10-08)
+
+* 新增自动登录检测与提醒（如果检测到登录过期，暂停脚本并通知用户）。
+* 优化滚动模拟以支持无限滚动页面（动态检测底部加载元素）。
+* 添加配置备份/恢复功能到控制面板。
+* 修复多账号切换时日志和统计不隔离的问题。
+* 增强暗黑模式兼容性，支持自定义主题色调调整。
+* 修复控制面板浮动按钮被状态栏遮挡的问题，提高浮动按钮z-index至10003，确保其显示在状态栏上方。
+* 增强存储功能，使用localStorage存储性能统计数据，确保网页刷新后不会清空。
+
 ### v2.8.2 (2025-10-04)
 
 * 修复关键词屏蔽不生效问题：内容提取改为 innerText，避免 HTML 标签干扰匹配。
 * 加强已赞动态检测：点赞后添加延迟检查 class 更新，防止手动滚动触发重复点赞导致取消。
 * 优化日志记录：添加关键词匹配和已赞跳过细节。
-
-### v2.8.1 (2025-10-04)
-
-* 修复动态元素事件监听器添加问题，确保在 tab 内容加载后绑定事件，避免 null 错误。
-* 优化 JSON 解析错误处理，确保所有字符串连接正确，避免语法问题。
-
-### v2.8 (2025-10-04)
-
 * UI 美化升级：主题系统、响应式设计、微交互。
 * 新增动态关键词过滤：屏蔽/允许模式，支持正则。
 * 黑名单扩展：分组、白名单、导入/导出。
 * 新增每日点赞上限、浏览器通知、性能监控（点赞成功率统计）和多账号支持。
+* 修复动态元素事件监听器添加问题，确保在 tab 内容加载后绑定事件，避免 null 错误。
+* 优化 JSON 解析错误处理，确保所有字符串连接正确，避免语法问题。
 * 其他 bug 修复和性能优化。
 
 ### v2.7.2 (2025-09-23)
