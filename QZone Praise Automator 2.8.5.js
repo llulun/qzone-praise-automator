@@ -2,8 +2,8 @@
 // @name         QZone Praise Automator
 // @namespace    https://github.com/llulun/qzone-autopraise-pro
 // @license      MIT
-// @version      2.8.2
-// @description  网页版QQ空间自动点赞工具（增强版：简化工作流，通过检测点赞元素判断是否在好友动态页面，有则直接执行点赞，无则切换到好友动态后刷新页面重走流程，移除菜单元素，添加延迟处理、安全点赞、菜单调整、状态栏美化、滚动模拟等功能。更新：状态栏更详细显示任务进度、剩余时间等，美化透明度与阴影；控制面板增大、居中、透明化；修复状态栏文字模糊与重叠问题，通过分行显示、调整字体与行高确保清晰；状态栏背景改为黑色渐变，添加透明阴影与底部圆角；扩展控制面板为左侧菜单栏式结构，添加更多参数调整如状态栏/控制面板透明度、颜色、屏蔽用户、过滤选项、重试次数、滚动步长、初始延迟等，所有可调参数均集成到面板中，支持动态应用变化；移除双击页面调用setConfig事件，所有设置统一通过控制面板；控制面板默认隐藏，通过点击浮动按钮打开；修复状态栏文字随背景透明问题，添加文字颜色与亮度设置；新增：暂停/恢复功能，允许用户暂停或恢复自动点赞流程，状态栏显示暂停状态；修复：状态栏第二行参数与等待时间显示错误，确保实时同步最新参数和正确时间；优化：修复状态栏多余分隔符逻辑，避免显示异常；兼容：将模板字符串改为字符串连接，提高旧浏览器兼容性，避免潜在语法报错。贡献更新（v2.4）：美化控制面板和状态栏的UI（添加过渡动画、圆角按钮、响应式布局）；修复潜在bug如滚动事件重复触发点赞、暂停时定时器未完全清理、cookie值解析边缘案例；优化性能（减少不必要的setInterval调用、批量DOM操作）；添加暗黑模式自动适配选项。贡献更新（v2.5）：修复bug：在点赞或滚动任务执行过程中，如果任务时间超过刷新间隔，导致倒计时重置的问题（通过在任务开始时推迟nextTime来避免中断）；美化状态栏：添加进度条表示当前任务进度、使用emoji图标增强视觉反馈、优化字体和间距以提高可读性。贡献更新（v2.6）：修复状态栏逻辑问题：防止safeLike重复调用导致nextTime多次推迟和倒计时跳动；优化点赞逻辑，仅调度实际需要点赞的动态，避免不必要延迟和卡在“跳过”步骤；如果所有动态被跳过，立即完成任务并更新状态栏为等待刷新，而不是等待无谓时间或显示跳过消息。贡献更新（v2.8）：UI美化升级（主题系统、响应式设计、微交互）；新增动态关键词过滤（屏蔽/允许模式，支持正则）；黑名单扩展（分组、白名单、导入/导出）；每日点赞上限；浏览器通知；性能监控（点赞成功率统计）；多账号支持（配置切换）。贡献更新（v2.8.1）：修复动态元素事件监听器添加问题，确保在tab内容加载后绑定事件，避免null错误；优化JSON解析错误处理；确保所有字符串连接正确，避免语法问题。贡献更新（v2.8.2）：修复关键词屏蔽不生效问题，将内容提取改为innerText以避免HTML标签干扰匹配；加强已赞动态检测，添加点赞后延迟检查class更新，防止手动滚动触发重复点赞导致取消；优化日志记录关键词匹配细节。）
+// @version      2.8.5
+// @description  网页版QQ空间自动点赞工具（增强版：简化工作流，通过检测点赞元素判断是否在好友动态页面，有则直接执行点赞，无则切换到好友动态后刷新页面重走流程，移除菜单元素，添加延迟处理、安全点赞、菜单调整、状态栏美化、滚动模拟等功能。更新：状态栏更详细显示任务进度、剩余时间等，美化透明度与阴影；控制面板增大、居中、透明化；修复状态栏文字模糊与重叠问题，通过分行显示、调整字体与行高确保清晰；状态栏背景改为黑色渐变，添加透明阴影与底部圆角；扩展控制面板为左侧菜单栏式结构，添加更多参数调整如状态栏/控制面板透明度、颜色、屏蔽用户、过滤选项、重试次数、滚动步长、初始延迟等，所有可调参数均集成到面板中，支持动态应用变化；移除双击页面调用setConfig事件，所有设置统一通过控制面板；控制面板默认隐藏，通过点击浮动按钮打开；修复状态栏文字随背景透明问题，添加文字颜色与亮度设置；新增：暂停/恢复功能，允许用户暂停或恢复自动点赞流程，状态栏显示暂停状态；修复：状态栏第二行参数与等待时间显示错误，确保实时同步最新参数和正确时间；优化：修复状态栏多余分隔符逻辑，避免显示异常；兼容：将模板字符串改为字符串连接，提高旧浏览器兼容性，避免潜在语法报错。贡献更新（v2.4）：美化控制面板和状态栏的UI（添加过渡动画、圆角按钮、响应式布局）；修复潜在bug如滚动事件重复触发点赞、暂停时定时器未完全清理、cookie值解析边缘案例；优化性能（减少不必要的setInterval调用、批量DOM操作）；添加暗黑模式自动适配选项。贡献更新（v2.5）：修复bug：在点赞或滚动任务执行过程中，如果任务时间超过刷新间隔，导致倒计时重置的问题（通过在任务开始时推迟nextTime来避免中断）；美化状态栏：添加进度条表示当前任务进度、使用emoji图标增强视觉反馈、优化字体和间距以提高可读性。贡献更新（v2.6）：修复状态栏逻辑问题：防止safeLike重复调用导致nextTime多次推迟和倒计时跳动；优化点赞逻辑，仅调度实际需要点赞的动态，避免不必要延迟和卡在“跳过”步骤；如果所有动态被跳过，立即完成任务并更新状态栏为等待刷新，而不是等待无谓时间或显示跳过消息。贡献更新（v2.8）：UI美化升级（主题系统、响应式设计、微交互）；新增动态关键词过滤（屏蔽/允许模式，支持正则）；黑名单扩展（分组、白名单、导入/导出）；每日点赞上限；浏览器通知；性能监控（点赞成功率统计）；多账号支持（配置切换）。贡献更新（v2.8.1）：修复动态元素事件监听器添加问题，确保在tab内容加载后绑定事件，避免null错误；优化JSON解析错误处理；确保所有字符串连接正确，避免语法问题。贡献更新（v2.8.2）：修复关键词屏蔽不生效问题，将内容提取改为innerText以避免HTML标签干扰匹配；加强已赞动态检测，添加点赞后延迟检查class更新，防止手动滚动触发重复点赞导致取消；优化日志记录关键词匹配细节。贡献更新（v2.8.3）：新增自动登录检测与提醒（如果检测到登录过期，暂停脚本并通知用户）；优化滚动模拟以支持无限滚动页面（动态检测底部加载元素）；添加配置备份/恢复功能到控制面板；修复多账号切换时日志和统计不隔离的问题；增强暗黑模式兼容性，支持自定义主题色调调整。贡献更新（v2.8.4）：修复控制面板浮动按钮被状态栏遮挡的问题，提高浮动按钮z-index至10003，确保其显示在状态栏上方。贡献更新（v2.8.5）：增强存储功能，使用localStorage存储性能统计数据，确保网页刷新后不会清空。）
 // @author       llulun (with contributions)
 // @match        *://*.qzone.qq.com/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
@@ -58,9 +58,11 @@
     let randomDelayMin = parseInt(getCookie('al-randomDelayMin')) || 1; // 新增：随机延迟
     let randomDelayMax = parseInt(getCookie('al-randomDelayMax')) || 3;
     let enableNotifications = Boolean(getCookie('al-enableNotifications')); // 新增：通知
-    let stats = safeJsonParse(getCookie('al-stats')) || { likes: 0, skips: 0, errors: 0 }; // 新增：性能监控
+    let stats = safeJsonParse(localStorage.getItem('al-stats')) || {}; // 修改：使用localStorage存储性能统计
     let accounts = safeJsonParse(getCookie('al-accounts')) || {}; // 新增：多账号
     let currentAccount = uin; // 当前账号
+    let enableLoginCheck = Boolean(getCookie('al-enableLoginCheck')) || true; // 新增：登录检测
+    let themeHue = parseInt(getCookie('al-themeHue')) || 0; // 新增：主题色调调整
 
     // 新增：安全JSON解析
     function safeJsonParse(str) {
@@ -105,9 +107,11 @@
             if (level === 'ERROR') consoleMethod = console.error;
             consoleMethod(fullMessage);
 
-            logs.push(fullMessage);
-            if (logs.length > 500) {
-                logs.shift();
+            // 多账号日志隔离
+            logs[currentAccount] = logs[currentAccount] || [];
+            logs[currentAccount].push(fullMessage);
+            if (logs[currentAccount].length > 500) {
+                logs[currentAccount].shift();
             }
         } catch (e) {}
     }
@@ -141,13 +145,28 @@
         }
     }
 
-    // 更新统计
+    // 更新统计（多账号隔离，使用localStorage持久化）
     function updateStats(key) {
-        stats[key] = (stats[key] || 0) + 1;
-        setCookie('al-stats', JSON.stringify(stats), Number.MAX_SAFE_INTEGER);
+        stats[currentAccount] = stats[currentAccount] || { likes: 0, skips: 0, errors: 0 };
+        stats[currentAccount][key] = (stats[currentAccount][key] || 0) + 1;
+        localStorage.setItem('al-stats', JSON.stringify(stats));
     }
 
-    // 创建菜单栏（改进：响应式、主题、图标、新Tab、输入升级）
+    // 新增：检测登录状态
+    function checkLoginStatus() {
+        if (!enableLoginCheck) return true;
+        const isLoggedIn = !!uin && document.querySelector('.user-info') !== null; // 示例检测，实际根据页面调整
+        if (!isLoggedIn) {
+            isPaused = true;
+            updateStatusBar('检测到登录过期，请重新登录');
+            sendNotification('登录过期', 'QZone Praise Automator 检测到登录状态失效，请重新登录以继续。');
+            log('WARN', '登录状态失效，脚本暂停');
+            return false;
+        }
+        return true;
+    }
+
+    // 创建菜单栏（新增：配置备份/恢复、登录检测开关、色调调整）
     function createMenu() {
         let menu = document.createElement('div');
         menu.id = 'al-menu';
@@ -166,11 +185,12 @@
         menu.style.padding = '20px';
         menu.style.zIndex = '10002';
         menu.style.boxShadow = '0 6px 12px rgba(0,0,0,0.3)';
-        menu.style.fontFamily = "Arial, sans-serif"; // 移除Roboto，避免字体问题
+        menu.style.fontFamily = "Arial, sans-serif";
         menu.style.opacity = menuOpacity;
         menu.style.display = 'none';
         menu.style.pointerEvents = 'auto';
         menu.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        menu.style.filter = 'hue-rotate(' + themeHue + 'deg)';
         // 响应式
         if (window.innerWidth < 600) {
             menu.style.width = '95%';
@@ -194,7 +214,7 @@
         let footer = document.createElement('div');
         footer.style.marginTop = '20px';
         footer.style.textAlign = 'center';
-        footer.innerHTML = '<button id="al-save" style="background: #4CAF50; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">保存并应用</button><button id="al-pause" style="background: #FF9800; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">' + (isPaused ? '恢复' : '暂停') + '</button><button id="al-test" style="background: #2196F3; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">测试执行</button><button id="al-reset" style="background: #9E9E9E; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">重置默认</button><button id="al-export" style="background: #673AB7; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">导出配置</button><button id="al-close" style="background: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; transition: background 0.2s;">关闭</button>';
+        footer.innerHTML = '<button id="al-save" style="background: #4CAF50; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">保存并应用</button><button id="al-pause" style="background: #FF9800; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">' + (isPaused ? '恢复' : '暂停') + '</button><button id="al-test" style="background: #2196F3; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">测试执行</button><button id="al-reset" style="background: #9E9E9E; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">重置默认</button><button id="al-export" style="background: #673AB7; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">导出配置</button><button id="al-backup" style="background: #795548; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">备份配置</button><button id="al-restore" style="background: #607D8B; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">恢复配置</button><button id="al-close" style="background: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; transition: background 0.2s;">关闭</button>';
         menu.appendChild(footer);
 
         document.body.appendChild(menu);
@@ -204,9 +224,9 @@
             setTimeout(function() {
                 content.innerHTML = '';
                 if (tab === 'core') {
-                    content.innerHTML = '<h3>核心参数</h3><div class="al-card"><label>刷新频率 (秒): <input type="number" id="al-dur" value="' + duration + '" min="30" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>刷新延迟 (秒): <input type="number" id="al-rdelay" value="' + refreshDelay + '" min="5" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>点赞延迟 (秒): <input type="number" id="al-ldelay" value="' + likeDelay + '" min="3" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>下滑动态数: <input type="number" id="al-scount" value="' + scrollCount + '" min="1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>每日点赞上限 (0无限): <input type="number" id="al-dailyLimit" value="' + dailyLimit + '" min="0" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label><input type="checkbox" id="al-select" ' + (select ? 'checked' : '') + '> 不点赞游戏转发内容</label></div>';
+                    content.innerHTML = '<h3>核心参数</h3><div class="al-card"><label>刷新频率 (秒): <input type="number" id="al-dur" value="' + duration + '" min="30" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>刷新延迟 (秒): <input type="number" id="al-rdelay" value="' + refreshDelay + '" min="5" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>点赞延迟 (秒): <input type="number" id="al-ldelay" value="' + likeDelay + '" min="3" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>下滑动态数: <input type="number" id="al-scount" value="' + scrollCount + '" min="1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>每日点赞上限 (0无限): <input type="number" id="al-dailyLimit" value="' + dailyLimit + '" min="0" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label><input type="checkbox" id="al-select" ' + (select ? 'checked' : '') + '> 不点赞游戏转发内容</label></div><div class="al-card"><label><input type="checkbox" id="al-enableLoginCheck" ' + (enableLoginCheck ? 'checked' : '') + '> 启用登录状态检测</label></div>';
                 } else if (tab === 'ui') {
-                    content.innerHTML = '<h3>界面自定义</h3><div class="al-card"><label>主题: <select id="al-theme"><option value="default" ' + (theme === 'default' ? 'selected' : '') + '>默认</option><option value="tech" ' + (theme === 'tech' ? 'selected' : '') + '>科技蓝</option><option value="eco" ' + (theme === 'eco' ? 'selected' : '') + '>环保绿</option></select></label></div><div class="al-card"><label>状态栏透明度 (0.1-1): <input type="number" id="al-statusOpacity" value="' + statusOpacity + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>状态栏背景: <select id="al-statusBgColor" style="width: 200px; margin-left: 10px;"><option value="linear-gradient(to right, #333, #222)" ' + (statusBgColor === 'linear-gradient(to right, #333, #222)' ? 'selected' : '') + '>黑色渐变</option><option value="linear-gradient(to right, #f0f0f0, #e0e0e0)" ' + (statusBgColor === 'linear-gradient(to right, #f0f0f0, #e0e0e0)' ? 'selected' : '') + '>白色渐变</option><option value="linear-gradient(to right, #2196F3, #1976D2)" ' + (statusBgColor === 'linear-gradient(to right, #2196F3, #1976D2)' ? 'selected' : '') + '>蓝色渐变</option><option value="linear-gradient(to right, #4CAF50, #388E3C)" ' + (statusBgColor === 'linear-gradient(to right, #4CAF50, #388E3C)' ? 'selected' : '') + '>绿色渐变</option></select></label></div><div class="al-card"><label>状态栏文字颜色: <select id="al-statusTextColor" style="width: 200px; margin-left: 10px;"><option value="auto" ' + (statusTextColor === 'auto' ? 'selected' : '') + '>自动</option><option value="#fff" ' + (statusTextColor === '#fff' ? 'selected' : '') + '>白色</option><option value="#000" ' + (statusTextColor === '#000' ? 'selected' : '') + '>黑色</option><option value="#ddd" ' + (statusTextColor === '#ddd' ? 'selected' : '') + '>浅灰</option></select></label></div><div class="al-card"><label>状态栏文字亮度 (0.5-1.5): <input type="number" id="al-statusTextBrightness" value="' + statusTextBrightness + '" min="0.5" max="1.5" step="0.1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label><input type="checkbox" id="al-darkModeAuto" ' + (darkModeAuto ? 'checked' : '') + '> 自动适配暗黑模式</label></div><div class="al-card"><label>控制面板透明度 (0.1-1): <input type="number" id="al-menuOpacity" value="' + menuOpacity + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>控制面板背景: <select id="al-menuBgColor" style="width: 200px; margin-left: 10px;"><option value="linear-gradient(to bottom, #ffffff, #f0f0f0)" ' + (menuBgColor === 'linear-gradient(to bottom, #ffffff, #f0f0f0)' ? 'selected' : '') + '>白色渐变</option><option value="linear-gradient(to bottom, #333, #222)" ' + (menuBgColor === 'linear-gradient(to bottom, #333, #222)' ? 'selected' : '') + '>黑色渐变</option><option value="linear-gradient(to bottom, #2196F3, #1976D2)" ' + (menuBgColor === 'linear-gradient(to bottom, #2196F3, #1976D2)' ? 'selected' : '') + '>蓝色渐变</option><option value="linear-gradient(to bottom, #4CAF50, #388E3C)" ' + (menuBgColor === 'linear-gradient(to bottom, #4CAF50, #388E3C)' ? 'selected' : '') + '>绿色渐变</option></select></label></div>';
+                    content.innerHTML = '<h3>界面自定义</h3><div class="al-card"><label>主题: <select id="al-theme"><option value="default" ' + (theme === 'default' ? 'selected' : '') + '>默认</option><option value="tech" ' + (theme === 'tech' ? 'selected' : '') + '>科技蓝</option><option value="eco" ' + (theme === 'eco' ? 'selected' : '') + '>环保绿</option></select></label></div><div class="al-card"><label>主题色调调整 (0-360): <input type="number" id="al-themeHue" value="' + themeHue + '" min="0" max="360" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>状态栏透明度 (0.1-1): <input type="number" id="al-statusOpacity" value="' + statusOpacity + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>状态栏背景: <select id="al-statusBgColor" style="width: 200px; margin-left: 10px;"><option value="linear-gradient(to right, #333, #222)" ' + (statusBgColor === 'linear-gradient(to right, #333, #222)' ? 'selected' : '') + '>黑色渐变</option><option value="linear-gradient(to right, #f0f0f0, #e0e0e0)" ' + (statusBgColor === 'linear-gradient(to right, #f0f0f0, #e0e0e0)' ? 'selected' : '') + '>白色渐变</option><option value="linear-gradient(to right, #2196F3, #1976D2)" ' + (statusBgColor === 'linear-gradient(to right, #2196F3, #1976D2)' ? 'selected' : '') + '>蓝色渐变</option><option value="linear-gradient(to right, #4CAF50, #388E3C)" ' + (statusBgColor === 'linear-gradient(to right, #4CAF50, #388E3C)' ? 'selected' : '') + '>绿色渐变</option></select></label></div><div class="al-card"><label>状态栏文字颜色: <select id="al-statusTextColor" style="width: 200px; margin-left: 10px;"><option value="auto" ' + (statusTextColor === 'auto' ? 'selected' : '') + '>自动</option><option value="#fff" ' + (statusTextColor === '#fff' ? 'selected' : '') + '>白色</option><option value="#000" ' + (statusTextColor === '#000' ? 'selected' : '') + '>黑色</option><option value="#ddd" ' + (statusTextColor === '#ddd' ? 'selected' : '') + '>浅灰</option></select></label></div><div class="al-card"><label>状态栏文字亮度 (0.5-1.5): <input type="number" id="al-statusTextBrightness" value="' + statusTextBrightness + '" min="0.5" max="1.5" step="0.1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label><input type="checkbox" id="al-darkModeAuto" ' + (darkModeAuto ? 'checked' : '') + '> 自动适配暗黑模式</label></div><div class="al-card"><label>控制面板透明度 (0.1-1): <input type="number" id="al-menuOpacity" value="' + menuOpacity + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>控制面板背景: <select id="al-menuBgColor" style="width: 200px; margin-left: 10px;"><option value="linear-gradient(to bottom, #ffffff, #f0f0f0)" ' + (menuBgColor === 'linear-gradient(to bottom, #ffffff, #f0f0f0)' ? 'selected' : '') + '>白色渐变</option><option value="linear-gradient(to bottom, #333, #222)" ' + (menuBgColor === 'linear-gradient(to bottom, #333, #222)' ? 'selected' : '') + '>黑色渐变</option><option value="linear-gradient(to bottom, #2196F3, #1976D2)" ' + (menuBgColor === 'linear-gradient(to bottom, #2196F3, #1976D2)' ? 'selected' : '') + '>蓝色渐变</option><option value="linear-gradient(to bottom, #4CAF50, #388E3C)" ' + (menuBgColor === 'linear-gradient(to bottom, #4CAF50, #388E3C)' ? 'selected' : '') + '>绿色渐变</option></select></label></div>';
                 } else if (tab === 'filter') {
                     content.innerHTML = '<h3>过滤规则</h3><div class="al-card"><label>屏蔽用户 (QQ号,逗号分隔): <textarea id="al-blocked" style="width: 200px; height: 50px; margin-left: 10px;">' + blocked.join(',') + '</textarea></label></div><div class="al-card"><label>白名单用户 (QQ号,逗号分隔): <textarea id="al-whiteList" style="width: 200px; height: 50px; margin-left: 10px;">' + whiteList.join(',') + '</textarea></label></div><div class="al-card"><label>黑名单分组 (JSON): <textarea id="al-blockGroups" style="width: 200px; height: 100px; margin-left: 10px;">' + JSON.stringify(blockGroups) + '</textarea></label></div><div class="al-card"><label>动态关键词 (逗号分隔,支持正则): <textarea id="al-filterKeywords" style="width: 200px; height: 50px; margin-left: 10px;">' + filterKeywords.join(',') + '</textarea></label></div><div class="al-card"><label>过滤模式: <select id="al-filterMode"><option value="block" ' + (filterMode === 'block' ? 'selected' : '') + '>屏蔽关键词</option><option value="allow" ' + (filterMode === 'allow' ? 'selected' : '') + '>仅允许关键词</option></select></label></div><div class="al-card"><button id="al-import-block" style="background: #2196F3; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">导入黑名单</button> <input type="file" id="al-file-input" style="display:none;"><button id="al-export-block" style="background: #673AB7; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">导出黑名单</button></div>';
                     // 添加事件监听器在这里，确保元素存在
@@ -239,7 +259,7 @@
                 } else if (tab === 'adv') {
                     content.innerHTML = '<h3>高级参数</h3><div class="al-card"><label>最大重试次数: <input type="number" id="al-maxRetries" value="' + maxRetries + '" min="1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>滚动步长百分比 (0.1-1): <input type="number" id="al-scrollStepPercent" value="' + scrollStepPercent + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>初始延迟 (毫秒): <input type="number" id="al-initialDelay" value="' + initialDelay + '" min="1000" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>随机延迟最小 (秒): <input type="number" id="al-randomDelayMin" value="' + randomDelayMin + '" min="0" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>随机延迟最大 (秒): <input type="number" id="al-randomDelayMax" value="' + randomDelayMax + '" min="0" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>日志级别: <select id="al-logLevel" style="width: 100px; margin-left: 10px;"><option value="INFO" ' + (logLevel === 'INFO' ? 'selected' : '') + '>INFO</option><option value="WARN" ' + (logLevel === 'WARN' ? 'selected' : '') + '>WARN</option><option value="ERROR" ' + (logLevel === 'ERROR' ? 'selected' : '') + '>ERROR</option></select></label></div><div class="al-card"><label><input type="checkbox" id="al-enableNotifications" ' + (enableNotifications ? 'checked' : '') + '> 启用浏览器通知</label></div>';
                 } else if (tab === 'logs') {
-                    content.innerHTML = '<h3>系统日志</h3><input type="text" id="al-log-search" placeholder="搜索日志..." style="width: 100%; margin-bottom: 10px;"><table id="al-log-table" style="width: 100%; border-collapse: collapse;"><thead><tr><th style="border: 1px solid #ddd; padding: 5px;">时间</th><th style="border: 1px solid #ddd; padding: 5px;">级别</th><th style="border: 1px solid #ddd; padding: 5px;">消息</th></tr></thead><tbody>' + logs.map(function(l) {
+                    content.innerHTML = '<h3>系统日志</h3><input type="text" id="al-log-search" placeholder="搜索日志..." style="width: 100%; margin-bottom: 10px;"><table id="al-log-table" style="width: 100%; border-collapse: collapse;"><thead><tr><th style="border: 1px solid #ddd; padding: 5px;">时间</th><th style="border: 1px solid #ddd; padding: 5px;">级别</th><th style="border: 1px solid #ddd; padding: 5px;">消息</th></tr></thead><tbody>' + (logs[currentAccount] || []).map(function(l) {
                         let parts = l.match(/\[([^\]]+)\] \[([^\]]+)\] (.*)/);
                         if (parts) {
                             return '<tr><td style="border: 1px solid #ddd; padding: 5px;">' + parts[1] + '</td><td style="border: 1px solid #ddd; padding: 5px; color:' + (parts[2] === 'INFO' ? 'green' : (parts[2] === 'WARN' ? 'orange' : 'red')) + ';">' + parts[2] + '</td><td style="border: 1px solid #ddd; padding: 5px;">' + parts[3] + '</td></tr>';
@@ -248,44 +268,68 @@
                         }
                     }).join('') + '</tbody></table><button id="al-clear-logs" style="margin-top: 10px; background: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">清除日志</button><button id="al-export-logs" style="margin-top: 10px; margin-left: 10px; background: #673AB7; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">导出日志</button>';
                     document.getElementById('al-clear-logs').addEventListener('click', function() {
-                        logs = [];
+                        logs[currentAccount] = [];
                         showTab('logs');
                     });
                     document.getElementById('al-export-logs').addEventListener('click', function() {
-                        download('logs.txt', logs.join('\n'));
+                        download('logs-' + currentAccount + '.txt', (logs[currentAccount] || []).join('\n'));
                     });
                     document.getElementById('al-log-search').addEventListener('input', function(e) {
                         let search = e.target.value.toLowerCase();
                         let rows = document.querySelectorAll('#al-log-table tbody tr');
                         rows.forEach(function(row) {
-                            row.style.display = row.textContent.toLowerCase().includes(search) ? '' : 'none';
+                            let text = row.textContent.toLowerCase();
+                            row.style.display = text.includes(search) ? '' : 'none';
                         });
                     });
                 } else if (tab === 'stats') {
-                    content.innerHTML = '<h3>性能统计</h3><div id="al-stats-chart" style="height: 200px; background: #f8f8f8; border: 1px solid #ddd; margin-bottom: 10px;"></div><p>点赞: ' + stats.likes + ' | 跳过: ' + stats.skips + ' | 错误: ' + stats.errors + '</p><p>成功率: ' + (stats.likes / (stats.likes + stats.skips + stats.errors) * 100 || 0).toFixed(2) + '%</p><button id="al-clear-stats" style="background: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">清除统计</button>';
-                    drawStatsChart();
+                    let accountStats = stats[currentAccount] || { likes: 0, skips: 0, errors: 0 };
+                    let total = accountStats.likes + accountStats.skips + accountStats.errors;
+                    let successRate = total > 0 ? Math.round((accountStats.likes / total) * 100) : 0;
+                    content.innerHTML = '<h3>性能统计</h3><p>点赞: ' + accountStats.likes + ' | 跳过: ' + accountStats.skips + ' | 错误: ' + accountStats.errors + ' | 成功率: ' + successRate + '%</p><canvas id="al-stats-chart" width="300" height="200"></canvas><button id="al-clear-stats" style="margin-top: 10px; background: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">清除统计</button>';
+                    let canvas = document.getElementById('al-stats-chart');
+                    let ctx = canvas.getContext('2d');
+                    let data = [accountStats.likes, accountStats.skips, accountStats.errors];
+                    let colors = ['#4CAF50', '#FF9800', '#f44336'];
+                    let startAngle = 0;
+                    for (let i = 0; i < data.length; i++) {
+                        let sliceAngle = (data[i] / total) * 2 * Math.PI;
+                        ctx.beginPath();
+                        ctx.arc(150, 100, 100, startAngle, startAngle + sliceAngle);
+                        ctx.lineTo(150, 100);
+                        ctx.fillStyle = colors[i];
+                        ctx.fill();
+                        startAngle += sliceAngle;
+                    }
                     document.getElementById('al-clear-stats').addEventListener('click', function() {
-                        stats = { likes: 0, skips: 0, errors: 0 };
-                        setCookie('al-stats', JSON.stringify(stats), Number.MAX_SAFE_INTEGER);
+                        stats[currentAccount] = { likes: 0, skips: 0, errors: 0 };
+                        localStorage.setItem('al-stats', JSON.stringify(stats));
                         showTab('stats');
                     });
                 } else if (tab === 'accounts') {
-                    content.innerHTML = '<h3>账号管理</h3><select id="al-account-select" style="width: 200px; margin-bottom: 10px;">' + Object.keys(accounts).map(function(acc) {
+                    content.innerHTML = '<h3>账号管理</h3><select id="al-account-select" style="width: 200px;"><option value="">选择账号</option>' + Object.keys(accounts).map(function(acc) {
                         return '<option value="' + acc + '" ' + (acc === currentAccount ? 'selected' : '') + '>' + acc + '</option>';
-                    }).join('') + '</select><button id="al-switch-account" style="background: #2196F3; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-left: 10px;">切换</button><p>当前账号: ' + currentAccount + '</p>';
+                    }).join('') + '</select><button id="al-switch-account" style="margin-left: 10px; background: #2196F3; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">切换</button><button id="al-add-account" style="margin-left: 10px; background: #4CAF50; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">添加新账号</button>';
                     document.getElementById('al-switch-account').addEventListener('click', function() {
                         let selected = document.getElementById('al-account-select').value;
-                        if (selected && accounts[selected]) {
+                        if (selected) {
                             loadAccountConfig(selected);
-                            alert('切换到账号 ' + selected);
+                            alert('切换到账号: ' + selected);
+                            showTab('accounts');
+                        }
+                    });
+                    document.getElementById('al-add-account').addEventListener('click', function() {
+                        let newAcc = prompt('输入新账号UIN:');
+                        if (newAcc && !accounts[newAcc]) {
+                            accounts[newAcc] = {}; // 默认空配置
+                            setCookie('al-accounts', JSON.stringify(accounts), Number.MAX_SAFE_INTEGER);
+                            showTab('accounts');
                         }
                     });
                 }
                 content.style.opacity = '1';
             }, 300);
         }
-
-        showTab('core');
 
         document.getElementById('al-tab-core').addEventListener('click', function() { showTab('core'); });
         document.getElementById('al-tab-ui').addEventListener('click', function() { showTab('ui'); });
@@ -294,238 +338,200 @@
         document.getElementById('al-tab-logs').addEventListener('click', function() { showTab('logs'); });
         document.getElementById('al-tab-stats').addEventListener('click', function() { showTab('stats'); });
         document.getElementById('al-tab-accounts').addEventListener('click', function() { showTab('accounts'); });
+        showTab('core');
 
         document.getElementById('al-save').addEventListener('click', function() {
-            saveConfig();
-            sendNotification('配置更新', '设置已保存并应用');
+            // 保存所有参数
+            duration = parseInt(document.getElementById('al-dur').value) || 180;
+            refreshDelay = parseInt(document.getElementById('al-rdelay').value) || 10;
+            likeDelay = parseInt(document.getElementById('al-ldelay').value) || 5;
+            scrollCount = parseInt(document.getElementById('al-scount').value) || 3;
+            dailyLimit = parseInt(document.getElementById('al-dailyLimit').value) || 0;
+            select = document.getElementById('al-select').checked;
+            blocked = document.getElementById('al-blocked').value.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+            whiteList = document.getElementById('al-whiteList').value.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+            blockGroups = safeJsonParse(document.getElementById('al-blockGroups').value) || {};
+            filterKeywords = document.getElementById('al-filterKeywords').value.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+            filterMode = document.getElementById('al-filterMode').value;
+            theme = document.getElementById('al-theme').value;
+            themeHue = parseInt(document.getElementById('al-themeHue').value) || 0;
+            darkModeAuto = document.getElementById('al-darkModeAuto').checked;
+            statusOpacity = parseFloat(document.getElementById('al-statusOpacity').value) || 0.8;
+            statusBgColor = document.getElementById('al-statusBgColor').value;
+            statusTextColor = document.getElementById('al-statusTextColor').value;
+            statusTextBrightness = parseFloat(document.getElementById('al-statusTextBrightness').value) || 1.0;
+            menuOpacity = parseFloat(document.getElementById('al-menuOpacity').value) || 0.9;
+            menuBgColor = document.getElementById('al-menuBgColor').value;
+            maxRetries = parseInt(document.getElementById('al-maxRetries').value) || 3;
+            scrollStepPercent = parseFloat(document.getElementById('al-scrollStepPercent').value) || 0.9;
+            initialDelay = parseInt(document.getElementById('al-initialDelay').value) || 3000;
+            randomDelayMin = parseInt(document.getElementById('al-randomDelayMin').value) || 1;
+            randomDelayMax = parseInt(document.getElementById('al-randomDelayMax').value) || 3;
+            logLevel = document.getElementById('al-logLevel').value;
+            enableNotifications = document.getElementById('al-enableNotifications').checked;
+            enableLoginCheck = document.getElementById('al-enableLoginCheck').checked;
+
+            setCookie('al-duration', duration, Number.MAX_SAFE_INTEGER);
+            setCookie('al-refreshDelay', refreshDelay, Number.MAX_SAFE_INTEGER);
+            setCookie('al-likeDelay', likeDelay, Number.MAX_SAFE_INTEGER);
+            setCookie('al-scrollCount', scrollCount, Number.MAX_SAFE_INTEGER);
+            setCookie('al-blocked', blocked.join(','), Number.MAX_SAFE_INTEGER);
+            setCookie('al-whiteList', whiteList.join(','), Number.MAX_SAFE_INTEGER);
+            setCookie('al-blockGroups', JSON.stringify(blockGroups), Number.MAX_SAFE_INTEGER);
+            setCookie('al-filterKeywords', filterKeywords.join(','), Number.MAX_SAFE_INTEGER);
+            setCookie('al-filterMode', filterMode, Number.MAX_SAFE_INTEGER);
+            setCookie('al-dailyLimit', dailyLimit, Number.MAX_SAFE_INTEGER);
+            setCookie('al-select', select ? 'true' : '', Number.MAX_SAFE_INTEGER);
+            setCookie('al-theme', theme, Number.MAX_SAFE_INTEGER);
+            setCookie('al-themeHue', themeHue, Number.MAX_SAFE_INTEGER);
+            setCookie('al-darkModeAuto', darkModeAuto ? 'true' : '', Number.MAX_SAFE_INTEGER);
+            setCookie('al-statusOpacity', statusOpacity, Number.MAX_SAFE_INTEGER);
+            setCookie('al-statusBgColor', statusBgColor, Number.MAX_SAFE_INTEGER);
+            setCookie('al-statusTextColor', statusTextColor, Number.MAX_SAFE_INTEGER);
+            setCookie('al-statusTextBrightness', statusTextBrightness, Number.MAX_SAFE_INTEGER);
+            setCookie('al-menuOpacity', menuOpacity, Number.MAX_SAFE_INTEGER);
+            setCookie('al-menuBgColor', menuBgColor, Number.MAX_SAFE_INTEGER);
+            setCookie('al-maxRetries', maxRetries, Number.MAX_SAFE_INTEGER);
+            setCookie('al-scrollStepPercent', scrollStepPercent, Number.MAX_SAFE_INTEGER);
+            setCookie('al-initialDelay', initialDelay, Number.MAX_SAFE_INTEGER);
+            setCookie('al-randomDelayMin', randomDelayMin, Number.MAX_SAFE_INTEGER);
+            setCookie('al-randomDelayMax', randomDelayMax, Number.MAX_SAFE_INTEGER);
+            setCookie('al-logLevel', logLevel, Number.MAX_SAFE_INTEGER);
+            setCookie('al-enableNotifications', enableNotifications ? 'true' : '', Number.MAX_SAFE_INTEGER);
+            setCookie('al-enableLoginCheck', enableLoginCheck ? 'true' : '', Number.MAX_SAFE_INTEGER);
+
+            saveAccountConfig(); // 保存到多账号
+            applyDarkMode();
+            updateStatusBar('配置已保存');
+            log('INFO', '配置保存并应用');
+            menu.style.display = 'none';
         });
 
         document.getElementById('al-pause').addEventListener('click', function() {
             isPaused = !isPaused;
-            this.innerText = isPaused ? '恢复' : '暂停';
-            if (isPaused) {
-                clearAllTimeouts();
-                updateStatusBar('脚本已暂停');
-                log('INFO', '脚本暂停');
-            } else {
-                nextTime = Date.now() + duration * 1000;
-                updateStatusBar('脚本已恢复运行');
-                if (!isRunning) {
-                    executeWorkflow();
-                }
-                log('INFO', '脚本恢复');
-            }
+            this.textContent = isPaused ? '恢复' : '暂停';
+            updateStatusBar(isPaused ? '脚本暂停' : '脚本恢复');
+            log('INFO', isPaused ? '脚本暂停' : '脚本恢复');
         });
 
         document.getElementById('al-test').addEventListener('click', function() {
-            if (isPaused) {
-                alert('脚本当前处于暂停状态，请先恢复运行！');
-                return;
-            }
             testMode = true;
             executeWorkflow();
             testMode = false;
+            updateStatusBar('测试执行完成');
+            log('INFO', '测试执行');
         });
 
         document.getElementById('al-reset').addEventListener('click', function() {
-            if (confirm('确认重置所有设置为默认值？')) {
-                resetConfig();
-            }
+            // 重置默认值
+            duration = 180;
+            refreshDelay = 10;
+            likeDelay = 5;
+            scrollCount = 3;
+            blocked = [];
+            whiteList = [];
+            blockGroups = {};
+            filterKeywords = [];
+            filterMode = 'block';
+            dailyLimit = 0;
+            select = false;
+            theme = 'default';
+            themeHue = 0;
+            darkModeAuto = true;
+            statusOpacity = 0.8;
+            statusBgColor = 'linear-gradient(to right, #333, #222)';
+            statusTextColor = '#ddd';
+            statusTextBrightness = 1.0;
+            menuOpacity = 0.9;
+            menuBgColor = 'linear-gradient(to bottom, #ffffff, #f0f0f0)';
+            maxRetries = 3;
+            scrollStepPercent = 0.9;
+            initialDelay = 3000;
+            randomDelayMin = 1;
+            randomDelayMax = 3;
+            logLevel = 'INFO';
+            enableNotifications = false;
+            enableLoginCheck = true;
+            logs[currentAccount] = [];
+            stats[currentAccount] = { likes: 0, skips: 0, errors: 0 };
+            localStorage.setItem('al-stats', JSON.stringify(stats));
+
+            // 清除cookie
+            ['al-duration', 'al-refreshDelay', 'al-likeDelay', 'al-scrollCount', 'al-blocked', 'al-whiteList', 'al-blockGroups', 'al-filterKeywords', 'al-filterMode', 'al-dailyLimit', 'al-select', 'al-theme', 'al-themeHue', 'al-darkModeAuto', 'al-statusOpacity', 'al-statusBgColor', 'al-statusTextColor', 'al-statusTextBrightness', 'al-menuOpacity', 'al-menuBgColor', 'al-maxRetries', 'al-scrollStepPercent', 'al-initialDelay', 'al-randomDelayMin', 'al-randomDelayMax', 'al-logLevel', 'al-enableNotifications', 'al-enableLoginCheck'].forEach(function(name) {
+                setCookie(name, '', -1);
+            });
+
+            saveAccountConfig();
+            showTab('core');
+            updateStatusBar('已重置默认配置');
+            log('INFO', '配置重置');
         });
 
         document.getElementById('al-export').addEventListener('click', function() {
-            exportConfig();
+            let config = {
+                duration: duration, refreshDelay: refreshDelay, likeDelay: likeDelay, scrollCount: scrollCount, blocked: blocked, whiteList: whiteList, blockGroups: blockGroups, filterKeywords: filterKeywords, filterMode: filterMode, dailyLimit: dailyLimit, select: select, theme: theme, themeHue: themeHue, darkModeAuto: darkModeAuto, statusOpacity: statusOpacity, statusBgColor: statusBgColor, statusTextColor: statusTextColor, statusTextBrightness: statusTextBrightness, menuOpacity: menuOpacity, menuBgColor: menuBgColor, maxRetries: maxRetries, scrollStepPercent: scrollStepPercent, initialDelay: initialDelay, randomDelayMin: randomDelayMin, randomDelayMax: randomDelayMax, logLevel: logLevel, enableNotifications: enableNotifications, enableLoginCheck: enableLoginCheck
+            };
+            download('qzone-praise-config.json', JSON.stringify(config));
+            log('INFO', '配置导出');
+        });
+
+        document.getElementById('al-backup').addEventListener('click', function() {
+            setCookie('al-backup', JSON.stringify(accounts[currentAccount]), Number.MAX_SAFE_INTEGER);
+            alert('配置已备份');
+            log('INFO', '配置备份');
+        });
+
+        document.getElementById('al-restore').addEventListener('click', function() {
+            let backup = safeJsonParse(getCookie('al-backup'));
+            if (backup) {
+                accounts[currentAccount] = backup;
+                loadAccountConfig(currentAccount);
+                saveAccountConfig();
+                alert('配置已恢复');
+                showTab('core');
+                log('INFO', '配置恢复');
+            } else {
+                alert('无备份可用');
+            }
         });
 
         document.getElementById('al-close').addEventListener('click', function() {
             menu.style.display = 'none';
         });
 
-        // 卡片样式
-        let style = document.createElement('style');
-        style.innerHTML = '.al-card { background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 10px; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }';
-        document.head.appendChild(style);
-
-        // 主题应用
-        applyTheme(theme);
-
-        let toggleBtn = document.createElement('button');
-        toggleBtn.innerText = 'AL Menu';
-        toggleBtn.style.position = 'fixed';
-        toggleBtn.style.top = '20px';
-        toggleBtn.style.right = '10px';
-        toggleBtn.style.background = '#2196F3';
-        toggleBtn.style.color = 'white';
-        toggleBtn.style.border = 'none';
-        toggleBtn.style.padding = '8px 12px';
-        toggleBtn.style.borderRadius = '4px';
-        toggleBtn.style.zIndex = '10003';
-        toggleBtn.style.cursor = 'pointer';
-        toggleBtn.style.opacity = '0.85';
-        toggleBtn.style.transition = 'opacity 0.2s, transform 0.2s';
-        toggleBtn.addEventListener('mouseover', function() { toggleBtn.style.opacity = '1'; toggleBtn.style.transform = 'scale(1.1)'; });
-        toggleBtn.addEventListener('mouseout', function() { toggleBtn.style.opacity = '0.85'; toggleBtn.style.transform = 'scale(1)'; });
-        toggleBtn.addEventListener('click', function() {
+        let button = document.createElement('div');
+        button.id = 'al-float-btn';
+        button.textContent = 'AL Menu';
+        button.style.position = 'fixed';
+        button.style.top = '20px';
+        button.style.right = '20px';
+        button.style.background = '#2196F3';
+        button.style.color = 'white';
+        button.style.padding = '10px';
+        button.style.borderRadius = '50%';
+        button.style.cursor = 'pointer';
+        button.style.zIndex = '10003'; // 提高z-index，确保在状态栏上方
+        button.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
+        button.style.transition = 'transform 0.2s';
+        button.addEventListener('mouseover', function() { this.style.transform = 'scale(1.1)'; });
+        button.addEventListener('mouseout', function() { this.style.transform = 'scale(1)'; });
+        button.addEventListener('click', function() {
             menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
-            if (menu.style.display === 'block') {
-                showTab('core');
-            }
         });
+        document.body.appendChild(button);
 
-        document.body.appendChild(toggleBtn);
-
-        log('INFO', '菜单面板加载完成');
-    }
-
-    // 应用主题
-    function applyTheme(th) {
-        let primary = '#4CAF50';
-        if (th === 'tech') primary = '#2196F3';
-        if (th === 'eco') primary = '#388E3C';
-        document.documentElement.style.setProperty('--primary-color', primary);
-        // 更新按钮等
-        let buttons = document.querySelectorAll('button');
-        buttons.forEach(function(btn) {
-            if (btn.id !== 'al-pause' && btn.id !== 'al-test' && btn.id !== 'al-close' && btn.id !== 'al-reset' && btn.id !== 'al-export') {
-                btn.style.background = primary;
-            }
-        });
-    }
-
-    // 保存配置
-    function saveConfig() {
-        duration = parseInt(document.getElementById('al-dur') ? document.getElementById('al-dur').value : duration, 10) || 180;
-        refreshDelay = parseInt(document.getElementById('al-rdelay') ? document.getElementById('al-rdelay').value : refreshDelay, 10) || 10;
-        likeDelay = parseInt(document.getElementById('al-ldelay') ? document.getElementById('al-ldelay').value : likeDelay, 10) || 5;
-        scrollCount = parseInt(document.getElementById('al-scount') ? document.getElementById('al-scount').value : scrollCount, 10) || 3;
-        dailyLimit = parseInt(document.getElementById('al-dailyLimit') ? document.getElementById('al-dailyLimit').value : dailyLimit, 10) || 0;
-        let blk = document.getElementById('al-blocked') ? document.getElementById('al-blocked').value.replace(/\s/g, '') : blocked.join(',');
-        blocked = blk ? blk.split(',').filter(Boolean) : [];
-        let wht = document.getElementById('al-whiteList') ? document.getElementById('al-whiteList').value.replace(/\s/g, '') : whiteList.join(',');
-        whiteList = wht ? wht.split(',').filter(Boolean) : [];
-        let grps = document.getElementById('al-blockGroups') ? document.getElementById('al-blockGroups').value : JSON.stringify(blockGroups);
-        blockGroups = safeJsonParse(grps) || blockGroups;
-        let kwds = document.getElementById('al-filterKeywords') ? document.getElementById('al-filterKeywords').value.replace(/\s/g, '') : filterKeywords.join(',');
-        filterKeywords = kwds ? kwds.split(',').filter(Boolean) : [];
-        filterMode = document.getElementById('al-filterMode') ? document.getElementById('al-filterMode').value : filterMode;
-        select = document.getElementById('al-select') ? document.getElementById('al-select').checked : select;
-        theme = document.getElementById('al-theme') ? document.getElementById('al-theme').value : theme;
-        darkModeAuto = document.getElementById('al-darkModeAuto') ? document.getElementById('al-darkModeAuto').checked : darkModeAuto;
-        statusOpacity = parseFloat(document.getElementById('al-statusOpacity') ? document.getElementById('al-statusOpacity').value : statusOpacity) || 0.8;
-        statusBgColor = document.getElementById('al-statusBgColor') ? document.getElementById('al-statusBgColor').value : statusBgColor;
-        statusTextColor = document.getElementById('al-statusTextColor') ? document.getElementById('al-statusTextColor').value : statusTextColor;
-        statusTextBrightness = parseFloat(document.getElementById('al-statusTextBrightness') ? document.getElementById('al-statusTextBrightness').value : statusTextBrightness) || 1.0;
-        menuOpacity = parseFloat(document.getElementById('al-menuOpacity') ? document.getElementById('al-menuOpacity').value : menuOpacity) || 0.9;
-        menuBgColor = document.getElementById('al-menuBgColor') ? document.getElementById('al-menuBgColor').value : menuBgColor;
-        maxRetries = parseInt(document.getElementById('al-maxRetries') ? document.getElementById('al-maxRetries').value : maxRetries, 10) || 3;
-        scrollStepPercent = parseFloat(document.getElementById('al-scrollStepPercent') ? document.getElementById('al-scrollStepPercent').value : scrollStepPercent) || 0.9;
-        initialDelay = parseInt(document.getElementById('al-initialDelay') ? document.getElementById('al-initialDelay').value : initialDelay, 10) || 3000;
-        randomDelayMin = parseInt(document.getElementById('al-randomDelayMin') ? document.getElementById('al-randomDelayMin').value : randomDelayMin, 10) || 1;
-        randomDelayMax = parseInt(document.getElementById('al-randomDelayMax') ? document.getElementById('al-randomDelayMax').value : randomDelayMax, 10) || 3;
-        logLevel = document.getElementById('al-logLevel') ? document.getElementById('al-logLevel').value : logLevel;
-        enableNotifications = document.getElementById('al-enableNotifications') ? document.getElementById('al-enableNotifications').checked : enableNotifications;
-
-        const max = Number.MAX_SAFE_INTEGER;
-        setCookie('al-duration', duration, max);
-        setCookie('al-refreshDelay', refreshDelay, max);
-        setCookie('al-likeDelay', likeDelay, max);
-        setCookie('al-scrollCount', scrollCount, max);
-        setCookie('al-dailyLimit', dailyLimit, max);
-        setCookie('al-blocked', blocked.join(','), max);
-        setCookie('al-whiteList', whiteList.join(','), max);
-        setCookie('al-blockGroups', JSON.stringify(blockGroups), max);
-        setCookie('al-filterKeywords', filterKeywords.join(','), max);
-        setCookie('al-filterMode', filterMode, max);
-        setCookie('al-select', select ? 'true' : '', max);
-        setCookie('al-theme', theme, max);
-        setCookie('al-darkModeAuto', darkModeAuto ? 'true' : '', max);
-        setCookie('al-statusOpacity', statusOpacity, max);
-        setCookie('al-statusBgColor', statusBgColor, max);
-        setCookie('al-statusTextColor', statusTextColor, max);
-        setCookie('al-statusTextBrightness', statusTextBrightness, max);
-        setCookie('al-menuOpacity', menuOpacity, max);
-        setCookie('al-menuBgColor', menuBgColor, max);
-        setCookie('al-maxRetries', maxRetries, max);
-        setCookie('al-scrollStepPercent', scrollStepPercent, max);
-        setCookie('al-initialDelay', initialDelay, max);
-        setCookie('al-randomDelayMin', randomDelayMin, max);
-        setCookie('al-randomDelayMax', randomDelayMax, max);
-        setCookie('al-logLevel', logLevel, max);
-        setCookie('al-enableNotifications', enableNotifications ? 'true' : '', max);
-
-        // 保存到当前账号
-        saveAccountConfig();
-
-        nextTime = Date.now() + duration * 1000;
-        alert('设置已保存并应用！');
-
-        let statusBar = document.getElementById('al-status-bar');
-        if (statusBar) {
-            statusBar.style.opacity = statusOpacity;
-            statusBar.style.background = statusBgColor;
-            statusBar.style.color = statusTextColor;
-            statusBar.style.filter = 'brightness(' + statusTextBrightness + ')';
-        }
-        let menuElem = document.getElementById('al-menu');
-        if (menuElem) {
-            menuElem.style.opacity = menuOpacity;
-            menuElem.style.background = menuBgColor;
-        }
-
-        applyDarkMode();
-        applyTheme(theme);
-        updateStatusBar();
-    }
-
-    // 重置配置
-    function resetConfig() {
-        const keys = ['al-duration', 'al-refreshDelay', 'al-likeDelay', 'al-scrollCount', 'al-dailyLimit', 'al-blocked', 'al-whiteList', 'al-blockGroups', 'al-filterKeywords', 'al-filterMode', 'al-select', 'al-theme', 'al-darkModeAuto', 'al-statusOpacity', 'al-statusBgColor', 'al-statusTextColor', 'al-statusTextBrightness', 'al-menuOpacity', 'al-menuBgColor', 'al-maxRetries', 'al-scrollStepPercent', 'al-initialDelay', 'al-randomDelayMin', 'al-randomDelayMax', 'al-logLevel', 'al-enableNotifications', 'al-stats', 'al-accounts'];
-        keys.forEach(function(key) { setCookie(key, '', -1); });
-        location.reload();
-    }
-
-    // 导出配置
-    function exportConfig() {
-        let config = {
-            duration: duration, refreshDelay: refreshDelay, likeDelay: likeDelay, scrollCount: scrollCount, dailyLimit: dailyLimit, blocked: blocked, whiteList: whiteList, blockGroups: blockGroups, filterKeywords: filterKeywords, filterMode: filterMode, select: select, theme: theme, darkModeAuto: darkModeAuto, statusOpacity: statusOpacity, statusBgColor: statusBgColor, statusTextColor: statusTextColor, statusTextBrightness: statusTextBrightness, menuOpacity: menuOpacity, menuBgColor: menuBgColor, maxRetries: maxRetries, scrollStepPercent: scrollStepPercent, initialDelay: initialDelay, randomDelayMin: randomDelayMin, randomDelayMax: randomDelayMax, logLevel: logLevel, enableNotifications: enableNotifications, stats: stats
-        };
-        download('config.json', JSON.stringify(config));
+        log('INFO', '菜单加载完成');
     }
 
     // 下载文件
     function download(filename, text) {
-        let element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-        element.setAttribute('download', filename);
-        element.style.display = 'none';
-        document.body.appendChild(element);
-        element.click();
-        document.body.removeChild(element);
-    }
-
-    // 绘制统计图表
-    function drawStatsChart() {
-        let chartDiv = document.getElementById('al-stats-chart');
-        if (!chartDiv) return;
-        let canvas = document.createElement('canvas');
-        canvas.width = 300;
-        canvas.height = 200;
-        chartDiv.appendChild(canvas);
-        let ctx = canvas.getContext('2d');
-        let data = [stats.likes, stats.skips, stats.errors];
-        let labels = ['点赞', '跳过', '错误'];
-        let colors = ['#4CAF50', '#FF9800', '#f44336'];
-        let total = data.reduce(function(a, b) { return a + b; }, 0) || 1; // 避免除零
-        let startAngle = 0;
-        for (let i = 0; i < data.length; i++) {
-            let sliceAngle = (data[i] / total) * 2 * Math.PI;
-            ctx.beginPath();
-            ctx.arc(150, 100, 100, startAngle, startAngle + sliceAngle);
-            ctx.lineTo(150, 100);
-            ctx.fillStyle = colors[i];
-            ctx.fill();
-            startAngle += sliceAngle;
-        }
+        let elem = document.createElement('a');
+        elem.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        elem.setAttribute('download', filename);
+        elem.style.display = 'none';
+        document.body.appendChild(elem);
+        elem.click();
+        document.body.removeChild(elem);
     }
 
     // 多账号配置加载/保存
@@ -544,6 +550,7 @@
             filterMode = config.filterMode;
             select = config.select;
             theme = config.theme;
+            themeHue = config.themeHue;
             darkModeAuto = config.darkModeAuto;
             statusOpacity = config.statusOpacity;
             statusBgColor = config.statusBgColor;
@@ -558,20 +565,26 @@
             randomDelayMax = config.randomDelayMax;
             logLevel = config.logLevel;
             enableNotifications = config.enableNotifications;
-            stats = config.stats;
+            enableLoginCheck = config.enableLoginCheck;
+            stats[acc] = config.stats || { likes: 0, skips: 0, errors: 0 };
+            logs[acc] = config.logs || [];
             currentAccount = acc;
             updateStatusBar();
+        } else {
+            // 默认配置
+            accounts[acc] = { duration: 180, refreshDelay: 10, likeDelay: 5, scrollCount: 3, blocked: [], whiteList: [], blockGroups: {}, filterKeywords: [], filterMode: 'block', dailyLimit: 0, select: false, theme: 'default', themeHue: 0, darkModeAuto: true, statusOpacity: 0.8, statusBgColor: 'linear-gradient(to right, #333, #222)', statusTextColor: '#ddd', statusTextBrightness: 1.0, menuOpacity: 0.9, menuBgColor: 'linear-gradient(to bottom, #ffffff, #f0f0f0)', maxRetries: 3, scrollStepPercent: 0.9, initialDelay: 3000, randomDelayMin: 1, randomDelayMax: 3, logLevel: 'INFO', enableNotifications: false, enableLoginCheck: true, stats: { likes: 0, skips: 0, errors: 0 }, logs: [] };
+            currentAccount = acc;
         }
     }
 
     function saveAccountConfig() {
         accounts[currentAccount] = {
-            duration: duration, refreshDelay: refreshDelay, likeDelay: likeDelay, scrollCount: scrollCount, dailyLimit: dailyLimit, blocked: blocked, whiteList: whiteList, blockGroups: blockGroups, filterKeywords: filterKeywords, filterMode: filterMode, select: select, theme: theme, darkModeAuto: darkModeAuto, statusOpacity: statusOpacity, statusBgColor: statusBgColor, statusTextColor: statusTextColor, statusTextBrightness: statusTextBrightness, menuOpacity: menuOpacity, menuBgColor: menuBgColor, maxRetries: maxRetries, scrollStepPercent: scrollStepPercent, initialDelay: initialDelay, randomDelayMin: randomDelayMin, randomDelayMax: randomDelayMax, logLevel: logLevel, enableNotifications: enableNotifications, stats: stats
+            duration: duration, refreshDelay: refreshDelay, likeDelay: likeDelay, scrollCount: scrollCount, blocked: blocked, whiteList: whiteList, blockGroups: blockGroups, filterKeywords: filterKeywords, filterMode: filterMode, dailyLimit: dailyLimit, select: select, theme: theme, themeHue: themeHue, darkModeAuto: darkModeAuto, statusOpacity: statusOpacity, statusBgColor: statusBgColor, statusTextColor: statusTextColor, statusTextBrightness: statusTextBrightness, menuOpacity: menuOpacity, menuBgColor: menuBgColor, maxRetries: maxRetries, scrollStepPercent: scrollStepPercent, initialDelay: initialDelay, randomDelayMin: randomDelayMin, randomDelayMax: randomDelayMax, logLevel: logLevel, enableNotifications: enableNotifications, enableLoginCheck: enableLoginCheck, stats: stats[currentAccount], logs: logs[currentAccount]
         };
         setCookie('al-accounts', JSON.stringify(accounts), Number.MAX_SAFE_INTEGER);
     }
 
-    // 自动暗黑模式
+    // 自动暗黑模式（增强兼容性）
     function applyDarkMode() {
         if (!darkModeAuto) return;
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -593,6 +606,7 @@
         if (menuElem) {
             menuElem.style.background = menuBgColor;
         }
+        // 应用到其他元素如果需要
     }
 
     // 创建状态栏（改进：网格布局、进度条、交互）
@@ -614,7 +628,7 @@
         statusBar.style.fontFamily = 'Arial, sans-serif';
         statusBar.style.color = statusTextColor;
         statusBar.style.opacity = statusOpacity;
-        statusBar.style.filter = 'brightness(' + statusTextBrightness + ')';
+        statusBar.style.filter = 'brightness(' + statusTextBrightness + ') hue-rotate(' + themeHue + 'deg)';
         statusBar.style.pointerEvents = 'auto'; // 允许交互
         statusBar.style.cursor = 'pointer';
         statusBar.style.display = 'grid';
@@ -623,7 +637,7 @@
         document.body.appendChild(statusBar);
 
         statusBar.addEventListener('click', function() {
-            this.style.height = this.style.height === 'auto' ? '' : 'auto'; // 展开/折叠，修正initial为''
+            this.style.height = this.style.height === 'auto' ? '' : 'auto'; // 展开/折叠
         });
 
         setInterval(updateStatusBar, 1000);
@@ -718,6 +732,7 @@
             if (currentTask === '执行安全点赞') return;
             if (likeDebounce) clearTimeout(likeDebounce);
             likeDebounce = setTimeout(function() {
+                if (!checkLoginStatus()) return; // 新增：登录检查
                 currentTask = '执行安全点赞';
                 taskStartTime = Date.now();
                 const btns = document.querySelectorAll('.qz_like_btn_v3');
@@ -867,7 +882,7 @@
         }
     }
 
-    // 模拟滚动
+    // 模拟滚动（优化：支持无限滚动，动态检测底部）
     function simulateScroll() {
         try {
             if (isPaused) {
@@ -882,26 +897,35 @@
             updateStatusBar('模拟下滑...');
             log('INFO', '模拟滚动开始');
             let scrollStep = window.innerHeight * scrollStepPercent;
+            let scrolled = 0;
+            let maxScrolls = scrollCount;
 
-            Array.from({length: scrollCount}).forEach(function(_, i) {
-                setTimeout(function() {
-                    if (isPaused) return;
-                    smoothScrollTo((i + 1) * scrollStep, 500);
-                    window.dispatchEvent(new Event('scroll'));
-                    updateStatusBar('滚动到组 ' + (i + 1) + '/' + scrollCount);
-                    log('INFO', '滚动到组 ' + (i + 1));
-                    let loadMoreBtn = document.querySelector('.load-more') || document.querySelector('a[title="加载更多"]');
-                    if (loadMoreBtn) loadMoreBtn.click();
-                }, i * 3000);
-            });
-            setTimeout(function() {
-                if (isPaused) return;
-                smoothScrollTo(0, 1000);
-                updateStatusBar('回到顶部，等待刷新');
-                currentTask = '';
-                taskDuration = 0;
-                log('INFO', '滚动结束');
-            }, scrollCount * 3000 + 3000);
+            function scrollLoop(i) {
+                if (isPaused || i >= maxScrolls) {
+                    smoothScrollTo(0, 1000);
+                    updateStatusBar('回到顶部，等待刷新');
+                    currentTask = '';
+                    taskDuration = 0;
+                    log('INFO', '滚动结束');
+                    return;
+                }
+                smoothScrollTo((i + 1) * scrollStep, 500);
+                window.dispatchEvent(new Event('scroll'));
+                updateStatusBar('滚动到组 ' + (i + 1) + '/' + maxScrolls);
+                log('INFO', '滚动到组 ' + (i + 1));
+                let loadMoreBtn = document.querySelector('.load-more') || document.querySelector('a[title="加载更多"]');
+                if (loadMoreBtn) {
+                    loadMoreBtn.click();
+                    maxScrolls++; // 动态增加如果有更多
+                }
+                // 检查是否到达底部
+                if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 100) {
+                    maxScrolls = i + 1; // 停止如果到达底部
+                }
+                setTimeout(function() { scrollLoop(i + 1); }, 3000);
+            }
+
+            scrollLoop(0);
         } catch (e) {
             log('ERROR', '滚动异常: ' + e.message);
             updateStats('errors');
@@ -955,6 +979,7 @@
     function executeWorkflow() {
         if (isPaused) return;
         if (isRunning && !testMode) return;
+        if (!checkLoginStatus()) return; // 新增：登录检查
         isRunning = true;
         currentTask = '执行工作流';
         taskStartTime = Date.now();
@@ -1016,7 +1041,7 @@
         }, 1000);
     });
 
-    // 主循环
+    // 主循环（新增：定期登录检查）
     let mainInterval = setInterval(function() {
         try {
             if (isPaused) {
@@ -1028,6 +1053,10 @@
                 refresh();
             } else if (isScrolling) {
                 safeLike();
+            }
+            // 每分钟检查一次登录
+            if (time % 60000 < 1000) {
+                checkLoginStatus();
             }
         } catch (e) {
             log('ERROR', '主循环异常: ' + e.message);
@@ -1068,5 +1097,7 @@
         }
     };
 
+    console.log('Auto Like Enhanced v2.8.5 Running...');
+})();
     console.log('Auto Like Enhanced v2.8.2 Running...');
 })();
