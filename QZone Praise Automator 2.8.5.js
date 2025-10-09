@@ -1099,5 +1099,3 @@
 
     console.log('Auto Like Enhanced v2.8.5 Running...');
 })();
-    console.log('Auto Like Enhanced v2.8.2 Running...');
-})();
