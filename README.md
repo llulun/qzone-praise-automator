@@ -4,7 +4,7 @@ QZone Praise Automator 是一个网页版 QQ 空间自动点赞工具，支持�
 =======
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-2.8.9-blue.svg)](https://github.com/llulun/qzone-praise-automator/releases/tag/v2.8.9)
+[![Version](https://img.shields.io/badge/Version-2.9.0-blue.svg)](https://github.com/llulun/qzone-praise-automator/releases/tag/v2.9.0)
 [![Stars](https://img.shields.io/github/stars/llulun/qzone-praise-automator)](https://github.com/llulun/qzone-praise-automator/stargazers)
 [![Forks](https://img.shields.io/github/forks/llulun/qzone-praise-automator)](https://github.com/llulun/qzone-praise-automator/network/members)
 ![Control Panel](docs/control-panel.png)
@@ -57,6 +57,12 @@ QZone Praise Automator 是一个网页版 QQ 空间自动点赞工具，支持�
 * 日志级别：INFO（显示所有日志）
 
 ## Changelog
+
+### v2.9.0 (2025-10-17)
+
+* 修复控制面板参数无法修改保存的问题
+* 优化参数保存逻辑，添加错误处理和成功提示
+* 确保设置实时应用到界面，提升用户体验
 
 ### v2.8.9 (2025-10-16)
 
