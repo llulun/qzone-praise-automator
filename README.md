@@ -128,7 +128,15 @@ QZone Praise Automator 是一个网页版 QQ 空间自动点赞工具，支持�
 
 ## Contributing
 
-欢迎贡献！Fork 本仓库，提交 Pull Request。确保代码符合 ESLint 规则，并测试在 Chrome/Firefox 上运行。
+欢迎贡献！请先阅读完整的[贡献指南](CONTRIBUTING.md)，按照分步流程进行：
+- 通过 Issues 提出需求或 Bug，给出验收标准；
+- 创建功能分支并使用约定式提交；
+- 在 PR 中附验证步骤与截图（UI 改动必附）；
+- 等待作者评审与合并。
+
+策划与作者协作细则、开发约定与本地验证流程详见贡献指南。
+
+Fork 本仓库，提交 Pull Request。确保代码符合 ESLint 规则，并测试在 Chrome/Firefox 上运行。
 
 - **Issues**：报告 bug 或建议新功能。
 - **PRs**：添加新功能、修复 bug 或改进文档。

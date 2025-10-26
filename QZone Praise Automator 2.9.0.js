@@ -3,7 +3,7 @@
 // @namespace    https://github.com/llulun/qzone-autopraise-pro
 // @license      MIT
 // @version      2.9.0
-// @description  缃戦〉鐗圦Q绌洪棿鑷姩鐐硅禐宸ュ叿锛堝寮虹増锛氱畝鍖栧伐浣滄祦锛岄€氳繃妫€娴嬬偣璧炲厓绱犲垽鏂槸鍚﹀湪濂藉弸鍔ㄦ€侀〉闈紝鏈夊垯鐩存帴鎵ц鐐硅禐锛屾棤鍒欏垏鎹㈠埌濂藉弸鍔ㄦ€佸悗鍒锋柊椤甸潰閲嶈蛋娴佺▼锛岀Щ闄よ彍鍗曞厓绱狅紝娣诲姞寤惰繜澶勭悊銆佸畨鍏ㄧ偣璧炪€佽彍鍗曡皟鏁淬€佺姸鎬佹爮缇庡寲銆佹粴鍔ㄦā鎷熺瓑鍔熻兘銆傛洿鏂帮細鐘舵€佹爮鏇磋缁嗘樉绀轰换鍔¤繘搴︺€佸墿浣欐椂闂寸瓑锛岀編鍖栭€忔槑搴︿笌闃村奖锛涙帶鍒堕潰鏉垮澶с€佸眳涓€侀€忔槑鍖栵紱淇鐘舵€佹爮鏂囧瓧妯＄硦涓庨噸鍙犻棶棰橈紝閫氳繃鍒嗚鏄剧ず銆佽皟鏁村瓧浣撲笌琛岄珮纭繚娓呮櫚锛涚姸鎬佹爮鑳屾櫙鏀逛负榛戣壊娓愬彉锛屾坊鍔犻€忔槑闃村奖涓庡簳閮ㄥ渾瑙掞紱鎵╁睍鎺у埗闈㈡澘涓哄乏渚ц彍鍗曟爮寮忕粨鏋勶紝娣诲姞鏇村鍙傛暟璋冩暣濡傜姸鎬佹爮/鎺у埗闈㈡澘閫忔槑搴︺€侀鑹层€佸睆钄界敤鎴枫€佽繃婊ら€夐」銆侀噸璇曟鏁般€佹粴鍔ㄦ闀裤€佸垵濮嬪欢杩熺瓑锛屾墍鏈夊彲璋冨弬鏁板潎闆嗘垚鍒伴潰鏉夸腑锛屾敮鎸佸姩鎬佸簲鐢ㄥ彉鍖栵紱绉婚櫎鍙屽嚮椤甸潰璋冪敤setConfig浜嬩欢锛屾墍鏈夎缃粺涓€閫氳繃鎺у埗闈㈡澘锛涙帶鍒堕潰鏉块粯璁ら殣钘忥紝閫氳繃鐐瑰嚮娴姩鎸夐挳鎵撳紑锛涗慨澶嶇姸鎬佹爮鏂囧瓧闅忚儗鏅€忔槑闂锛屾坊鍔犳枃瀛楅鑹蹭笌浜害璁剧疆锛涙柊澧烇細鏆傚仠/鎭㈠鍔熻兘锛屽厑璁哥敤鎴锋殏鍋滄垨鎭㈠鑷姩鐐硅禐娴佺▼锛岀姸鎬佹爮鏄剧ず鏆傚仠鐘舵€侊紱淇锛氱姸鎬佹爮绗簩琛屽弬鏁颁笌绛夊緟鏃堕棿鏄剧ず閿欒锛岀‘淇濆疄鏃跺悓姝ユ渶鏂板弬鏁板拰姝ｇ‘鏃堕棿锛涗紭鍖栵細淇鐘舵€佹爮澶氫綑鍒嗛殧绗﹂€昏緫锛岄伩鍏嶆樉绀哄紓甯革紱鍏煎锛氬皢妯℃澘瀛楃涓叉敼涓哄瓧绗︿覆杩炴帴锛屾彁楂樻棫娴忚鍣ㄥ吋瀹规€э紝閬垮厤娼滃湪璇硶鎶ラ敊銆傝础鐚洿鏂帮紙v2.4锛夛細缇庡寲鎺у埗闈㈡澘鍜岀姸鎬佹爮鐨刄I锛堟坊鍔犺繃娓″姩鐢汇€佸渾瑙掓寜閽€佸搷搴斿紡甯冨眬锛夛紱淇娼滃湪bug濡傛粴鍔ㄤ簨浠堕噸澶嶈Е鍙戠偣璧炪€佹殏鍋滄椂瀹氭椂鍣ㄦ湭瀹屽叏娓呯悊銆乧ookie鍊艰В鏋愯竟缂樻渚嬶紱浼樺寲鎬ц兘锛堝噺灏戜笉蹇呰鐨剆etInterval璋冪敤銆佹壒閲廌OM鎿嶄綔锛夛紱娣诲姞鏆楅粦妯″紡鑷姩閫傞厤閫夐」銆傝础鐚洿鏂帮紙v2.5锛夛細淇bug锛氬湪鐐硅禐鎴栨粴鍔ㄤ换鍔℃墽琛岃繃绋嬩腑锛屽鏋滀换鍔℃椂闂磋秴杩囧埛鏂伴棿闅旓紝瀵艰嚧鍊掕鏃堕噸缃殑闂锛堥€氳繃鍦ㄤ换鍔″紑濮嬫椂鎺ㄨ繜nextTime鏉ラ伩鍏嶄腑鏂級锛涚編鍖栫姸鎬佹爮锛氭坊鍔犺繘搴︽潯琛ㄧず褰撳墠浠诲姟杩涘害銆佷娇鐢╡moji鍥炬爣澧炲己瑙嗚鍙嶉銆佷紭鍖栧瓧浣撳拰闂磋窛浠ユ彁楂樺彲璇绘€с€傝础鐚洿鏂帮紙v2.6锛夛細淇鐘舵€佹爮閫昏緫闂锛氶槻姝afeLike閲嶅璋冪敤瀵艰嚧nextTime澶氭鎺ㄨ繜鍜屽€掕鏃惰烦鍔紱浼樺寲鐐硅禐閫昏緫锛屼粎璋冨害瀹為檯闇€瑕佺偣璧炵殑鍔ㄦ€侊紝閬垮厤涓嶅繀瑕佸欢杩熷拰鍗″湪鈥滆烦杩団€濇楠わ紱濡傛灉鎵€鏈夊姩鎬佽璺宠繃锛岀珛鍗冲畬鎴愪换鍔″苟鏇存柊鐘舵€佹爮涓虹瓑寰呭埛鏂帮紝鑰屼笉鏄瓑寰呮棤璋撴椂闂存垨鏄剧ず璺宠繃娑堟伅銆傝础鐚洿鏂帮紙v2.8锛夛細UI缇庡寲鍗囩骇锛堜富棰樼郴缁熴€佸搷搴斿紡璁捐銆佸井浜や簰锛夛紱鏂板鍔ㄦ€佸叧閿瘝杩囨护锛堝睆钄?鍏佽妯″紡锛屾敮鎸佹鍒欙級锛涢粦鍚嶅崟鎵╁睍锛堝垎缁勩€佺櫧鍚嶅崟銆佸鍏?瀵煎嚭锛夛紱姣忔棩鐐硅禐涓婇檺锛涙祻瑙堝櫒閫氱煡锛涙€ц兘鐩戞帶锛堢偣璧炴垚鍔熺巼缁熻锛夛紱澶氳处鍙锋敮鎸侊紙閰嶇疆鍒囨崲锛夈€傝础鐚洿鏂帮紙v2.8.1锛夛細淇鍔ㄦ€佸厓绱犱簨浠剁洃鍚櫒娣诲姞闂锛岀‘淇濆湪tab鍐呭鍔犺浇鍚庣粦瀹氫簨浠讹紝閬垮厤null閿欒锛涗紭鍖朖SON瑙ｆ瀽閿欒澶勭悊锛涚‘淇濇墍鏈夊瓧绗︿覆杩炴帴姝ｇ‘锛岄伩鍏嶈娉曢棶棰樸€傝础鐚洿鏂帮紙v2.8.2锛夛細淇鍏抽敭璇嶅睆钄戒笉鐢熸晥闂锛屽皢鍐呭鎻愬彇鏀逛负innerText浠ラ伩鍏岺TML鏍囩骞叉壈鍖归厤锛涘姞寮哄凡璧炲姩鎬佹娴嬶紝娣诲姞鐐硅禐鍚庡欢杩熸鏌lass鏇存柊锛岄槻姝㈡墜鍔ㄦ粴鍔ㄨЕ鍙戦噸澶嶇偣璧炲鑷村彇娑堬紱浼樺寲鏃ュ織璁板綍鍏抽敭璇嶅尮閰嶇粏鑺傘€傝础鐚洿鏂帮紙v2.8.3锛夛細鏂板鑷姩鐧诲綍妫€娴嬩笌鎻愰啋锛堝鏋滄娴嬪埌鐧诲綍杩囨湡锛屾殏鍋滆剼鏈苟閫氱煡鐢ㄦ埛锛夛紱浼樺寲婊氬姩妯℃嫙浠ユ敮鎸佹棤闄愭粴鍔ㄩ〉闈紙鍔ㄦ€佹娴嬪簳閮ㄥ姞杞藉厓绱狅級锛涙坊鍔犻厤缃浠?鎭㈠鍔熻兘鍒版帶鍒堕潰鏉匡紱淇澶氳处鍙峰垏鎹㈡椂鏃ュ織鍜岀粺璁′笉闅旂鐨勯棶棰橈紱澧炲己鏆楅粦妯″紡鍏煎鎬э紝鏀寔鑷畾涔変富棰樿壊璋冭皟鏁淬€傝础鐚洿鏂帮紙v2.8.4锛夛細淇鎺у埗闈㈡澘娴姩鎸夐挳琚姸鎬佹爮閬尅鐨勯棶棰橈紝鎻愰珮娴姩鎸夐挳z-index鑷?0003锛岀‘淇濆叾鏄剧ず鍦ㄧ姸鎬佹爮涓婃柟銆傝础鐚洿鏂帮紙v2.8.5锛夛細澧炲己瀛樺偍鍔熻兘锛屼娇鐢╨ocalStorage瀛樺偍鎬ц兘缁熻鏁版嵁锛岀‘淇濈綉椤靛埛鏂板悗涓嶄細娓呯┖銆傦級璐＄尞鏇存柊锛坴2.8.6锛夛細澧炲己鐧诲綍妫€娴嬶細娣诲姞鑷姩閲嶇櫥褰曢€夐」锛屽鏋滄娴嬪埌杩囨湡锛屽彲閫夐噸瀹氬悜鍒扮櫥褰曢〉锛岄伩鍏嶆墜鍔ㄥ共棰勶紱娣诲姞鍐峰嵈鏈哄埗闃插惊鐜€傝础鐚洿鏂帮紙v2.8.7锛夛細娣诲姞MutationObserver浠ョ洃鎺у姩鎬佸唴瀹瑰姞杞斤紝鎻愰珮鑴氭湰瀵筈Q绌洪棿鏃犻檺婊氬姩鐨勫搷搴旀€у拰绋冲畾鎬э紱浼樺寲safeLike浠ラ伩鍏嶉噸澶嶈Е鍙戙€傝础鐚洿鏂帮紙v2.8.8锛夛細浣挎棩蹇楀瓨鍌ㄦ寔涔呭寲锛屼娇鐢╨ocalStorage瀛樺偍鏃ュ織锛岄伩鍏嶉〉闈㈠埛鏂板悗涓㈠け銆傝础鐚洿鏂帮紙v2.8.9锛夛細鍦ㄦ帶鍒堕潰鏉跨殑鏃ュ織鏍囩娣诲姞瀵煎嚭鏃ュ織鎸夐挳锛屽厑璁哥敤鎴蜂笅杞芥棩蹇椾负JSON鏂囦欢锛屼究浜庤皟璇曞拰鍒嗕韩銆?
+// @description  网页版QQ空间自动点赞工具（增强版：简化工作流，通过检测点赞元素判断是否在好友动态页面，有则直接执行点赞，无则切换到好友动态后刷新页面重走流程，移除菜单元素，添加延迟处理、安全点赞、菜单调整、状态栏美化、滚动模拟等功能。更新：状态栏更详细显示任务进度、剩余时间等，美化透明度与阴影；控制面板增大、居中、透明化；修复状态栏文字模糊与重叠问题，通过分行显示、调整字体与行高确保清晰；状态栏背景改为黑色渐变，添加透明阴影与底部圆角；扩展控制面板为左侧菜单栏式结构，添加更多参数调整如状态栏/控制面板透明度、颜色、屏蔽用户、过滤选项、重试次数、滚动步长、初始延迟等，所有可调参数均集成到面板中，支持动态应用变化；移除双击页面调用setConfig事件，所有设置统一通过控制面板；控制面板默认隐藏，通过点击浮动按钮打开；修复状态栏文字随背景透明问题，添加文字颜色与亮度设置；新增：暂停/恢复功能，允许用户暂停或恢复自动点赞流程，状态栏显示暂停状态；修复：状态栏第二行参数与等待时间显示错误，确保实时同步最新参数和正确时间；优化：修复状态栏多余分隔符逻辑，避免显示异常；兼容：将模板字符串改为字符串连接，提高旧浏览器兼容性，避免潜在语法报错。贡献更新（v2.4）：美化控制面板和状态栏的UI（添加过渡动画、圆角按钮、响应式布局）；修复潜在bug如滚动事件重复触发点赞、暂停时定时器未完全清理、cookie值解析边缘案例；优化性能（减少不必要的setInterval调用、批量DOM操作）；添加暗黑模式自动适配选项。贡献更新（v2.5）：修复bug：在点赞或滚动任务执行过程中，如果任务时间超过刷新间隔，导致倒计时重置的问题（通过在任务开始时推迟nextTime来避免中断）；美化状态栏：添加进度条表示当前任务进度、使用emoji图标增强视觉反馈、优化字体和间距以提高可读性。贡献更新（v2.6）：修复状态栏逻辑问题：防止safeLike重复调用导致nextTime多次推迟和倒计时跳动；优化点赞逻辑，仅调度实际需要点赞的动态，避免不必要延迟和卡在“跳过”步骤；如果所有动态被跳过，立即完成任务并更新状态栏为等待刷新，而不是等待无谓时间或显示跳过消息。贡献更新（v2.8）：UI美化升级（主题系统、响应式设计、微交互）；新增动态关键词过滤（屏蔽/允许模式，支持正则）；黑名单扩展（分组、白名单、导入/导出）；每日点赞上限；浏览器通知；性能监控（点赞成功率统计）；多账号支持（配置切换）。贡献更新（v2.8.1）：修复动态元素事件监听器添加问题，确保在tab内容加载后绑定事件，避免null错误；优化JSON解析错误处理；确保所有字符串连接正确，避免语法问题。贡献更新（v2.8.2）：修复关键词屏蔽不生效问题，将内容提取改为innerText以避免HTML标签干扰匹配；加强已赞动态检测，添加点赞后延迟检查class更新，防止手动滚动触发重复点赞导致取消；优化日志记录关键词匹配细节。贡献更新（v2.8.3）：新增自动登录检测与提醒（如果检测到登录过期，暂停脚本并通知用户）；优化滚动模拟以支持无限滚动页面（动态检测底部加载元素）；添加配置备份/恢复功能到控制面板；修复多账号切换时日志和统计不隔离的问题；增强暗黑模式兼容性，支持自定义主题色调调整。贡献更新（v2.8.4）：修复控制面板浮动按钮被状态栏遮挡的问题，提高浮动按钮z-index至10003，确保其显示在状态栏上方。贡献更新（v2.8.5）：增强存储功能，使用localStorage存储性能统计数据，确保网页刷新后不会清空。）贡献更新（v2.8.6）：增强登录检测：添加自动重登录选项，如果检测到过期，可选重定向到登录页，避免手动干预；添加冷却机制防循环。贡献更新（v2.8.7）：添加MutationObserver以监控动态内容加载，提高脚本对QQ空间无限滚动的响应性和稳定性；优化safeLike以避免重复触发。贡献更新（v2.8.8）：使日志存储持久化，使用localStorage存储日志，避免页面刷新后丢失。贡献更新（v2.8.9）：在控制面板的日志标签添加导出日志按钮，允许用户下载日志为JSON文件，便于调试和分享。
 // @author       llulun (with contributions)
 // @match        *://*.qzone.qq.com/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
@@ -14,20 +14,20 @@
 (function() {
     'use strict';
 
-    // 浠巆ookie鑾峰彇閰嶇疆锛堟墿灞曪細娣诲姞鏂板弬鏁帮紝濡傚叧閿瘝銆佹ā寮忋€佺櫧鍚嶅崟銆佸垎缁勩€佹瘡鏃ヤ笂闄愮瓑锛?
+    // 从cookie获取配置（扩展：添加新参数，如关键词、模式、白名单、分组、每日上限等）
     let duration = parseInt(getCookie('al-duration')) || 180;
     let refreshDelay = parseInt(getCookie('al-refreshDelay')) || 10;
     let likeDelay = parseInt(getCookie('al-likeDelay')) || 5;
     let scrollCount = parseInt(getCookie('al-scrollCount')) || 3;
     let blocked = getCookie('al-blocked') ? getCookie('al-blocked').split(',') : [];
     let whiteList = getCookie('al-whiteList') ? getCookie('al-whiteList').split(',') : [];
-    let blockGroups = safeJsonParse(getCookie('al-blockGroups')) || {}; // 浣跨敤瀹夊叏瑙ｆ瀽
+    let blockGroups = safeJsonParse(getCookie('al-blockGroups')) || {}; // 使用安全解析
     let filterKeywords = getCookie('al-filterKeywords') ? getCookie('al-filterKeywords').split(',') : [];
     let filterMode = getCookie('al-filterMode') || 'block'; // 'block' or 'allow'
     let dailyLimit = parseInt(getCookie('al-dailyLimit')) || 0; // 0 means unlimited
     let dailyCount = parseInt(getCookie('al-dailyCount')) || 0;
     let lastDailyReset = parseInt(getCookie('al-lastDailyReset')) || Date.now();
-    const dict = ['鐐硅禐', '杞彂', '璇勮'];
+    const dict = ['点赞', '转发', '评论'];
     let select = Boolean(getCookie('al-select'));
     let lastRefresh = parseInt(getCookie('al-lastRefresh')) || 0;
     let nextTime = Math.max(Date.now(), lastRefresh + duration * 1000);
@@ -53,29 +53,29 @@
     let statusTextBrightness = parseFloat(getCookie('al-statusTextBrightness')) || 1.0;
     let darkModeAuto = Boolean(getCookie('al-darkModeAuto'));
     let logLevel = getCookie('al-logLevel') || 'INFO';
-    let logs = safeJsonParse(localStorage.getItem('al-logs')) || {}; // 淇敼锛氫娇鐢╨ocalStorage瀛樺偍鏃ュ織
-    let theme = getCookie('al-theme') || 'default'; // 鏂板锛氫富棰?
-    let randomDelayMin = parseInt(getCookie('al-randomDelayMin')) || 1; // 鏂板锛氶殢鏈哄欢杩?
+    let logs = safeJsonParse(localStorage.getItem('al-logs')) || {}; // 修改：使用localStorage存储日志
+    let theme = getCookie('al-theme') || 'default'; // 新增：主题
+    let randomDelayMin = parseInt(getCookie('al-randomDelayMin')) || 1; // 新增：随机延迟
     let randomDelayMax = parseInt(getCookie('al-randomDelayMax')) || 3;
-    let enableNotifications = Boolean(getCookie('al-enableNotifications')); // 鏂板锛氶€氱煡
-    let stats = safeJsonParse(localStorage.getItem('al-stats')) || {}; // 淇敼锛氫娇鐢╨ocalStorage瀛樺偍鎬ц兘缁熻
-    let accounts = safeJsonParse(getCookie('al-accounts')) || {}; // 鏂板锛氬璐﹀彿
-    let currentAccount = uin; // 褰撳墠璐﹀彿
-    let enableLoginCheck = Boolean(getCookie('al-enableLoginCheck')) || true; // 鏂板锛氱櫥褰曟娴?
-    let themeHue = parseInt(getCookie('al-themeHue')) || 0; // 鏂板锛氫富棰樿壊璋冭皟鏁?
-    let enableAutoRelogin = Boolean(getCookie('al-enableAutoRelogin')) || false; // 鏂板锛氳嚜鍔ㄩ噸鐧诲綍
+    let enableNotifications = Boolean(getCookie('al-enableNotifications')); // 新增：通知
+    let stats = safeJsonParse(localStorage.getItem('al-stats')) || {}; // 修改：使用localStorage存储性能统计
+    let accounts = safeJsonParse(getCookie('al-accounts')) || {}; // 新增：多账号
+    let currentAccount = uin; // 当前账号
+    let enableLoginCheck = Boolean(getCookie('al-enableLoginCheck')) || true; // 新增：登录检测
+    let themeHue = parseInt(getCookie('al-themeHue')) || 0; // 新增：主题色调调整
+    let enableAutoRelogin = Boolean(getCookie('al-enableAutoRelogin')) || false; // 新增：自动重登录
 
-    // 鏂板锛氬畨鍏↗SON瑙ｆ瀽
+    // 新增：安全JSON解析
     function safeJsonParse(str) {
         try {
             return JSON.parse(str);
         } catch (e) {
-            log('WARN', 'JSON瑙ｆ瀽澶辫触: ' + e.message + ', 杩斿洖榛樿鍊?);
+            log('WARN', 'JSON解析失败: ' + e.message + ', 返回默认值');
             return null;
         }
     }
 
-    // Cookie 鎿嶄綔鍑芥暟
+    // Cookie 操作函数
     function getCookie(name) {
         let matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
         return matches ? decodeURIComponent(matches[1]) : undefined;
@@ -91,7 +91,7 @@
         document.cookie = name + "=" + (value || "") + expires + "; path=/";
     }
 
-    // 鏃ュ織鍑芥暟
+    // 日志函数
     function log(level, message) {
         try {
             if (!shouldLog(level)) return;
@@ -108,14 +108,14 @@
             if (level === 'ERROR') consoleMethod = console.error;
             consoleMethod(fullMessage);
 
-            // 澶氳处鍙锋棩蹇楅殧绂?
+            // 多账号日志隔离
             logs[currentAccount] = logs[currentAccount] || [];
             logs[currentAccount].push(fullMessage);
             if (logs[currentAccount].length > 500) {
                 logs[currentAccount].shift();
             }
 
-            // 鏂板锛氭寔涔呭寲鏃ュ織鍒發ocalStorage
+            // 新增：持久化日志到localStorage
             localStorage.setItem('al-logs', JSON.stringify(logs));
         } catch (e) {}
     }
@@ -125,7 +125,7 @@
         return levels[logLevel] <= levels[level];
     }
 
-    // 閲嶇疆姣忔棩璁℃暟
+    // 重置每日计数
     function resetDailyCount() {
         let today = new Date().setHours(0,0,0,0);
         if (lastDailyReset < today) {
@@ -136,7 +136,7 @@
         }
     }
 
-    // 鍙戦€侀€氱煡
+    // 发送通知
     function sendNotification(title, body) {
         if (enableNotifications && 'Notification' in window && Notification.permission === 'granted') {
             new Notification(title, { body: body });
@@ -149,34 +149,34 @@
         }
     }
 
-    // 鏇存柊缁熻锛堝璐﹀彿闅旂锛屼娇鐢╨ocalStorage鎸佷箙鍖栵級
+    // 更新统计（多账号隔离，使用localStorage持久化）
     function updateStats(key) {
         stats[currentAccount] = stats[currentAccount] || { likes: 0, skips: 0, errors: 0 };
         stats[currentAccount][key] = (stats[currentAccount][key] || 0) + 1;
         localStorage.setItem('al-stats', JSON.stringify(stats));
     }
 
-    // 鏂板锛氭娴嬬櫥褰曠姸鎬?
+    // 新增：检测登录状态
     function checkLoginStatus() {
         if (!enableLoginCheck) return true;
         const isLoggedIn = !!uin && document.querySelector('.user-info') !== null;
         if (!isLoggedIn) {
             isPaused = true;
-            updateStatusBar('妫€娴嬪埌鐧诲綍杩囨湡锛岃閲嶆柊鐧诲綍');
-            sendNotification('鐧诲綍杩囨湡', 'QZone Praise Automator 妫€娴嬪埌鐧诲綍鐘舵€佸け鏁堬紝璇烽噸鏂扮櫥褰曚互缁х画銆?);
-            log('WARN', '鐧诲綍鐘舵€佸け鏁堬紝鑴氭湰鏆傚仠');
-            
-            // 鏂板锛氳嚜鍔ㄩ噸鐧诲綍閫昏緫
+            updateStatusBar('检测到登录过期，请重新登录');
+            sendNotification('登录过期', 'QZone Praise Automator 检测到登录状态失效，请重新登录以继续。');
+            log('WARN', '登录状态失效，脚本暂停');
+
+            // 新增：自动重登录逻辑
             if (enableAutoRelogin) {
                 const lastAttempt = parseInt(getCookie('al-lastReloginAttempt')) || 0;
-                const cooldown = 5 * 60 * 1000; // 5鍒嗛挓鍐峰嵈
+                const cooldown = 5 * 60 * 1000; // 5分钟冷却
                 if (Date.now() - lastAttempt > cooldown) {
-                    log('INFO', '灏濊瘯鑷姩閲嶇櫥褰曪紝閲嶅畾鍚戝埌鐧诲綍椤?);
-                    sendNotification('鑷姩閲嶇櫥褰?, '妫€娴嬪埌杩囨湡锛屾鍦ㄩ噸瀹氬悜鍒癚Q绌洪棿鐧诲綍椤?..');
+                    log('INFO', '尝试自动重登录，重定向到登录页');
+                    sendNotification('自动重登录', '检测到过期，正在重定向到QQ空间登录页...');
                     setCookie('al-lastReloginAttempt', Date.now(), Number.MAX_SAFE_INTEGER);
-                    location.href = 'https://qzone.qq.com/'; // QQ绌洪棿棣栭〉锛屼細瑙﹀彂鐧诲綍濡傛灉杩囨湡
+                    location.href = 'https://qzone.qq.com/'; // QQ空间首页，会触发登录如果过期
                 } else {
-                    log('WARN', '閲嶇櫥褰曞喎鍗翠腑锛岃烦杩囪嚜鍔ㄥ皾璇?);
+                    log('WARN', '重登录冷却中，跳过自动尝试');
                 }
             }
             return false;
@@ -184,12 +184,12 @@
         return true;
     }
 
-    // 鏂板锛氳缃甅utationObserver浠ョ洃鎺у姩鎬佸唴瀹?
+    // 新增：设置MutationObserver以监控动态内容
     let mutationObserver = null;
     function setupMutationObserver() {
-        const targetNode = document.querySelector('#feed_friend_list') || document.body; // 鍋囪濂藉弸鍔ㄦ€佸鍣ㄤ负#feed_friend_list锛屽疄闄呮牴鎹甉Q绌洪棿璋冩暣
+        const targetNode = document.querySelector('#feed_friend_list') || document.body; // 假设好友动态容器为#feed_friend_list，实际根据QQ空间调整
         if (!targetNode) {
-            log('WARN', '鏈壘鍒板姩鎬佸鍣紝MutationObserver鏈惎鍔?);
+            log('WARN', '未找到动态容器，MutationObserver未启动');
             return;
         }
 
@@ -198,7 +198,7 @@
                 if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
                     let hasNewLikes = Array.from(mutation.addedNodes).some(node => node.querySelector && node.querySelector('.qz_like_btn_v3'));
                     if (hasNewLikes) {
-                        log('INFO', '妫€娴嬪埌鏂板姩鎬佸姞杞斤紝瑙﹀彂safeLike');
+                        log('INFO', '检测到新动态加载，触发safeLike');
                         safeLike();
                     }
                 }
@@ -207,10 +207,10 @@
 
         const config = { childList: true, subtree: true };
         mutationObserver.observe(targetNode, config);
-        log('INFO', 'MutationObserver宸插惎鍔紝鐩戞帶鍔ㄦ€佸唴瀹?);
+        log('INFO', 'MutationObserver已启动，监控动态内容');
     }
 
-    // 鍒涘缓鑿滃崟鏍忥紙鏂板锛氶厤缃浠?鎭㈠銆佺櫥褰曟娴嬪紑鍏炽€佽壊璋冭皟鏁达級
+    // 创建菜单栏（新增：配置备份/恢复、登录检测开关、色调调整）
     function createMenu() {
         let menu = document.createElement('div');
         menu.id = 'al-menu';
@@ -235,7 +235,7 @@
         menu.style.pointerEvents = 'auto';
         menu.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
         menu.style.filter = 'hue-rotate(' + themeHue + 'deg)';
-        // 鍝嶅簲寮?
+        // 响应式
         if (window.innerWidth < 600) {
             menu.style.width = '95%';
             menu.style.padding = '10px';
@@ -245,7 +245,7 @@
         sidebar.style.width = '150px';
         sidebar.style.borderRight = '1px solid #ddd';
         sidebar.style.paddingRight = '10px';
-        sidebar.innerHTML = '<h4 style="margin: 0 0 10px;">璁剧疆鍒嗙被</h4><ul style="list-style: none; padding: 0;"><li><button id="al-tab-core" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">鏍稿績鍙傛暟</button></li><li><button id="al-tab-ui" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">鐣岄潰鑷畾涔?/button></li><li><button id="al-tab-filter" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">杩囨护瑙勫垯</button></li><li><button id="al-tab-adv" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">楂樼骇鍙傛暟</button></li><li><button id="al-tab-logs" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">鏌ョ湅鏃ュ織</button></li><li><button id="al-tab-stats" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">鎬ц兘缁熻</button></li><li><button id="al-tab-accounts" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">璐﹀彿绠＄悊</button></li></ul>';
+        sidebar.innerHTML = '<h4 style="margin: 0 0 10px;">设置分类</h4><ul style="list-style: none; padding: 0;"><li><button id="al-tab-core" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">核心参数</button></li><li><button id="al-tab-ui" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">界面自定义</button></li><li><button id="al-tab-filter" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">过滤规则</button></li><li><button id="al-tab-adv" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">高级参数</button></li><li><button id="al-tab-logs" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">查看日志</button></li><li><button id="al-tab-stats" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">性能统计</button></li><li><button id="al-tab-accounts" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; transition: background 0.2s;">账号管理</button></li></ul>';
         menu.appendChild(sidebar);
 
         let content = document.createElement('div');
@@ -258,7 +258,7 @@
         let footer = document.createElement('div');
         footer.style.marginTop = '20px';
         footer.style.textAlign = 'center';
-        footer.innerHTML = '<button id="al-save" style="background: #4CAF50; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">淇濆瓨骞跺簲鐢?/button><button id="al-pause" style="background: #FF9800; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">' + (isPaused ? '鎭㈠' : '鏆傚仠') + '</button><button id="al-test" style="background: #2196F3; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">娴嬭瘯鎵ц</button><button id="al-reset" style="background: #9E9E9E; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">閲嶇疆榛樿</button><button id="al-export" style="background: #673AB7; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">瀵煎嚭閰嶇疆</button><button id="al-backup" style="background: #795548; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">澶囦唤閰嶇疆</button><button id="al-restore" style="background: #607D8B; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">鎭㈠閰嶇疆</button><button id="al-close" style="background: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; transition: background 0.2s;">鍏抽棴</button>';
+        footer.innerHTML = '<button id="al-save" style="background: #4CAF50; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">保存并应用</button><button id="al-pause" style="background: #FF9800; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">' + (isPaused ? '恢复' : '暂停') + '</button><button id="al-test" style="background: #2196F3; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">测试执行</button><button id="al-reset" style="background: #9E9E9E; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">重置默认</button><button id="al-export" style="background: #673AB7; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">导出配置</button><button id="al-backup" style="background: #795548; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">备份配置</button><button id="al-restore" style="background: #607D8B; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin-right: 10px; transition: background 0.2s;">恢复配置</button><button id="al-close" style="background: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; transition: background 0.2s;">关闭</button>';
         menu.appendChild(footer);
 
         document.body.appendChild(menu);
@@ -268,13 +268,13 @@
             setTimeout(function() {
                 content.innerHTML = '';
                 if (tab === 'core') {
-                    content.innerHTML = '<h3>鏍稿績鍙傛暟</h3><div class="al-card"><label>鍒锋柊棰戠巼 (绉?: <input type="number" id="al-dur" value="' + duration + '" min="30" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>鍒锋柊寤惰繜 (绉?: <input type="number" id="al-rdelay" value="' + refreshDelay + '" min="5" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>鐐硅禐寤惰繜 (绉?: <input type="number" id="al-ldelay" value="' + likeDelay + '" min="3" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>涓嬫粦鍔ㄦ€佹暟: <input type="number" id="al-scount" value="' + scrollCount + '" min="1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>姣忔棩鐐硅禐涓婇檺 (0鏃犻檺): <input type="number" id="al-dailyLimit" value="' + dailyLimit + '" min="0" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label><input type="checkbox" id="al-select" ' + (select ? 'checked' : '') + '> 涓嶇偣璧炴父鎴忚浆鍙戝唴瀹?/label></div><div class="al-card"><label><input type="checkbox" id="al-enableLoginCheck" ' + (enableLoginCheck ? 'checked' : '') + '> 鍚敤鐧诲綍鐘舵€佹娴?/label></div>';
-                    content.innerHTML += '<div class="al-card"><label><input type="checkbox" id="al-enableAutoRelogin" ' + (enableAutoRelogin ? 'checked' : '') + '> 鍚敤鑷姩閲嶇櫥褰曪紙杩囨湡鏃堕噸瀹氬悜锛?/label></div>'; // 鏂板澶嶉€夋
+                    content.innerHTML = '<h3>核心参数</h3><div class="al-card"><label>刷新频率 (秒): <input type="number" id="al-dur" value="' + duration + '" min="30" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>刷新延迟 (秒): <input type="number" id="al-rdelay" value="' + refreshDelay + '" min="5" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>点赞延迟 (秒): <input type="number" id="al-ldelay" value="' + likeDelay + '" min="3" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>下滑动态数: <input type="number" id="al-scount" value="' + scrollCount + '" min="1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>每日点赞上限 (0无限): <input type="number" id="al-dailyLimit" value="' + dailyLimit + '" min="0" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label><input type="checkbox" id="al-select" ' + (select ? 'checked' : '') + '> 不点赞游戏转发内容</label></div><div class="al-card"><label><input type="checkbox" id="al-enableLoginCheck" ' + (enableLoginCheck ? 'checked' : '') + '> 启用登录状态检测</label></div>';
+                    content.innerHTML += '<div class="al-card"><label><input type="checkbox" id="al-enableAutoRelogin" ' + (enableAutoRelogin ? 'checked' : '') + '> 启用自动重登录（过期时重定向）</label></div>'; // 新增复选框
                 } else if (tab === 'ui') {
-                    content.innerHTML = '<h3>鐣岄潰鑷畾涔?/h3><div class="al-card"><label>涓婚: <select id="al-theme"><option value="default" ' + (theme === 'default' ? 'selected' : '') + '>榛樿</option><option value="tech" ' + (theme === 'tech' ? 'selected' : '') + '>绉戞妧钃?/option><option value="eco" ' + (theme === 'eco' ? 'selected' : '') + '>鐜繚缁?/option></select></label></div><div class="al-card"><label>涓婚鑹茶皟璋冩暣 (0-360): <input type="number" id="al-themeHue" value="' + themeHue + '" min="0" max="360" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>鐘舵€佹爮閫忔槑搴?(0.1-1): <input type="number" id="al-statusOpacity" value="' + statusOpacity + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>鐘舵€佹爮鑳屾櫙: <select id="al-statusBgColor" style="width: 200px; margin-left: 10px;"><option value="linear-gradient(to right, #333, #222)" ' + (statusBgColor === 'linear-gradient(to right, #333, #222)' ? 'selected' : '') + '>榛戣壊娓愬彉</option><option value="linear-gradient(to right, #f0f0f0, #e0e0e0)" ' + (statusBgColor === 'linear-gradient(to right, #f0f0f0, #e0e0e0)' ? 'selected' : '') + '>鐧借壊娓愬彉</option><option value="linear-gradient(to right, #2196F3, #1976D2)" ' + (statusBgColor === 'linear-gradient(to right, #2196F3, #1976D2)' ? 'selected' : '') + '>钃濊壊娓愬彉</option><option value="linear-gradient(to right, #4CAF50, #388E3C)" ' + (statusBgColor === 'linear-gradient(to right, #4CAF50, #388E3C)' ? 'selected' : '') + '>缁胯壊娓愬彉</option></select></label></div><div class="al-card"><label>鐘舵€佹爮鏂囧瓧棰滆壊: <select id="al-statusTextColor" style="width: 200px; margin-left: 10px;"><option value="auto" ' + (statusTextColor === 'auto' ? 'selected' : '') + '>鑷姩</option><option value="#fff" ' + (statusTextColor === '#fff' ? 'selected' : '') + '>鐧借壊</option><option value="#000" ' + (statusTextColor === '#000' ? 'selected' : '') + '>榛戣壊</option><option value="#ddd" ' + (statusTextColor === '#ddd' ? 'selected' : '') + '>娴呯伆</option></select></label></div><div class="al-card"><label>鐘舵€佹爮鏂囧瓧浜害 (0.5-1.5): <input type="number" id="al-statusTextBrightness" value="' + statusTextBrightness + '" min="0.5" max="1.5" step="0.1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label><input type="checkbox" id="al-darkModeAuto" ' + (darkModeAuto ? 'checked' : '') + '> 鑷姩閫傞厤鏆楅粦妯″紡</label></div><div class="al-card"><label>鎺у埗闈㈡澘閫忔槑搴?(0.1-1): <input type="number" id="al-menuOpacity" value="' + menuOpacity + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>鎺у埗闈㈡澘鑳屾櫙: <select id="al-menuBgColor" style="width: 200px; margin-left: 10px;"><option value="linear-gradient(to bottom, #ffffff, #f0f0f0)" ' + (menuBgColor === 'linear-gradient(to bottom, #ffffff, #f0f0f0)' ? 'selected' : '') + '>鐧借壊娓愬彉</option><option value="linear-gradient(to bottom, #333, #222)" ' + (menuBgColor === 'linear-gradient(to bottom, #333, #222)' ? 'selected' : '') + '>榛戣壊娓愬彉</option><option value="linear-gradient(to bottom, #2196F3, #1976D2)" ' + (menuBgColor === 'linear-gradient(to bottom, #2196F3, #1976D2)' ? 'selected' : '') + '>钃濊壊娓愬彉</option><option value="linear-gradient(to bottom, #4CAF50, #388E3C)" ' + (menuBgColor === 'linear-gradient(to bottom, #4CAF50, #388E3C)' ? 'selected' : '') + '>缁胯壊娓愬彉</option></select></label></div>';
+                    content.innerHTML = '<h3>界面自定义</h3><div class="al-card"><label>主题: <select id="al-theme"><option value="default" ' + (theme === 'default' ? 'selected' : '') + '>默认</option><option value="tech" ' + (theme === 'tech' ? 'selected' : '') + '>科技蓝</option><option value="eco" ' + (theme === 'eco' ? 'selected' : '') + '>环保绿</option></select></label></div><div class="al-card"><label>主题色调调整 (0-360): <input type="number" id="al-themeHue" value="' + themeHue + '" min="0" max="360" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>状态栏透明度 (0.1-1): <input type="number" id="al-statusOpacity" value="' + statusOpacity + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>状态栏背景: <select id="al-statusBgColor" style="width: 200px; margin-left: 10px;"><option value="linear-gradient(to right, #333, #222)" ' + (statusBgColor === 'linear-gradient(to right, #333, #222)' ? 'selected' : '') + '>黑色渐变</option><option value="linear-gradient(to right, #f0f0f0, #e0e0e0)" ' + (statusBgColor === 'linear-gradient(to right, #f0f0f0, #e0e0e0)' ? 'selected' : '') + '>白色渐变</option><option value="linear-gradient(to right, #2196F3, #1976D2)" ' + (statusBgColor === 'linear-gradient(to right, #2196F3, #1976D2)' ? 'selected' : '') + '>蓝色渐变</option><option value="linear-gradient(to right, #4CAF50, #388E3C)" ' + (statusBgColor === 'linear-gradient(to right, #4CAF50, #388E3C)' ? 'selected' : '') + '>绿色渐变</option></select></label></div><div class="al-card"><label>状态栏文字颜色: <select id="al-statusTextColor" style="width: 200px; margin-left: 10px;"><option value="auto" ' + (statusTextColor === 'auto' ? 'selected' : '') + '>自动</option><option value="#fff" ' + (statusTextColor === '#fff' ? 'selected' : '') + '>白色</option><option value="#000" ' + (statusTextColor === '#000' ? 'selected' : '') + '>黑色</option><option value="#ddd" ' + (statusTextColor === '#ddd' ? 'selected' : '') + '>浅灰</option></select></label></div><div class="al-card"><label>状态栏文字亮度 (0.5-1.5): <input type="number" id="al-statusTextBrightness" value="' + statusTextBrightness + '" min="0.5" max="1.5" step="0.1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label><input type="checkbox" id="al-darkModeAuto" ' + (darkModeAuto ? 'checked' : '') + '> 自动适配暗黑模式</label></div><div class="al-card"><label>控制面板透明度 (0.1-1): <input type="number" id="al-menuOpacity" value="' + menuOpacity + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>控制面板背景: <select id="al-menuBgColor" style="width: 200px; margin-left: 10px;"><option value="linear-gradient(to bottom, #ffffff, #f0f0f0)" ' + (menuBgColor === 'linear-gradient(to bottom, #ffffff, #f0f0f0)' ? 'selected' : '') + '>白色渐变</option><option value="linear-gradient(to bottom, #333, #222)" ' + (menuBgColor === 'linear-gradient(to bottom, #333, #222)' ? 'selected' : '') + '>黑色渐变</option><option value="linear-gradient(to bottom, #2196F3, #1976D2)" ' + (menuBgColor === 'linear-gradient(to bottom, #2196F3, #1976D2)' ? 'selected' : '') + '>蓝色渐变</option><option value="linear-gradient(to bottom, #4CAF50, #388E3C)" ' + (menuBgColor === 'linear-gradient(to bottom, #4CAF50, #388E3C)' ? 'selected' : '') + '>绿色渐变</option></select></label></div>';
                 } else if (tab === 'filter') {
-                    content.innerHTML = '<h3>杩囨护瑙勫垯</h3><div class="al-card"><label>灞忚斀鐢ㄦ埛 (QQ鍙?閫楀彿鍒嗛殧): <textarea id="al-blocked" style="width: 200px; height: 50px; margin-left: 10px;">' + blocked.join(',') + '</textarea></label></div><div class="al-card"><label>鐧藉悕鍗曠敤鎴?(QQ鍙?閫楀彿鍒嗛殧): <textarea id="al-whiteList" style="width: 200px; height: 50px; margin-left: 10px;">' + whiteList.join(',') + '</textarea></label></div><div class="al-card"><label>榛戝悕鍗曞垎缁?(JSON): <textarea id="al-blockGroups" style="width: 200px; height: 100px; margin-left: 10px;">' + JSON.stringify(blockGroups) + '</textarea></label></div><div class="al-card"><label>鍔ㄦ€佸叧閿瘝 (閫楀彿鍒嗛殧,鏀寔姝ｅ垯): <textarea id="al-filterKeywords" style="width: 200px; height: 50px; margin-left: 10px;">' + filterKeywords.join(',') + '</textarea></label></div><div class="al-card"><label>杩囨护妯″紡: <select id="al-filterMode"><option value="block" ' + (filterMode === 'block' ? 'selected' : '') + '>灞忚斀鍏抽敭璇?/option><option value="allow" ' + (filterMode === 'allow' ? 'selected' : '') + '>浠呭厑璁稿叧閿瘝</option></select></label></div><div class="al-card"><button id="al-import-block" style="background: #2196F3; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">瀵煎叆榛戝悕鍗?/button> <input type="file" id="al-file-input" style="display:none;"><button id="al-export-block" style="background: #673AB7; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">瀵煎嚭榛戝悕鍗?/button></div>';
-                    // 娣诲姞浜嬩欢鐩戝惉鍣ㄥ湪杩欓噷锛岀‘淇濆厓绱犲瓨鍦?
+                    content.innerHTML = '<h3>过滤规则</h3><div class="al-card"><label>屏蔽用户 (QQ号,逗号分隔): <textarea id="al-blocked" style="width: 200px; height: 50px; margin-left: 10px;">' + blocked.join(',') + '</textarea></label></div><div class="al-card"><label>白名单用户 (QQ号,逗号分隔): <textarea id="al-whiteList" style="width: 200px; height: 50px; margin-left: 10px;">' + whiteList.join(',') + '</textarea></label></div><div class="al-card"><label>黑名单分组 (JSON): <textarea id="al-blockGroups" style="width: 200px; height: 100px; margin-left: 10px;">' + JSON.stringify(blockGroups) + '</textarea></label></div><div class="al-card"><label>动态关键词 (逗号分隔,支持正则): <textarea id="al-filterKeywords" style="width: 200px; height: 50px; margin-left: 10px;">' + filterKeywords.join(',') + '</textarea></label></div><div class="al-card"><label>过滤模式: <select id="al-filterMode"><option value="block" ' + (filterMode === 'block' ? 'selected' : '') + '>屏蔽关键词</option><option value="allow" ' + (filterMode === 'allow' ? 'selected' : '') + '>仅允许关键词</option></select></label></div><div class="al-card"><button id="al-import-block" style="background: #2196F3; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">导入黑名单</button> <input type="file" id="al-file-input" style="display:none;"><button id="al-export-block" style="background: #673AB7; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">导出黑名单</button></div>';
+                    // 添加事件监听器在这里，确保元素存在
                     document.getElementById('al-import-block').addEventListener('click', function() {
                         document.getElementById('al-file-input').click();
                     });
@@ -289,9 +289,9 @@
                                     blockGroups = data.blockGroups || {};
                                     whiteList = data.whiteList || [];
                                     showTab('filter');
-                                    alert('瀵煎叆鎴愬姛');
+                                    alert('导入成功');
                                 } catch (err) {
-                                    alert('瀵煎叆澶辫触: ' + err.message);
+                                    alert('导入失败: ' + err.message);
                                 }
                             };
                             reader.readAsText(file);
@@ -302,12 +302,12 @@
                         download('blocklist.json', JSON.stringify(data));
                     });
                 } else if (tab === 'adv') {
-                    content.innerHTML = '<h3>楂樼骇鍙傛暟</h3><div class="al-card"><label>鏈€澶ч噸璇曟鏁? <input type="number" id="al-maxRetries" value="' + maxRetries + '" min="1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>婊氬姩姝ラ暱鐧惧垎姣?(0.1-1): <input type="number" id="al-scrollStepPercent" value="' + scrollStepPercent + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>鍒濆寤惰繜 (姣): <input type="number" id="al-initialDelay" value="' + initialDelay + '" min="1000" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>闅忔満寤惰繜鏈€灏?(绉?: <input type="number" id="al-randomDelayMin" value="' + randomDelayMin + '" min="0" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>闅忔満寤惰繜鏈€澶?(绉?: <input type="number" id="al-randomDelayMax" value="' + randomDelayMax + '" min="0" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>鏃ュ織绾у埆: <select id="al-logLevel" style="width: 100px; margin-left: 10px;"><option value="INFO" ' + (logLevel === 'INFO' ? 'selected' : '') + '>INFO</option><option value="WARN" ' + (logLevel === 'WARN' ? 'selected' : '') + '>WARN</option><option value="ERROR" ' + (logLevel === 'ERROR' ? 'selected' : '') + '>ERROR</option></select></label></div><div class="al-card"><label><input type="checkbox" id="al-enableNotifications" ' + (enableNotifications ? 'checked' : '') + '> 鍚敤娴忚鍣ㄩ€氱煡</label></div>';
+                    content.innerHTML = '<h3>高级参数</h3><div class="al-card"><label>最大重试次数: <input type="number" id="al-maxRetries" value="' + maxRetries + '" min="1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>滚动步长百分比 (0.1-1): <input type="number" id="al-scrollStepPercent" value="' + scrollStepPercent + '" min="0.1" max="1" step="0.1" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>初始延迟 (毫秒): <input type="number" id="al-initialDelay" value="' + initialDelay + '" min="1000" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>随机延迟最小 (秒): <input type="number" id="al-randomDelayMin" value="' + randomDelayMin + '" min="0" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>随机延迟最大 (秒): <input type="number" id="al-randomDelayMax" value="' + randomDelayMax + '" min="0" style="width: 80px; margin-left: 10px;"></label></div><div class="al-card"><label>日志级别: <select id="al-logLevel" style="width: 100px; margin-left: 10px;"><option value="INFO" ' + (logLevel === 'INFO' ? 'selected' : '') + '>INFO</option><option value="WARN" ' + (logLevel === 'WARN' ? 'selected' : '') + '>WARN</option><option value="ERROR" ' + (logLevel === 'ERROR' ? 'selected' : '') + '>ERROR</option></select></label></div><div class="al-card"><label><input type="checkbox" id="al-enableNotifications" ' + (enableNotifications ? 'checked' : '') + '> 启用浏览器通知</label></div>';
                 } else if (tab === 'logs') {
-                    content.innerHTML = '<h3>绯荤粺鏃ュ織</h3><div id="al-log-list" style="height: 300px; overflow: auto; border: 1px solid #ddd; padding: 10px; background: #f9f9f9; font-family: monospace; white-space: pre-wrap;">' + (logs[currentAccount] || []).join('\n') + '</div><button id="al-clear-logs" style="background: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-top: 10px; margin-right: 10px;">娓呴櫎鏃ュ織</button><button id="al-export-logs" style="background: #673AB7; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-top: 10px;">瀵煎嚭鏃ュ織</button>';
+                    content.innerHTML = '<h3>系统日志</h3><div id="al-log-list" style="height: 300px; overflow: auto; border: 1px solid #ddd; padding: 10px; background: #f9f9f9; font-family: monospace; white-space: pre-wrap;">' + (logs[currentAccount] || []).join('\n') + '</div><button id="al-clear-logs" style="background: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-top: 10px; margin-right: 10px;">清除日志</button><button id="al-export-logs" style="background: #673AB7; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-top: 10px;">导出日志</button>';
                     document.getElementById('al-clear-logs').addEventListener('click', function() {
                         logs[currentAccount] = [];
-                        localStorage.setItem('al-logs', JSON.stringify(logs)); // 鏇存柊localStorage
+                        localStorage.setItem('al-logs', JSON.stringify(logs)); // 更新localStorage
                         showTab('logs');
                     });
                     document.getElementById('al-export-logs').addEventListener('click', function() {
@@ -317,7 +317,7 @@
                     let accStats = stats[currentAccount] || { likes: 0, skips: 0, errors: 0 };
                     let total = accStats.likes + accStats.skips + accStats.errors;
                     let successRate = total > 0 ? Math.round((accStats.likes / total) * 100) + '%' : 'N/A';
-                    content.innerHTML = '<h3>鎬ц兘缁熻</h3><div class="al-card">鐐硅禐: ' + accStats.likes + ' | 璺宠繃: ' + accStats.skips + ' | 閿欒: ' + accStats.errors + ' | 鎴愬姛鐜? ' + successRate + '</div><button id="al-clear-stats" style="background: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">娓呴櫎缁熻</button>';
+                    content.innerHTML = '<h3>性能统计</h3><div class="al-card">点赞: ' + accStats.likes + ' | 跳过: ' + accStats.skips + ' | 错误: ' + accStats.errors + ' | 成功率: ' + successRate + '</div><button id="al-clear-stats" style="background: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">清除统计</button>';
                     document.getElementById('al-clear-stats').addEventListener('click', function() {
                         stats[currentAccount] = { likes: 0, skips: 0, errors: 0 };
                         localStorage.setItem('al-stats', JSON.stringify(stats));
@@ -325,12 +325,12 @@
                     });
                 } else if (tab === 'accounts') {
                     let accountList = Object.keys(accounts).join(', ');
-                    content.innerHTML = '<h3>璐﹀彿绠＄悊</h3><div class="al-card"><label>褰撳墠璐﹀彿: ' + currentAccount + '</label></div><div class="al-card"><label>鍒囨崲璐﹀彿 (杈撳叆QQ鍙?: <input type="text" id="al-switchAcc" style="width: 150px; margin-left: 10px;"></label><button id="al-switch" style="background: #2196F3; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-left: 10px;">鍒囨崲</button></div><div class="al-card">鍙敤璐﹀彿: ' + accountList + '</div>';
+                    content.innerHTML = '<h3>账号管理</h3><div class="al-card"><label>当前账号: ' + currentAccount + '</label></div><div class="al-card"><label>切换账号 (输入QQ号): <input type="text" id="al-switchAcc" style="width: 150px; margin-left: 10px;"></label><button id="al-switch" style="background: #2196F3; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-left: 10px;">切换</button></div><div class="al-card">可用账号: ' + accountList + '</div>';
                     document.getElementById('al-switch').addEventListener('click', function() {
                         let newAcc = document.getElementById('al-switchAcc').value.trim();
                         if (newAcc) {
                             loadAccountConfig(newAcc);
-                            updateStatusBar('鍒囨崲鍒拌处鍙? ' + newAcc);
+                            updateStatusBar('切换到账号: ' + newAcc);
                             showTab('accounts');
                         }
                     });
@@ -339,7 +339,7 @@
             }, 300);
         }
 
-        // 鏍囩鍒囨崲浜嬩欢
+        // 标签切换事件
         document.getElementById('al-tab-core').addEventListener('click', function() { showTab('core'); });
         document.getElementById('al-tab-ui').addEventListener('click', function() { showTab('ui'); });
         document.getElementById('al-tab-filter').addEventListener('click', function() { showTab('filter'); });
@@ -348,10 +348,10 @@
         document.getElementById('al-tab-stats').addEventListener('click', function() { showTab('stats'); });
         document.getElementById('al-tab-accounts').addEventListener('click', function() { showTab('accounts'); });
 
-        // 淇濆瓨鎸夐挳
+        // 保存按钮
         document.getElementById('al-save').addEventListener('click', function() {
             try {
-                // 鑾峰彇鎺у埗闈㈡澘涓殑鍊?
+                // 获取控制面板中的值
                 if (document.getElementById('al-dur')) duration = parseInt(document.getElementById('al-dur').value) || duration;
                 if (document.getElementById('al-rdelay')) refreshDelay = parseInt(document.getElementById('al-rdelay').value) || refreshDelay;
                 if (document.getElementById('al-ldelay')) likeDelay = parseInt(document.getElementById('al-ldelay').value) || likeDelay;
@@ -380,9 +380,9 @@
                 if (document.getElementById('al-logLevel')) logLevel = document.getElementById('al-logLevel').value;
                 if (document.getElementById('al-enableNotifications')) enableNotifications = document.getElementById('al-enableNotifications').checked;
                 if (document.getElementById('al-enableLoginCheck')) enableLoginCheck = document.getElementById('al-enableLoginCheck').checked;
-                if (document.getElementById('al-enableAutoRelogin')) enableAutoRelogin = document.getElementById('al-enableAutoRelogin').checked; // 鏂板
+                if (document.getElementById('al-enableAutoRelogin')) enableAutoRelogin = document.getElementById('al-enableAutoRelogin').checked; // 新增
 
-                // 淇濆瓨鍒癱ookie
+                // 保存到cookie
                 setCookie('al-duration', duration, Number.MAX_SAFE_INTEGER);
                 setCookie('al-refreshDelay', refreshDelay, Number.MAX_SAFE_INTEGER);
                 setCookie('al-likeDelay', likeDelay, Number.MAX_SAFE_INTEGER);
@@ -400,14 +400,14 @@
                 setCookie('al-statusTextColor', statusTextColor, Number.MAX_SAFE_INTEGER);
                 setCookie('al-statusTextBrightness', statusTextBrightness, Number.MAX_SAFE_INTEGER);
                 setCookie('al-darkModeAuto', darkModeAuto ? 'true' : '', Number.MAX_SAFE_INTEGER);
-                
-                // 鏇存柊UI鍏冪礌
+
+                // 更新UI元素
                 let menu = document.getElementById('al-menu');
                 if (menu) {
                     menu.style.background = menuBgColor;
                     menu.style.opacity = menuOpacity;
                 }
-                
+
                 let statusBar = document.getElementById('al-status-bar');
                 if (statusBar) {
                     statusBar.style.background = statusBgColor;
@@ -415,18 +415,18 @@
                     statusBar.style.color = statusTextColor;
                     statusBar.style.filter = 'brightness(' + statusTextBrightness + ') hue-rotate(' + themeHue + 'deg)';
                 }
-                
-                // 搴旂敤鏆楅粦妯″紡
+
+                // 应用暗黑模式
                 if (darkModeAuto) {
                     applyDarkMode();
                 }
-                
-                // 淇濆瓨鎴愬姛鎻愮ず
-                alert('璁剧疆宸蹭繚瀛?);
-                log('INFO', '璁剧疆宸蹭繚瀛?);
+
+                // 保存成功提示
+                alert('设置已保存');
+                log('INFO', '设置已保存');
             } catch (e) {
-                log('ERROR', '淇濆瓨璁剧疆澶辫触: ' + e.message);
-                alert('淇濆瓨璁剧疆澶辫触: ' + e.message);
+                log('ERROR', '保存设置失败: ' + e.message);
+                alert('保存设置失败: ' + e.message);
             }
             setCookie('al-menuOpacity', menuOpacity, Number.MAX_SAFE_INTEGER);
             setCookie('al-menuBgColor', menuBgColor, Number.MAX_SAFE_INTEGER);
@@ -439,9 +439,9 @@
             setCookie('al-enableNotifications', enableNotifications ? 'true' : '', Number.MAX_SAFE_INTEGER);
             setCookie('al-enableLoginCheck', enableLoginCheck ? 'true' : '', Number.MAX_SAFE_INTEGER);
             setCookie('al-themeHue', themeHue, Number.MAX_SAFE_INTEGER);
-            setCookie('al-enableAutoRelogin', enableAutoRelogin ? 'true' : '', Number.MAX_SAFE_INTEGER); // 鏂板
+            setCookie('al-enableAutoRelogin', enableAutoRelogin ? 'true' : '', Number.MAX_SAFE_INTEGER); // 新增
 
-            // 搴旂敤鍙樺寲
+            // 应用变化
             let menuElem = document.getElementById('al-menu');
             if (menuElem) {
                 menuElem.style.opacity = menuOpacity;
@@ -456,29 +456,29 @@
                 statusBar.style.filter = 'brightness(' + statusTextBrightness + ') hue-rotate(' + themeHue + 'deg)';
             }
             applyDarkMode();
-            updateStatusBar('璁剧疆宸蹭繚瀛?);
+            updateStatusBar('设置已保存');
             saveAccountConfig();
         });
 
-        // 鏆傚仠/鎭㈠
+        // 暂停/恢复
         document.getElementById('al-pause').addEventListener('click', function() {
             isPaused = !isPaused;
-            this.innerText = isPaused ? '鎭㈠' : '鏆傚仠';
-            updateStatusBar(isPaused ? '宸叉殏鍋? : '宸叉仮澶?);
+            this.innerText = isPaused ? '恢复' : '暂停';
+            updateStatusBar(isPaused ? '已暂停' : '已恢复');
             if (!isPaused) executeWorkflow();
             clearAllTimeouts();
         });
 
-        // 娴嬭瘯鎵ц
+        // 测试执行
         document.getElementById('al-test').addEventListener('click', function() {
             testMode = true;
             executeWorkflow();
             testMode = false;
         });
 
-        // 閲嶇疆榛樿
+        // 重置默认
         document.getElementById('al-reset').addEventListener('click', function() {
-            // 閲嶇疆鍙橀噺鍒伴粯璁?
+            // 重置变量到默认
             duration = 180;
             refreshDelay = 10;
             likeDelay = 5;
@@ -509,16 +509,16 @@
             enableLoginCheck = true;
             enableAutoRelogin = false;
 
-            // 娓呯┖cookie
+            // 清空cookie
             ['al-duration', 'al-refreshDelay', 'al-likeDelay', 'al-scrollCount', 'al-blocked', 'al-whiteList', 'al-blockGroups', 'al-filterKeywords', 'al-filterMode', 'al-dailyLimit', 'al-select', 'al-theme', 'al-themeHue', 'al-statusOpacity', 'al-statusBgColor', 'al-statusTextColor', 'al-statusTextBrightness', 'al-darkModeAuto', 'al-menuOpacity', 'al-menuBgColor', 'al-maxRetries', 'al-scrollStepPercent', 'al-initialDelay', 'al-randomDelayMin', 'al-randomDelayMax', 'al-logLevel', 'al-enableNotifications', 'al-enableLoginCheck', 'al-enableAutoRelogin'].forEach(function(key) {
                 setCookie(key, '', -1);
             });
 
-            updateStatusBar('璁剧疆宸查噸缃?);
+            updateStatusBar('设置已重置');
             showTab(document.querySelector('[id^="al-tab-"]').id.replace('al-tab-', ''));
         });
 
-        // 瀵煎嚭閰嶇疆
+        // 导出配置
         document.getElementById('al-export').addEventListener('click', function() {
             let config = {
                 duration: duration, refreshDelay: refreshDelay, likeDelay: likeDelay, scrollCount: scrollCount, blocked: blocked, whiteList: whiteList, blockGroups: blockGroups, filterKeywords: filterKeywords, filterMode: filterMode, dailyLimit: dailyLimit, select: select, theme: theme, themeHue: themeHue, statusOpacity: statusOpacity, statusBgColor: statusBgColor, statusTextColor: statusTextColor, statusTextBrightness: statusTextBrightness, darkModeAuto: darkModeAuto, menuOpacity: menuOpacity, menuBgColor: menuBgColor, maxRetries: maxRetries, scrollStepPercent: scrollStepPercent, initialDelay: initialDelay, randomDelayMin: randomDelayMin, randomDelayMax: randomDelayMax, logLevel: logLevel, enableNotifications: enableNotifications, enableLoginCheck: enableLoginCheck, enableAutoRelogin: enableAutoRelogin
@@ -526,16 +526,16 @@
             download('al-config.json', JSON.stringify(config));
         });
 
-        // 澶囦唤閰嶇疆锛堝埌localStorage锛?
+        // 备份配置（到localStorage）
         document.getElementById('al-backup').addEventListener('click', function() {
             let config = {
                 duration: duration, refreshDelay: refreshDelay, likeDelay: likeDelay, scrollCount: scrollCount, blocked: blocked, whiteList: whiteList, blockGroups: blockGroups, filterKeywords: filterKeywords, filterMode: filterMode, dailyLimit: dailyLimit, select: select, theme: theme, themeHue: themeHue, statusOpacity: statusOpacity, statusBgColor: statusBgColor, statusTextColor: statusTextColor, statusTextBrightness: statusTextBrightness, darkModeAuto: darkModeAuto, menuOpacity: menuOpacity, menuBgColor: menuBgColor, maxRetries: maxRetries, scrollStepPercent: scrollStepPercent, initialDelay: initialDelay, randomDelayMin: randomDelayMin, randomDelayMax: randomDelayMax, logLevel: logLevel, enableNotifications: enableNotifications, enableLoginCheck: enableLoginCheck, enableAutoRelogin: enableAutoRelogin
             };
             localStorage.setItem('al-backup', JSON.stringify(config));
-            alert('閰嶇疆宸插浠?);
+            alert('配置已备份');
         });
 
-        // 鎭㈠閰嶇疆
+        // 恢复配置
         document.getElementById('al-restore').addEventListener('click', function() {
             let backup = safeJsonParse(localStorage.getItem('al-backup'));
             if (backup) {
@@ -569,23 +569,23 @@
                 enableLoginCheck = backup.enableLoginCheck;
                 enableAutoRelogin = backup.enableAutoRelogin;
 
-                alert('閰嶇疆宸叉仮澶?);
+                alert('配置已恢复');
                 showTab(document.querySelector('[id^="al-tab-"]').id.replace('al-tab-', ''));
             } else {
-                alert('鏃犲浠藉彲鐢?);
+                alert('无备份可用');
             }
         });
 
-        // 鍏抽棴鑿滃崟
+        // 关闭菜单
         document.getElementById('al-close').addEventListener('click', function() {
             menu.style.display = 'none';
             document.getElementById('al-float-btn').style.display = 'block';
         });
 
-        log('INFO', '鑿滃崟鍔犺浇瀹屾垚');
+        log('INFO', '菜单加载完成');
     }
 
-    // 涓嬭浇鍑芥暟
+    // 下载函数
     function download(filename, text) {
         let element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -596,7 +596,7 @@
         document.body.removeChild(element);
     }
 
-    // 鍒涘缓娴姩鎸夐挳
+    // 创建浮动按钮
     function createFloatButton() {
         let btn = document.createElement('div');
         btn.id = 'al-float-btn';
@@ -608,7 +608,7 @@
         btn.style.padding = '10px 15px';
         btn.style.borderRadius = '50px';
         btn.style.cursor = 'pointer';
-        btn.style.zIndex = '10003'; // 楂樹簬鐘舵€佹爮
+        btn.style.zIndex = '10003'; // 高于状态栏
         btn.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
         btn.style.transition = 'background 0.2s';
         btn.innerText = 'AL Menu';
@@ -621,7 +621,7 @@
         });
     }
 
-    // 鍔犺浇璐﹀彿閰嶇疆
+    // 加载账号配置
     function loadAccountConfig(acc) {
         let config = accounts[acc];
         if (config) {
@@ -653,13 +653,13 @@
             logLevel = config.logLevel;
             enableNotifications = config.enableNotifications;
             enableLoginCheck = config.enableLoginCheck;
-            enableAutoRelogin = config.enableAutoRelogin; // 鏂板
+            enableAutoRelogin = config.enableAutoRelogin; // 新增
             stats[acc] = config.stats || { likes: 0, skips: 0, errors: 0 };
-            logs[acc] = config.logs || []; // 娉ㄦ剰锛歭ogs鐜板湪浠巐ocalStorage鍔犺浇锛屼絾鍙互鍚堝苟濡傛灉config鏈?
+            logs[acc] = config.logs || []; // 注意：logs现在从localStorage加载，但可以合并如果config有
             currentAccount = acc;
             updateStatusBar();
         } else {
-            // 榛樿閰嶇疆
+            // 默认配置
             accounts[acc] = { duration: 180, refreshDelay: 10, likeDelay: 5, scrollCount: 3, blocked: [], whiteList: [], blockGroups: {}, filterKeywords: [], filterMode: 'block', dailyLimit: 0, select: false, theme: 'default', themeHue: 0, darkModeAuto: true, statusOpacity: 0.8, statusBgColor: 'linear-gradient(to right, #333, #222)', statusTextColor: '#ddd', statusTextBrightness: 1.0, menuOpacity: 0.9, menuBgColor: 'linear-gradient(to bottom, #ffffff, #f0f0f0)', maxRetries: 3, scrollStepPercent: 0.9, initialDelay: 3000, randomDelayMin: 1, randomDelayMax: 3, logLevel: 'INFO', enableNotifications: false, enableLoginCheck: true, enableAutoRelogin: false, stats: { likes: 0, skips: 0, errors: 0 }, logs: [] };
             currentAccount = acc;
         }
@@ -672,7 +672,7 @@
         setCookie('al-accounts', JSON.stringify(accounts), Number.MAX_SAFE_INTEGER);
     }
 
-    // 鑷姩鏆楅粦妯″紡锛堝寮哄吋瀹规€э級
+    // 自动暗黑模式（增强兼容性）
     function applyDarkMode() {
         if (!darkModeAuto) return;
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -694,10 +694,10 @@
         if (menuElem) {
             menuElem.style.background = menuBgColor;
         }
-        // 搴旂敤鍒板叾浠栧厓绱犲鏋滈渶瑕?
+        // 应用到其他元素如果需要
     }
 
-    // 鍒涘缓鐘舵€佹爮锛堟敼杩涳細缃戞牸甯冨眬銆佽繘搴︽潯銆佷氦浜掞級
+    // 创建状态栏（改进：网格布局、进度条、交互）
     function createStatusBar() {
         let statusBar = document.createElement('div');
         statusBar.id = 'al-status-bar';
@@ -717,7 +717,7 @@
         statusBar.style.color = statusTextColor;
         statusBar.style.opacity = statusOpacity;
         statusBar.style.filter = 'brightness(' + statusTextBrightness + ') hue-rotate(' + themeHue + 'deg)';
-        statusBar.style.pointerEvents = 'auto'; // 鍏佽浜や簰
+        statusBar.style.pointerEvents = 'auto'; // 允许交互
         statusBar.style.cursor = 'pointer';
         statusBar.style.display = 'grid';
         statusBar.style.gridTemplateColumns = '1fr 2fr 1fr';
@@ -725,16 +725,16 @@
         document.body.appendChild(statusBar);
 
         statusBar.addEventListener('click', function() {
-            this.style.height = this.style.height === 'auto' ? '' : 'auto'; // 灞曞紑/鎶樺彔
+            this.style.height = this.style.height === 'auto' ? '' : 'auto'; // 展开/折叠
         });
 
         setInterval(updateStatusBar, 1000);
         updateStatusBar();
 
-        log('INFO', '鐘舵€佹爮鍔犺浇瀹屾垚');
+        log('INFO', '状态栏加载完成');
     }
 
-    // 鏇存柊鐘舵€佹爮锛堟敼杩涳細杩涘害鏉°€佷粖鏃ョ偣璧烇級
+    // 更新状态栏（改进：进度条、今日点赞）
     function updateStatusBar(message) {
         resetDailyCount();
         duration = parseInt(getCookie('al-duration')) || duration;
@@ -748,31 +748,31 @@
         message = message || '';
 
         if (message) {
-            log('INFO', '鐘舵€佹爮鏇存柊: ' + message);
+            log('INFO', '状态栏更新: ' + message);
         }
 
         let lastRefreshTime = new Date(lastRefresh).toLocaleTimeString();
         let remainingSeconds = Math.max(0, Math.ceil((nextTime - Date.now()) / 1000));
         let remainingColor = remainingSeconds < 30 ? 'red' : 'green';
-        let scrollingStatus = isScrolling ? '<span style="color: lightblue; font-weight: bold;">婊氬姩涓?馃攧</span>' : '<span style="color: gray;">闈欐 鈴癸笍</span>';
-        let currentStep = message || (isPaused ? '<span style="color: yellow; font-weight: bold;">宸叉殏鍋?鈴革笍</span>' : (isRunning ? '<span style="color: orange; font-weight: bold;">鎵ц涓細' + currentTask + ' 馃殌</span>' : '<span style="color: lightgreen; font-weight: bold;">绛夊緟涓嬫鍒锋柊 鈴?/span>'));
+        let scrollingStatus = isScrolling ? '<span style="color: lightblue; font-weight: bold;">滚动中 🔄</span>' : '<span style="color: gray;">静止 ⏹️</span>';
+        let currentStep = message || (isPaused ? '<span style="color: yellow; font-weight: bold;">已暂停 ⏸️</span>' : (isRunning ? '<span style="color: orange; font-weight: bold;">执行中：' + currentTask + ' 🚀</span>' : '<span style="color: lightgreen; font-weight: bold;">等待下次刷新 ⏰</span>'));
         let taskRemaining = taskDuration > 0 ? Math.max(0, Math.ceil((taskStartTime + taskDuration * 1000 - Date.now()) / 1000)) : 0;
         let taskProgressPercent = taskDuration > 0 ? Math.round((1 - (taskRemaining / taskDuration)) * 100) : 0;
         let progressBar = '<div style="background: #ddd; height: 5px; width: 100%;"><div style="background: #4CAF50; height: 5px; width: ' + taskProgressPercent + '%;"></div></div>';
-        let taskProgress = taskRemaining > 0 ? '<span style="color: violet;">浠诲姟杩涘害: ' + taskProgressPercent + '% 馃搳</span>' : '';
-        let retryInfo = retryCount > 0 ? '<span style="color: brown;">閲嶈瘯: ' + retryCount + '/' + maxRetries + ' 鈿狅笍</span>' : '';
-        let dailyInfo = dailyLimit > 0 ? '<span style="color: purple;">浠婃棩鐐硅禐: ' + dailyCount + '/' + dailyLimit + ' 鉂わ笍</span>' : '';
+        let taskProgress = taskRemaining > 0 ? '<span style="color: violet;">任务进度: ' + taskProgressPercent + '% 📊</span>' : '';
+        let retryInfo = retryCount > 0 ? '<span style="color: brown;">重试: ' + retryCount + '/' + maxRetries + ' ⚠️</span>' : '';
+        let dailyInfo = dailyLimit > 0 ? '<span style="color: purple;">今日点赞: ' + dailyCount + '/' + dailyLimit + ' ❤️</span>' : '';
 
         let strongColor = statusTextColor === '#ddd' || statusTextColor === '#fff' ? '#ccc' : '#555';
 
         let infoParts = [taskProgress, retryInfo, dailyInfo].filter(Boolean);
         let infoSection = infoParts.length > 0 ? infoParts.join(' | ') + ' | ' : '';
 
-        let html = progressBar + '<div style="grid-column: 1;">涓婃: <strong style="color: ' + strongColor + ';">' + lastRefreshTime + ' 鈴憋笍</strong> | 鍓╀綑: <span style="color: ' + remainingColor + ';">' + remainingSeconds + 's</span></div><div style="grid-column: 2;">' + currentStep + ' | ' + scrollingStatus + '</div><div style="grid-column: 3;">闂撮殧: <strong>' + duration + 's</strong> | 寤惰繜: <strong>' + likeDelay + 's</strong></div><div style="grid-column: 1 / 4; font-size: 14px;">' + infoSection + '鐘舵€? <span style="color: ' + (isPaused ? 'yellow' : (isRunning ? 'orange' : 'lightgreen')) + ';">' + (isPaused ? '鏆傚仠' : (isRunning ? '蹇欑' : '绌洪棽')) + '</span></div>';
+        let html = progressBar + '<div style="grid-column: 1;">上次: <strong style="color: ' + strongColor + ';">' + lastRefreshTime + ' ⏱️</strong> | 剩余: <span style="color: ' + remainingColor + ';">' + remainingSeconds + 's</span></div><div style="grid-column: 2;">' + currentStep + ' | ' + scrollingStatus + '</div><div style="grid-column: 3;">间隔: <strong>' + duration + 's</strong> | 延迟: <strong>' + likeDelay + 's</strong></div><div style="grid-column: 1 / 4; font-size: 14px;">' + infoSection + '状态: <span style="color: ' + (isPaused ? 'yellow' : (isRunning ? 'orange' : 'lightgreen')) + ';">' + (isPaused ? '暂停' : (isRunning ? '忙碌' : '空闲')) + '</span></div>';
         statusBar.innerHTML = html;
     }
 
-    // 绉婚櫎鑿滃崟鍏冪礌
+    // 移除菜单元素
     function removeMeRelatedMenu() {
         let meTab = document.getElementById('tab_menu_me') || document.querySelector('li[type="me"]') || document.querySelector('#feed_tab_my');
         if (meTab) {
@@ -780,21 +780,21 @@
         }
     }
 
-    // 妫€娴嬮〉闈?
+    // 检测页面
     function isInFriendFeedPage() {
         const hasLikeButtons = document.querySelectorAll('.qz_like_btn_v3').length > 0;
         return hasLikeButtons;
     }
 
-    // 杩涘叆濂藉弸鍔ㄦ€?
+    // 进入好友动态
     function goToFriendFeed() {
         try {
-            log('INFO', '杩涘叆濂藉弸鍔ㄦ€侀〉闈?);
-            currentTask = '鍒囨崲鍒板ソ鍙嬪姩鎬侀〉闈?;
+            log('INFO', '进入好友动态页面');
+            currentTask = '切换到好友动态页面';
             taskStartTime = Date.now();
             taskDuration = 5;
-            nextTask = '鍒锋柊椤甸潰骞堕噸璇曟祦绋?;
-            updateStatusBar('鍒囨崲鍒板ソ鍙嬪姩鎬?..');
+            nextTask = '刷新页面并重试流程';
+            updateStatusBar('切换到好友动态...');
             let friendTab = document.getElementById('tab_menu_friend') || document.querySelector('li[type="friend"] a') || document.querySelector('.feed-control-tab a:not(.item-on)');
             if (friendTab) {
                 friendTab.click();
@@ -804,27 +804,27 @@
                 refresh();
             }
         } catch (e) {
-            log('ERROR', '杩涘叆濂藉弸鍔ㄦ€佸紓甯? ' + e.message);
+            log('ERROR', '进入好友动态异常: ' + e.message);
             updateStats('errors');
         }
     }
 
-    // 瀹夊叏鐐硅禐锛堟墿灞曪細鍏抽敭璇嶈繃婊ゃ€佺櫧鍚嶅崟銆佹瘡鏃ヤ笂闄愩€侀殢鏈哄欢杩燂紱淇锛氫娇鐢╥nnerText鎻愬彇鍐呭锛岄伩鍏岺TML骞叉壈锛涚偣璧炲悗娣诲姞寤惰繜妫€鏌lass鏇存柊锛岄槻姝㈤噸澶嶇偣鍑伙紱浼樺寲锛氭坊鍔犻槻閲嶅瑙﹀彂锛?
+    // 安全点赞（扩展：关键词过滤、白名单、每日上限、随机延迟；修复：使用innerText提取内容，避免HTML干扰；点赞后添加延迟检查class更新，防止重复点击；优化：添加防重复触发）
     let likeDebounce = null;
     let lastLikeTime = 0;
     function safeLike() {
         try {
             const now = Date.now();
-            if (isPaused || (now - lastLikeTime < 1000)) { // 闃查噸澶嶈Е鍙戯紝1绉掑喎鍗?
-                log('INFO', 'safeLike 鍐峰嵈涓紝璺宠繃');
+            if (isPaused || (now - lastLikeTime < 1000)) { // 防重复触发，1秒冷却
+                log('INFO', 'safeLike 冷却中，跳过');
                 return;
             }
             lastLikeTime = now;
-            if (currentTask === '鎵ц瀹夊叏鐐硅禐') return;
+            if (currentTask === '执行安全点赞') return;
             if (likeDebounce) clearTimeout(likeDebounce);
             likeDebounce = setTimeout(function() {
-                if (!checkLoginStatus()) return; // 鏂板锛氱櫥褰曟鏌?
-                currentTask = '鎵ц瀹夊叏鐐硅禐';
+                if (!checkLoginStatus()) return; // 新增：登录检查
+                currentTask = '执行安全点赞';
                 taskStartTime = Date.now();
                 const btns = document.querySelectorAll('.qz_like_btn_v3');
                 const contents = document.querySelectorAll('.f-info');
@@ -834,23 +834,23 @@
 
                 Array.from(btns).forEach(function(btn, index) {
                     const contentElem = contents[index];
-                    const content = contentElem ? contentElem.innerText : ''; // 鏀逛负innerText锛岄伩鍏岺TML鏍囩骞叉壈鍏抽敭璇嶅尮閰?
+                    const content = contentElem ? contentElem.innerText : ''; // 改为innerText，避免HTML标签干扰关键词匹配
                     const user = users[index] && users[index].getAttribute('link') ? users[index].getAttribute('link').replace('nameCard_', '') : '';
 
                     if (btn.classList.contains('item-on')) {
                         skipped++;
                         updateStats('skips');
-                        log('INFO', '璺宠繃宸茶禐鍔ㄦ€?' + (index + 1));
+                        log('INFO', '跳过已赞动态 ' + (index + 1));
                         return;
                     }
 
-                    // 鐧藉悕鍗曚紭鍏?
+                    // 白名单优先
                     if (whiteList.includes(user)) {
                         toLike.push({btn: btn, content: content, index: index});
                         return;
                     }
 
-                    // 榛戝悕鍗曟鏌ワ紙鍖呮嫭鍒嗙粍锛?
+                    // 黑名单检查（包括分组）
                     let isBlocked = blocked.includes(user);
                     Object.values(blockGroups).forEach(function(group) {
                         if (group.includes(user)) isBlocked = true;
@@ -858,11 +858,11 @@
                     if (isBlocked) {
                         skipped++;
                         updateStats('skips');
-                        log('INFO', '璺宠繃灞忚斀鐢ㄦ埛鍔ㄦ€?' + (index + 1) + ', 鐢ㄦ埛: ' + user);
+                        log('INFO', '跳过屏蔽用户动态 ' + (index + 1) + ', 用户: ' + user);
                         return;
                     }
 
-                    // 娓告垙杞彂
+                    // 游戏转发
                     let isGameForward = false;
                     if (select) {
                         for (let j = 0; j < dict.length; j++) {
@@ -875,37 +875,37 @@
                     if (isGameForward) {
                         skipped++;
                         updateStats('skips');
-                        log('INFO', '璺宠繃娓告垙杞彂鍔ㄦ€?' + (index + 1));
+                        log('INFO', '跳过游戏转发动态 ' + (index + 1));
                         return;
                     }
 
-                    // 鍏抽敭璇嶈繃婊わ紙鍔犲己鏃ュ織锛?
+                    // 关键词过滤（加强日志）
                     let matchesKeyword = false;
                     filterKeywords.forEach(function(kw) {
                         try {
                             let regex = new RegExp(kw, 'i');
                             if (regex.test(content)) {
                                 matchesKeyword = true;
-                                log('INFO', '鍏抽敭璇嶅尮閰? ' + kw + ' 鍦ㄥ姩鎬?' + (index + 1) + ' 涓壘鍒?);
+                                log('INFO', '关键词匹配: ' + kw + ' 在动态 ' + (index + 1) + ' 中找到');
                             }
                         } catch (e) {
                             if (content.includes(kw)) {
                                 matchesKeyword = true;
-                                log('INFO', '鍏抽敭璇嶅寘鍚? ' + kw + ' 鍦ㄥ姩鎬?' + (index + 1) + ' 涓壘鍒?);
+                                log('INFO', '关键词包含: ' + kw + ' 在动态 ' + (index + 1) + ' 中找到');
                             }
                         }
                     });
                     if ((filterMode === 'block' && matchesKeyword) || (filterMode === 'allow' && !matchesKeyword)) {
                         skipped++;
                         updateStats('skips');
-                        log('INFO', '璺宠繃鍏抽敭璇嶈繃婊ゅ姩鎬?' + (index + 1));
+                        log('INFO', '跳过关键词过滤动态 ' + (index + 1));
                         return;
                     }
 
-                    // 姣忔棩涓婇檺
+                    // 每日上限
                     if (dailyLimit > 0 && dailyCount >= dailyLimit) {
-                        updateStatusBar('杈惧埌姣忔棩涓婇檺锛屽仠姝㈢偣璧?);
-                        sendNotification('姣忔棩涓婇檺', '宸茶揪鍒扮偣璧炰笂闄? ' + dailyLimit);
+                        updateStatusBar('达到每日上限，停止点赞');
+                        sendNotification('每日上限', '已达到点赞上限: ' + dailyLimit);
                         return;
                     }
 
@@ -914,15 +914,15 @@
 
                 let effectiveLikes = toLike.length;
                 taskDuration = effectiveLikes * (likeDelay + (randomDelayMax - randomDelayMin) / 2) + 1;
-                nextTask = '妯℃嫙婊氬姩鎴栫瓑寰呭埛鏂?;
+                nextTask = '模拟滚动或等待刷新';
                 nextTime = Math.max(nextTime, Date.now() + taskDuration * 1000 + 5000);
-                updateStatusBar('寮€濮嬬偣璧?(闇€璧? ' + effectiveLikes + ', 璺宠繃: ' + skipped + ')');
-                log('INFO', '寮€濮嬬偣璧?(闇€璧? ' + effectiveLikes + ', 璺宠繃: ' + skipped + ')');
+                updateStatusBar('开始点赞 (需赞: ' + effectiveLikes + ', 跳过: ' + skipped + ')');
+                log('INFO', '开始点赞 (需赞: ' + effectiveLikes + ', 跳过: ' + skipped + ')');
 
                 if (effectiveLikes === 0) {
                     currentTask = '';
                     taskDuration = 0;
-                    updateStatusBar('鎵€鏈夊姩鎬佽烦杩囷紝绛夊緟鍒锋柊');
+                    updateStatusBar('所有动态跳过，等待刷新');
                     return;
                 }
 
@@ -933,9 +933,9 @@
                     setTimeout(function() {
                         if (isPaused || (dailyLimit > 0 && dailyCount >= dailyLimit)) return;
 
-                        // 鍙岄噸妫€鏌ュ凡璧烇紙闃叉寤惰繜鏇存柊锛?
+                        // 双重检查已赞（防止延迟更新）
                         if (item.btn.classList.contains('item-on')) {
-                            log('WARN', '鍔ㄦ€?' + (item.index + 1) + ' 宸茶禐锛岃烦杩囩偣鍑?);
+                            log('WARN', '动态 ' + (item.index + 1) + ' 已赞，跳过点击');
                             return;
                         }
 
@@ -944,49 +944,49 @@
                         setCookie('al-dailyCount', dailyCount, Number.MAX_SAFE_INTEGER);
                         updateStats('likes');
                         console.log('Liked: ' + item.content);
-                        updateStatusBar('鐐硅禐鍔ㄦ€?' + (item.index + 1) + ' / ' + btns.length);
-                        log('INFO', '鐐硅禐鍔ㄦ€?' + (item.index + 1));
+                        updateStatusBar('点赞动态 ' + (item.index + 1) + ' / ' + btns.length);
+                        log('INFO', '点赞动态 ' + (item.index + 1));
 
-                        // 鐐硅禐鍚庣瓑寰卌lass鏇存柊
+                        // 点赞后等待class更新
                         setTimeout(function() {
                             if (item.btn.classList.contains('item-on')) {
-                                log('INFO', '鍔ㄦ€?' + (item.index + 1) + ' class鏇存柊涓哄凡璧?);
+                                log('INFO', '动态 ' + (item.index + 1) + ' class更新为已赞');
                             } else {
-                                log('WARN', '鍔ㄦ€?' + (item.index + 1) + ' class鏈強鏃舵洿鏂?);
+                                log('WARN', '动态 ' + (item.index + 1) + ' class未及时更新');
                             }
                         }, 500);
-                    }, cumulativeDelay - delay); // 绱鍓嶉潰鐨勫欢杩?
+                    }, cumulativeDelay - delay); // 累计前面的延迟
                 });
 
                 setTimeout(function() {
                     if (isPaused) return;
                     currentTask = '';
                     taskDuration = 0;
-                    updateStatusBar('鐐硅禐瀹屾垚锛岀瓑寰呭埛鏂?);
-                    log('INFO', '鐐硅禐瀹屾垚');
-                    sendNotification('鐐硅禐瀹屾垚', '鏈鐐硅禐: ' + effectiveLikes);
-                }, cumulativeDelay + 1000); // 鎬诲欢杩熷悗鍔犵紦鍐?
+                    updateStatusBar('点赞完成，等待刷新');
+                    log('INFO', '点赞完成');
+                    sendNotification('点赞完成', '本次点赞: ' + effectiveLikes);
+                }, cumulativeDelay + 1000); // 总延迟后加缓冲
             }, 500);
         } catch (e) {
-            log('ERROR', '瀹夊叏鐐硅禐寮傚父: ' + e.message);
+            log('ERROR', '安全点赞异常: ' + e.message);
             updateStats('errors');
         }
     }
 
-    // 妯℃嫙婊氬姩锛堜紭鍖栵細鏀寔鏃犻檺婊氬姩锛屽姩鎬佹娴嬪簳閮級
+    // 模拟滚动（优化：支持无限滚动，动态检测底部）
     function simulateScroll() {
         try {
             if (isPaused) {
-                updateStatusBar('鑴氭湰宸叉殏鍋滐紝璺宠繃婊氬姩');
+                updateStatusBar('脚本已暂停，跳过滚动');
                 return;
             }
-            currentTask = '妯℃嫙涓嬫粦鍔ㄦ€?;
+            currentTask = '模拟下滑动态';
             taskStartTime = Date.now();
             taskDuration = scrollCount * 3 + 3;
-            nextTask = '鍥炲埌椤堕儴骞剁瓑寰?;
+            nextTask = '回到顶部并等待';
             nextTime = Math.max(nextTime, Date.now() + taskDuration * 1000 + 5000);
-            updateStatusBar('妯℃嫙涓嬫粦...');
-            log('INFO', '妯℃嫙婊氬姩寮€濮?);
+            updateStatusBar('模拟下滑...');
+            log('INFO', '模拟滚动开始');
             let scrollStep = window.innerHeight * scrollStepPercent;
             let scrolled = 0;
             let maxScrolls = scrollCount;
@@ -994,36 +994,36 @@
             function scrollLoop(i) {
                 if (isPaused || i >= maxScrolls) {
                     smoothScrollTo(0, 1000);
-                    updateStatusBar('鍥炲埌椤堕儴锛岀瓑寰呭埛鏂?);
+                    updateStatusBar('回到顶部，等待刷新');
                     currentTask = '';
                     taskDuration = 0;
-                    log('INFO', '婊氬姩缁撴潫');
+                    log('INFO', '滚动结束');
                     return;
                 }
                 smoothScrollTo((i + 1) * scrollStep, 500);
                 window.dispatchEvent(new Event('scroll'));
-                updateStatusBar('婊氬姩鍒扮粍 ' + (i + 1) + '/' + maxScrolls);
-                log('INFO', '婊氬姩鍒扮粍 ' + (i + 1));
-                let loadMoreBtn = document.querySelector('.load-more') || document.querySelector('a[title="鍔犺浇鏇村"]');
+                updateStatusBar('滚动到组 ' + (i + 1) + '/' + maxScrolls);
+                log('INFO', '滚动到组 ' + (i + 1));
+                let loadMoreBtn = document.querySelector('.load-more') || document.querySelector('a[title="加载更多"]');
                 if (loadMoreBtn) {
                     loadMoreBtn.click();
-                    maxScrolls++; // 鍔ㄦ€佸鍔犲鏋滄湁鏇村
+                    maxScrolls++; // 动态增加如果有更多
                 }
-                // 妫€鏌ユ槸鍚﹀埌杈惧簳閮?
+                // 检查是否到达底部
                 if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 100) {
-                    maxScrolls = i + 1; // 鍋滄濡傛灉鍒拌揪搴曢儴
+                    maxScrolls = i + 1; // 停止如果到达底部
                 }
                 setTimeout(function() { scrollLoop(i + 1); }, 3000);
             }
 
             scrollLoop(0);
         } catch (e) {
-            log('ERROR', '婊氬姩寮傚父: ' + e.message);
+            log('ERROR', '滚动异常: ' + e.message);
             updateStats('errors');
         }
     }
 
-    // 骞虫粦婊氬姩
+    // 平滑滚动
     function smoothScrollTo(targetY, duration) {
         let startY = window.scrollY;
         let distance = targetY - startY;
@@ -1046,38 +1046,38 @@
         requestAnimationFrame(animation);
     }
 
-    // 鍒锋柊
+    // 刷新
     function refresh() {
         try {
             if (isPaused) return;
-            log('INFO', '鍒锋柊瑙﹀彂');
-            currentTask = '鍒锋柊椤甸潰';
+            log('INFO', '刷新触发');
+            currentTask = '刷新页面';
             taskStartTime = Date.now();
             taskDuration = refreshDelay;
-            nextTask = '鎵ц宸ヤ綔娴?;
+            nextTask = '执行工作流';
             lastRefresh = Date.now();
             setCookie('al-lastRefresh', lastRefresh, Number.MAX_SAFE_INTEGER);
             nextTime = Date.now() + duration * 1000;
             setCookie('al-justRefreshed', 'true', 60);
             location.reload();
         } catch (e) {
-            log('ERROR', '鍒锋柊寮傚父: ' + e.message);
+            log('ERROR', '刷新异常: ' + e.message);
             updateStats('errors');
         }
     }
 
-    // 鎵ц宸ヤ綔娴?
+    // 执行工作流
     function executeWorkflow() {
         if (isPaused) return;
         if (isRunning && !testMode) return;
-        if (!checkLoginStatus()) return; // 鏂板锛氱櫥褰曟鏌?
+        if (!checkLoginStatus()) return; // 新增：登录检查
         isRunning = true;
-        currentTask = '鎵ц宸ヤ綔娴?;
+        currentTask = '执行工作流';
         taskStartTime = Date.now();
         taskDuration = 10;
-        nextTask = '鐐硅禐鎴栧垏鎹?;
-        updateStatusBar('寮€濮嬪伐浣滄祦');
-        log('INFO', '寮€濮嬪伐浣滄祦');
+        nextTask = '点赞或切换';
+        updateStatusBar('开始工作流');
+        log('INFO', '开始工作流');
 
         setTimeout(function() {
             try {
@@ -1086,17 +1086,17 @@
                     return;
                 }
                 if (isInFriendFeedPage()) {
-                    updateStatusBar('鐩存帴鎵ц鐐硅禐');
-                    log('INFO', '鐩存帴鐐硅禐');
+                    updateStatusBar('直接执行点赞');
+                    log('INFO', '直接点赞');
                     safeLike();
                     simulateScroll();
                 } else {
-                    updateStatusBar('鍒囨崲骞跺埛鏂?);
+                    updateStatusBar('切换并刷新');
                     retryCount++;
-                    log('WARN', '閲嶈瘯: ' + retryCount);
+                    log('WARN', '重试: ' + retryCount);
                     if (retryCount > maxRetries) {
-                        updateStatusBar('閲嶈瘯瓒呴檺');
-                        log('ERROR', '閲嶈瘯瓒呴檺');
+                        updateStatusBar('重试超限');
+                        log('ERROR', '重试超限');
                         isRunning = false;
                         retryCount = 0;
                         updateStats('errors');
@@ -1110,14 +1110,14 @@
                 currentTask = '';
                 taskDuration = 0;
             } catch (e) {
-                log('ERROR', '宸ヤ綔娴佸紓甯? ' + e.message);
+                log('ERROR', '工作流异常: ' + e.message);
                 isRunning = false;
                 updateStats('errors');
             }
         }, initialDelay);
     }
 
-    // 婊氬姩浜嬩欢
+    // 滚动事件
     let scrollDebounce = null;
     window.addEventListener('scroll', function() {
         if (isPaused) return;
@@ -1132,11 +1132,11 @@
         }, 1000);
     });
 
-    // 涓诲惊鐜紙鏂板锛氬畾鏈熺櫥褰曟鏌ワ級
+    // 主循环（新增：定期登录检查）
     let mainInterval = setInterval(function() {
         try {
             if (isPaused) {
-                updateStatusBar('鏆傚仠涓?);
+                updateStatusBar('暂停中');
                 return;
             }
             let time = Date.now();
@@ -1145,17 +1145,17 @@
             } else if (isScrolling) {
                 safeLike();
             }
-            // 姣忓垎閽熸鏌ヤ竴娆＄櫥褰?
+            // 每分钟检查一次登录
             if (time % 60000 < 1000) {
                 checkLoginStatus();
             }
         } catch (e) {
-            log('ERROR', '涓诲惊鐜紓甯? ' + e.message);
+            log('ERROR', '主循环异常: ' + e.message);
             updateStats('errors');
         }
     }, 1000);
 
-    // 娓呯悊瀹氭椂鍣?
+    // 清理定时器
     function clearAllTimeouts() {
         clearTimeout(timeout);
         clearTimeout(likeDebounce);
@@ -1164,7 +1164,7 @@
         mainInterval = null;
     }
 
-    // 鍒濆鍖?
+    // 初始化
     window.onload = function () {
         try {
             createMenu();
@@ -1179,19 +1179,18 @@
                 setTimeout(executeWorkflow, 3000);
             }
 
-            // 鍔犺浇褰撳墠璐﹀彿閰嶇疆
+            // 加载当前账号配置
             loadAccountConfig(currentAccount);
 
-            // 鏂板锛氬惎鍔∕utationObserver
+            // 新增：启动MutationObserver
             setupMutationObserver();
 
-            log('INFO', '鑴氭湰鍒濆鍖栧畬鎴?);
+            log('INFO', '脚本初始化完成');
         } catch (e) {
-            log('ERROR', '鍒濆鍖栧紓甯? ' + e.message);
+            log('ERROR', '初始化异常: ' + e.message);
             updateStats('errors');
         }
     };
 
     console.log('Auto Like Enhanced v2.8.9 Running...');
 })();
-
