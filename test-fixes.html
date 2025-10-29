@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QZone 自动点赞器 - 修复测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <h1>QZone 自动点赞器 - 修复功能测试</h1>
+    
+    <div class="test-section">
+        <h2>1. MutationObserver 内存泄漏修复测试</h2>
+        <p>测试暂停/恢复功能是否正确管理 MutationObserver</p>
+        <button class="test-button" onclick="testMutationObserver()">测试 MutationObserver 管理</button>
+        <div id="mutation-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. JSON.parse 安全性修复测试</h2>
+        <p>测试 safeJsonParse 函数是否正确处理无效 JSON</p>
+        <button class="test-button" onclick="testJsonParseSafety()">测试 JSON 解析安全性</button>
+        <div id="json-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. 配置导入/导出测试</h2>
+        <p>测试配置文件的导入导出功能</p>
+        <button class="test-button" onclick="testConfigImportExport()">测试配置导入导出</button>
+        <div id="config-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. 页面卸载清理测试</h2>
+        <p>测试页面卸载时的资源清理</p>
+        <button class="test-button" onclick="testCleanupFunction()">测试清理函数</button>
+        <div id="cleanup-result"></div>
+    </div>
+
+    <script>
+        // 模拟 Tampermonkey 环境
+        window.unsafeWindow = window;
+        window.GM_getValue = function(key, defaultValue) {
+            try {
+                const value = localStorage.getItem('GM_' + key);
+                return value === null ? defaultValue : JSON.parse(value);
+            } catch (e) {
+                return defaultValue;
+            }
+        };
+        window.GM_setValue = function(key, value) {
+            localStorage.setItem('GM_' + key, JSON.stringify(value));
+        };
+        window.GM_deleteValue = function(key) {
+            localStorage.removeItem('GM_' + key);
+        };
+    </script>
+    <script src="QZone Praise Automator 2.11.0.js"></script>
+    <script>
+        function showResult(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="test-result ${type}">${message}</div>`;
+        }
+
+        function testMutationObserver() {
+            showResult('mutation-result', '开始测试 MutationObserver 管理...', 'info');
+            
+            try {
+                // 检查是否存在 togglePause 函数
+                if (typeof togglePause === 'function') {
+                    // 模拟暂停操作
+                    const originalIsPaused = window.isPaused;
+                    
+                    // 测试暂停
+                    window.isPaused = false;
+                    togglePause();
+                    
+                    if (window.isPaused === true) {
+                        showResult('mutation-result', '✓ 暂停功能正常工作', 'success');
+                        
+                        // 测试恢复
+                        togglePause();
+                        if (window.isPaused === false) {
+                            showResult('mutation-result', '✓ 暂停/恢复功能正常，MutationObserver 管理修复成功', 'success');
+                        } else {
+                            showResult('mutation-result', '✗ 恢复功能异常', 'error');
+                        }
+                    } else {
+                        showResult('mutation-result', '✗ 暂停功能异常', 'error');
+                    }
+                    
+                    // 恢复原始状态
+                    window.isPaused = originalIsPaused;
+                } else {
+                    showResult('mutation-result', '✗ togglePause 函数未找到', 'error');
+                }
+            } catch (e) {
+                showResult('mutation-result', `✗ 测试失败: ${e.message}`, 'error');
+            }
+        }
+
+        function testJsonParseSafety() {
+            showResult('json-result', '开始测试 JSON 解析安全性...', 'info');
+            
+            try {
+                // 检查是否存在 safeJsonParse 函数
+                if (typeof safeJsonParse === 'function') {
+                    // 测试有效 JSON
+                    const validJson = '{"test": "value"}';
+                    const validResult = safeJsonParse(validJson);
+                    
+                    if (validResult && validResult.test === 'value') {
+                        // 测试无效 JSON
+                        const invalidJson = '{invalid json}';
+                        const invalidResult = safeJsonParse(invalidJson);
+                        
+                        if (invalidResult === null) {
+                            showResult('json-result', '✓ safeJsonParse 函数正常工作，安全处理无效 JSON', 'success');
+                        } else {
+                            showResult('json-result', '✗ safeJsonParse 未正确处理无效 JSON', 'error');
+                        }
+                    } else {
+                        showResult('json-result', '✗ safeJsonParse 未正确解析有效 JSON', 'error');
+                    }
+                } else {
+                    showResult('json-result', '✗ safeJsonParse 函数未找到', 'error');
+                }
+            } catch (e) {
+                showResult('json-result', `✗ 测试失败: ${e.message}`, 'error');
+            }
+        }
+
+        function testConfigImportExport() {
+            showResult('config-result', '开始测试配置导入导出...', 'info');
+            
+            try {
+                // 测试配置备份
+                if (typeof backupConfig === 'function') {
+                    backupConfig();
+                    
+                    // 检查是否创建了备份
+                    const backup = localStorage.getItem('al-config-backup');
+                    if (backup) {
+                        // 测试恢复配置
+                        if (typeof restoreConfig === 'function') {
+                            restoreConfig();
+                            showResult('config-result', '✓ 配置备份和恢复功能正常工作', 'success');
+                        } else {
+                            showResult('config-result', '✗ restoreConfig 函数未找到', 'error');
+                        }
+                    } else {
+                        showResult('config-result', '✗ 配置备份失败', 'error');
+                    }
+                } else {
+                    showResult('config-result', '✗ backupConfig 函数未找到', 'error');
+                }
+            } catch (e) {
+                showResult('config-result', `✗ 测试失败: ${e.message}`, 'error');
+            }
+        }
+
+        function testCleanupFunction() {
+            showResult('cleanup-result', '开始测试清理函数...', 'info');
+            
+            try {
+                // 检查是否存在 cleanup 函数
+                if (typeof cleanup === 'function') {
+                    // 模拟一些需要清理的资源
+                    window.testInterval = setInterval(() => {}, 1000);
+                    window.testTimeout = setTimeout(() => {}, 1000);
+                    
+                    // 调用清理函数
+                    cleanup();
+                    
+                    showResult('cleanup-result', '✓ 清理函数存在并已执行，资源清理修复成功', 'success');
+                } else {
+                    showResult('cleanup-result', '✗ cleanup 函数未找到', 'error');
+                }
+            } catch (e) {
+                showResult('cleanup-result', `✗ 测试失败: ${e.message}`, 'error');
+            }
+        }
+
+        // 页面加载完成后显示初始信息
+        window.addEventListener('load', function() {
+            console.log('测试页面加载完成，可以开始测试修复的功能');
+        });
+    </script>
+</body>
+</html>

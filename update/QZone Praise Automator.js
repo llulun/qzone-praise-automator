@@ -9,6 +9,7 @@
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        unsafeWindow
 // @grant        GM_notification
+// @run-at       document-end
 // ==/UserScript==
 
 (function() {
@@ -285,8 +286,9 @@
                 } else if (tab === 'stats') {
                     let accountStats = stats[currentAccount] || { likes: 0, skips: 0, errors: 0 };
                     let total = accountStats.likes + accountStats.skips + accountStats.errors;
-                    let successRate = total > 0 ? Math.round((accountStats.likes / total) * 100) : 0;
-                    content.innerHTML = '<h3>性能统计</h3><p>点赞: ' + accountStats.likes + ' | 跳过: ' + accountStats.skips + ' | 错误: ' + accountStats.errors + ' | 成功率: ' + successRate + '%</p><canvas id="al-stats-chart" width="300" height="200"></canvas><button id="al-clear-stats" style="margin-top: 10px; background: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">清除统计</button>';
+                    let successSum = accountStats.likes + accountStats.skips;
+                    let successRate = total > 0 ? Math.round((successSum / total) * 100) : 0;
+                    content.innerHTML = '<h3>性能统计</h3><p>点赞: ' + accountStats.likes + ' | 跳过: ' + accountStats.skips + ' | 错误: ' + accountStats.errors + ' | 成功率（点赞+跳过）: ' + successRate + '%</p><canvas id="al-stats-chart" width="300" height="200"></canvas><button id="al-clear-stats" style="margin-top: 10px; background: #f44336; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">清除统计</button>';
                     let canvas = document.getElementById('al-stats-chart');
                     let ctx = canvas.getContext('2d');
                     let data = [accountStats.likes, accountStats.skips, accountStats.errors];
@@ -619,7 +621,8 @@
         statusBar.style.width = '100%';
         statusBar.style.background = statusBgColor;
         statusBar.style.padding = '12px 24px';
-        statusBar.style.zIndex = '10001';
+        statusBar.style.zIndex = '2147483647';
+        try { statusBar.style.setProperty('z-index', '2147483647', 'important'); } catch(e) {}
         statusBar.style.fontSize = '15px';
         statusBar.style.lineHeight = '1.6';
         statusBar.style.textAlign = 'center';
@@ -1073,8 +1076,10 @@
         mainInterval = null;
     }
 
-    // 初始化
-    window.onload = function () {
+    // 初始化（兼容 Tampermonkey 隔离环境与不同页面加载时机）
+    function __al_init() {
+        if (window.__al_initialized) return;
+        window.__al_initialized = true;
         try {
             createMenu();
             createStatusBar();
@@ -1095,7 +1100,14 @@
             log('ERROR', '初始化异常: ' + e.message);
             updateStats('errors');
         }
-    };
+    }
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        __al_init();
+    } else {
+        window.addEventListener('load', __al_init, true);
+        document.addEventListener('DOMContentLoaded', __al_init, true);
+    }
 
     console.log('Auto Like Enhanced v2.8.5 Running...');
 })();

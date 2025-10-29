@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QZone Praise Automator 预览</title>
+  <style>
+    html, body { height: 100%; }
+    body { margin: 0; background: #0f172a; color: #e5e7eb; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Microsoft YaHei", "Noto Sans", "PingFang SC", sans-serif; }
+    .hint { position: fixed; left: 16px; bottom: 16px; background: rgba(0,0,0,0.4); padding: 10px 12px; border-radius: 8px; font-size: 12px; }
+    a { color: #93c5fd; }
+  </style>
+  <script>
+    // Userscript API stubs for preview
+    window.unsafeWindow = window;
+    window.GM_addStyle = function(css){
+      var s = document.createElement('style');
+      s.textContent = css; document.head.appendChild(s);
+    };
+    window.GM_notification = function(opts){ console.log('GM_notification', opts); };
+    window.GM_getValue = function(k, d){ try{ var v = localStorage.getItem('GM_'+k); return v===null?d:JSON.parse(v);}catch(e){return d;} };
+    window.GM_setValue = function(k, v){ try{ localStorage.setItem('GM_'+k, JSON.stringify(v)); }catch(e){} };
+  </script>
+</head>
+<body>
+  <div class="hint">
+    预览说明：
+    <br>- 自动加载并显示控制面板与状态栏
+    <br>- 测试"保存""暂停/恢复""测试执行""重置""导出""备份""恢复"等按钮
+    <br>- 如遇控制台警告，属于未接入 QZone 环境的占位行为
+  </div>
+  
+  <div id="script-logs" style="position: fixed; right: 16px; top: 60px; width: 300px; height: 200px; background: rgba(0,0,0,0.8); color: #fff; padding: 10px; border-radius: 8px; font-size: 11px; overflow-y: auto; z-index: 1000;">
+    <div style="font-weight: bold; margin-bottom: 5px;">脚本日志:</div>
+  </div>
+
+  <script src="../QZone Praise Automator 2.11.0.js"></script>
+  <script>
+    // 模拟QQ空间环境
+    window.g_iframeUser = true;
+    window.g_iframeDescend = true;
+    
+    // 模拟QQ空间的domain设置
+    console.log('模拟QQ空间环境 - 设置document.domain');
+    try {
+      document.domain = 'qq.com';
+    } catch (e) {
+      console.log('无法设置document.domain (这在本地测试中是正常的):', e.message);
+    }
+    
+    // 监听脚本的日志输出
+    const originalLog = console.log;
+    console.log = function(...args) {
+      originalLog.apply(console, args);
+      // 如果是AL相关的日志，显示在页面上
+      if (args.some(arg => typeof arg === 'string' && arg.includes('[AL]'))) {
+        const logDiv = document.getElementById('script-logs');
+        if (logDiv) {
+          const logEntry = document.createElement('div');
+          logEntry.style.cssText = 'margin: 2px 0; padding: 4px; background: #f0f0f0; border-radius: 3px; font-size: 12px;';
+          logEntry.textContent = args.join(' ');
+          logDiv.appendChild(logEntry);
+          logDiv.scrollTop = logDiv.scrollHeight;
+        }
+      }
+    };
+    
+    // 简化的状态栏创建函数（作为兜底）
+    function createSimpleStatusBar() {
+      if (document.getElementById('al-status-bar')) return;
+      
+      const statusBar = document.createElement('div');
+      statusBar.id = 'al-status-bar';
+      statusBar.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 48px;
+        background: linear-gradient(to right, #333, #222);
+        color: #ddd;
+        padding: 12px 20px;
+        z-index: 2147483646;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      `;
+      
+      statusBar.innerHTML = `
+        <span>AL Status: 就绪 (兜底版本)</span>
+        <span id="current-time">${new Date().toLocaleTimeString()}</span>
+      `;
+      
+      document.body.appendChild(statusBar);
+      
+      // 更新时间
+      setInterval(() => {
+        const timeEl = document.getElementById('current-time');
+        if (timeEl) {
+          timeEl.textContent = new Date().toLocaleTimeString();
+        }
+      }, 1000);
+      
+      console.log('[AL] 简化状态栏已创建（兜底机制）');
+    }
+
+    // 页面加载后检查状态栏
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        if (!document.getElementById('al-status-bar')) {
+          console.log('[AL] 5秒后未检测到状态栏，创建简化版本');
+          createSimpleStatusBar();
+        } else {
+          console.log('[AL] 检测到状态栏已存在');
+        }
+      }, 5000);
+    });
+  </script>
+</body>
+</html>
