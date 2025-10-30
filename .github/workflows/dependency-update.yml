@@ -1,0 +1,266 @@
+# 依赖更新检查工作流
+# 定期检查和更新项目依赖
+
+name: Dependency Update
+
+on:
+  workflow_dispatch:  # 手动触发
+  schedule:
+    - cron: '0 3 * * 1'  # 每周一凌晨3点运行
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-dependencies:
+    name: 检查依赖更新
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 检查 GitHub Actions 版本
+        run: |
+          echo "检查 GitHub Actions 依赖版本..."
+          
+          # 检查常用 Actions 的最新版本
+          ACTIONS_TO_CHECK=(
+            "actions/checkout"
+            "actions/setup-node"
+            "actions/upload-artifact"
+            "peter-evans/create-pull-request"
+            "softprops/action-gh-release"
+          )
+          
+          echo "## GitHub Actions 版本检查" > dependency-report.md
+          echo "" >> dependency-report.md
+          
+          for action in "${ACTIONS_TO_CHECK[@]}"; do
+            echo "检查 $action..."
+            
+            # 获取最新版本 (简化版本，实际可能需要 API 调用)
+            echo "- $action: 建议检查最新版本" >> dependency-report.md
+          done
+
+      - name: 检查浏览器扩展兼容性
+        run: |
+          echo "" >> dependency-report.md
+          echo "## 浏览器扩展兼容性检查" >> dependency-report.md
+          echo "" >> dependency-report.md
+          
+          # 检查主流浏览器版本支持
+          echo "### 推荐的浏览器版本" >> dependency-report.md
+          echo "- Chrome: 最新版本" >> dependency-report.md
+          echo "- Firefox: 最新版本" >> dependency-report.md
+          echo "- Edge: 最新版本" >> dependency-report.md
+          echo "- Safari: 最新版本 (如果支持 Tampermonkey)" >> dependency-report.md
+          echo "" >> dependency-report.md
+          
+          echo "### 用户脚本管理器" >> dependency-report.md
+          echo "- Tampermonkey: 推荐最新版本" >> dependency-report.md
+          echo "- Violentmonkey: 推荐最新版本" >> dependency-report.md
+          echo "- Greasemonkey: 检查兼容性" >> dependency-report.md
+
+      - name: 检查脚本 API 兼容性
+        run: |
+          echo "" >> dependency-report.md
+          echo "## 用户脚本 API 兼容性" >> dependency-report.md
+          echo "" >> dependency-report.md
+          
+          # 检查脚本中使用的 API
+          if [ -f "*.js" ]; then
+            echo "### 使用的 Tampermonkey API" >> dependency-report.md
+            
+            # 检查常用 API
+            APIS=("GM_getValue" "GM_setValue" "GM_addStyle" "GM_log" "GM_info" "GM_xmlhttpRequest")
+            
+            for api in "${APIS[@]}"; do
+              if grep -q "$api" *.js 2>/dev/null; then
+                echo "- ✅ $api: 已使用" >> dependency-report.md
+              else
+                echo "- ⚪ $api: 未使用" >> dependency-report.md
+              fi
+            done
+          fi
+
+      - name: 生成安全建议
+        run: |
+          echo "" >> dependency-report.md
+          echo "## 安全建议" >> dependency-report.md
+          echo "" >> dependency-report.md
+          
+          echo "### 定期检查项目" >> dependency-report.md
+          echo "- 🔍 检查脚本是否使用了过时的 API" >> dependency-report.md
+          echo "- 🛡️ 验证脚本权限是否最小化" >> dependency-report.md
+          echo "- 📱 测试在不同浏览器中的兼容性" >> dependency-report.md
+          echo "- 🔄 关注 Tampermonkey 更新日志" >> dependency-report.md
+          echo "" >> dependency-report.md
+          
+          echo "### 推荐的安全实践" >> dependency-report.md
+          echo "- 避免使用 \`eval()\` 和 \`Function()\`" >> dependency-report.md
+          echo "- 最小化 \`@grant\` 权限" >> dependency-report.md
+          echo "- 使用 HTTPS 进行网络请求" >> dependency-report.md
+          echo "- 定期审查代码中的外部依赖" >> dependency-report.md
+
+      - name: 检查文档更新需求
+        run: |
+          echo "" >> dependency-report.md
+          echo "## 文档更新建议" >> dependency-report.md
+          echo "" >> dependency-report.md
+          
+          # 检查文档是否需要更新
+          CURRENT_YEAR=$(date +%Y)
+          
+          if grep -q "Copyright.*$(($CURRENT_YEAR - 1))" *.md 2>/dev/null; then
+            echo "- 📅 更新版权年份到 $CURRENT_YEAR" >> dependency-report.md
+          fi
+          
+          if grep -q "Chrome.*[0-9][0-9]" README.md 2>/dev/null; then
+            echo "- 🌐 检查浏览器版本要求是否需要更新" >> dependency-report.md
+          fi
+          
+          echo "- 📖 检查安装说明是否需要更新" >> dependency-report.md
+          echo "- 🔗 验证所有外部链接是否有效" >> dependency-report.md
+
+      - name: 生成更新建议
+        run: |
+          echo "" >> dependency-report.md
+          echo "## 推荐的更新操作" >> dependency-report.md
+          echo "" >> dependency-report.md
+          
+          echo "### 立即执行" >> dependency-report.md
+          echo "- [ ] 更新 GitHub Actions 到最新版本" >> dependency-report.md
+          echo "- [ ] 测试脚本在最新浏览器版本中的兼容性" >> dependency-report.md
+          echo "- [ ] 检查并更新文档中的过时信息" >> dependency-report.md
+          echo "" >> dependency-report.md
+          
+          echo "### 定期执行" >> dependency-report.md
+          echo "- [ ] 每月检查 Tampermonkey 更新" >> dependency-report.md
+          echo "- [ ] 每季度进行全面兼容性测试" >> dependency-report.md
+          echo "- [ ] 每半年审查安全实践" >> dependency-report.md
+          echo "" >> dependency-report.md
+          
+          echo "---" >> dependency-report.md
+          echo "*报告生成时间: $(date)*" >> dependency-report.md
+
+      - name: 检查是否需要创建 Issue
+        id: check-updates
+        run: |
+          # 简化检查：如果报告文件存在且不为空，则认为需要更新
+          if [ -f "dependency-report.md" ] && [ -s "dependency-report.md" ]; then
+            echo "需要创建依赖更新报告"
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+          else
+            echo "无需创建更新报告"
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 创建依赖更新 Issue
+        if: steps.check-updates.outputs.needs_update == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            📋 依赖更新检查报告
+            
+            - 生成依赖更新检查报告
+            - 包含安全建议和更新建议
+            - 自动化依赖检查结果
+          title: '📋 依赖更新检查报告'
+          body: |
+            ## 📋 依赖更新检查报告
+            
+            此 PR 包含自动生成的依赖更新检查报告。
+            
+            ### 📄 报告内容
+            - GitHub Actions 版本检查
+            - 浏览器扩展兼容性检查
+            - 用户脚本 API 兼容性检查
+            - 安全建议
+            - 文档更新建议
+            - 推荐的更新操作
+            
+            ### 📋 后续操作
+            请查看 `dependency-report.md` 文件中的详细建议，并根据需要执行相应的更新操作。
+            
+            ### 🔍 检查清单
+            - [ ] 审查依赖更新建议
+            - [ ] 执行必要的更新操作
+            - [ ] 测试更新后的兼容性
+            - [ ] 更新相关文档
+            
+            ---
+            
+            🤖 *此报告由 GitHub Actions 自动生成*
+          branch: dependency-update/report
+          delete-branch: true
+          labels: |
+            📋 dependencies
+            🔍 maintenance
+            🤖 automated
+          add-paths: |
+            dependency-report.md
+
+      - name: 输出结果
+        run: |
+          if [ "${{ steps.check-updates.outputs.needs_update }}" == "true" ]; then
+            echo "✅ 创建了依赖更新检查报告"
+          else
+            echo "ℹ️ 当前依赖状态良好，无需特别关注"
+          fi
+
+  # 检查外部链接有效性
+  check-links:
+    name: 检查外部链接
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 检查 Markdown 文件中的链接
+        run: |
+          echo "检查外部链接有效性..."
+          
+          # 提取所有 HTTP/HTTPS 链接
+          LINKS=$(grep -hoP 'https?://[^\s\)]+' *.md 2>/dev/null | sort -u)
+          
+          if [ -z "$LINKS" ]; then
+            echo "未找到外部链接"
+            exit 0
+          fi
+          
+          echo "找到以下外部链接："
+          echo "$LINKS"
+          
+          # 检查链接有效性（简化版本）
+          echo "" > link-check-report.md
+          echo "# 外部链接检查报告" >> link-check-report.md
+          echo "" >> link-check-report.md
+          echo "检查时间: $(date)" >> link-check-report.md
+          echo "" >> link-check-report.md
+          
+          while IFS= read -r link; do
+            if [ -n "$link" ]; then
+              echo "检查链接: $link"
+              
+              # 使用 curl 检查链接（超时 10 秒）
+              if curl -s --head --max-time 10 "$link" > /dev/null 2>&1; then
+                echo "- ✅ $link" >> link-check-report.md
+              else
+                echo "- ❌ $link (可能无法访问)" >> link-check-report.md
+              fi
+            fi
+          done <<< "$LINKS"
+
+      - name: 上传链接检查报告
+        uses: actions/upload-artifact@v4
+        with:
+          name: link-check-report
+          path: link-check-report.md
+          retention-days: 30

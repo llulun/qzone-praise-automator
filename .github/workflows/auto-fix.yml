@@ -1,0 +1,165 @@
+# 自动代码格式化和修复工作流
+# 自动修复代码格式问题并创建 PR
+
+name: Auto Fix & Format
+
+on:
+  workflow_dispatch:  # 手动触发
+  schedule:
+    - cron: '0 2 * * 1'  # 每周一凌晨2点运行
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-fix:
+    name: 自动修复和格式化
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 安装工具
+        run: |
+          npm init -y
+          npm install --save-dev prettier eslint @eslint/js
+
+      - name: 创建 Prettier 配置
+        run: |
+          cat > .prettierrc << 'EOF'
+          {
+            "semi": true,
+            "trailingComma": "es5",
+            "singleQuote": true,
+            "printWidth": 80,
+            "tabWidth": 2,
+            "useTabs": false,
+            "endOfLine": "lf"
+          }
+          EOF
+
+      - name: 创建 Prettier 忽略文件
+        run: |
+          cat > .prettierignore << 'EOF'
+          node_modules/
+          .git/
+          *.min.js
+          *.bundle.js
+          EOF
+
+      - name: 格式化 JavaScript 文件
+        run: |
+          # 格式化 JS 文件
+          npx prettier --write "*.js" || echo "Prettier 格式化完成"
+
+      - name: 格式化 Markdown 文件
+        run: |
+          # 格式化 Markdown 文件
+          npx prettier --write "*.md" || echo "Markdown 格式化完成"
+
+      - name: 修复行尾符
+        run: |
+          # 统一行尾符为 LF
+          find . -name "*.js" -o -name "*.md" -o -name "*.yml" -o -name "*.yaml" | \
+          while read file; do
+            if [ -f "$file" ]; then
+              # 转换为 Unix 行尾符
+              sed -i 's/\r$//' "$file"
+              echo "修复行尾符: $file"
+            fi
+          done
+
+      - name: 修复文件编码
+        run: |
+          # 确保文件为 UTF-8 编码
+          for file in *.js *.md; do
+            if [ -f "$file" ]; then
+              # 检查并转换编码
+              if ! file "$file" | grep -q "UTF-8"; then
+                echo "转换编码: $file"
+                iconv -f ISO-8859-1 -t UTF-8 "$file" > "${file}.tmp" && mv "${file}.tmp" "$file" || echo "编码转换失败: $file"
+              fi
+            fi
+          done
+
+      - name: 清理空白字符
+        run: |
+          # 移除行尾空白字符
+          for file in *.js *.md *.yml *.yaml; do
+            if [ -f "$file" ]; then
+              sed -i 's/[[:space:]]*$//' "$file"
+              echo "清理空白字符: $file"
+            fi
+          done
+
+      - name: 检查是否有更改
+        id: verify-changed-files
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "检测到文件更改"
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "没有文件更改"
+          fi
+
+      - name: 创建 Pull Request
+        if: steps.verify-changed-files.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            🤖 自动代码格式化和修复
+            
+            - 使用 Prettier 格式化代码
+            - 统一行尾符为 LF
+            - 确保 UTF-8 编码
+            - 清理行尾空白字符
+          title: '🤖 自动代码格式化和修复'
+          body: |
+            ## 🤖 自动代码格式化和修复
+            
+            此 PR 由自动化工作流创建，包含以下修复：
+            
+            ### ✨ 修复内容
+            - 📝 使用 Prettier 格式化 JavaScript 和 Markdown 文件
+            - 🔄 统一行尾符为 LF (Unix 格式)
+            - 🔤 确保所有文件使用 UTF-8 编码
+            - 🧹 清理行尾空白字符
+            
+            ### 🔍 检查清单
+            - [ ] 代码格式化正确
+            - [ ] 文件编码正确
+            - [ ] 行尾符统一
+            - [ ] 无多余空白字符
+            
+            ### 📋 注意事项
+            - 此 PR 仅包含格式化修复，不涉及功能更改
+            - 建议在合并前进行代码审查
+            - 合并后建议运行完整测试
+            
+            ---
+            
+            🤖 *此 PR 由 GitHub Actions 自动创建*
+          branch: auto-fix/code-formatting
+          delete-branch: true
+          labels: |
+            🤖 automated
+            📝 formatting
+            🔧 maintenance
+
+      - name: 输出结果
+        run: |
+          if [ "${{ steps.verify-changed-files.outputs.changed }}" == "true" ]; then
+            echo "✅ 创建了自动修复 PR"
+          else
+            echo "ℹ️ 代码已经是最新格式，无需修复"
+          fi

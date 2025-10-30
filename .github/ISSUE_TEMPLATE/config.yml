@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 项目文档
+    url: https://github.com/llulun/qzone-praise-automator/blob/main/README.md
+    about: 查看项目文档和使用说明
+  - name: 💬 讨论区
+    url: https://github.com/llulun/qzone-praise-automator/discussions
+    about: 参与社区讨论，分享使用经验
+  - name: 🔒 安全问题
+    url: https://github.com/llulun/qzone-praise-automator/security/policy
+    about: 报告安全漏洞（请勿在公开 Issue 中报告）
+  - name: 📧 邮件联系
+    url: mailto:mail@llulun.top
+    about: 直接邮件联系项目维护者

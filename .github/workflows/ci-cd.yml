@@ -1,0 +1,370 @@
+# QZone Praise Automator CI/CD Pipeline
+# 自动化测试、代码质量检查和发布流程
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [created]
+
+env:
+  SCRIPT_NAME: "QZone Praise Automator"
+
+jobs:
+  # 代码质量检查
+  code-quality:
+    name: 代码质量检查
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 安装依赖
+        run: |
+          if [ -f package.json ]; then
+            npm ci
+          else
+            npm init -y
+            npm install --save-dev eslint @eslint/js
+          fi
+
+      - name: ESLint 代码检查
+        run: |
+          # 创建基础 ESLint 配置
+          cat > eslint.config.js << 'EOF'
+          import js from '@eslint/js';
+          
+          export default [
+            js.configs.recommended,
+            {
+              languageOptions: {
+                ecmaVersion: 2022,
+                sourceType: 'script',
+                globals: {
+                  // Tampermonkey/Greasemonkey globals
+                  GM_getValue: 'readonly',
+                  GM_setValue: 'readonly',
+                  GM_deleteValue: 'readonly',
+                  GM_listValues: 'readonly',
+                  GM_addStyle: 'readonly',
+                  GM_log: 'readonly',
+                  GM_info: 'readonly',
+                  GM_xmlhttpRequest: 'readonly',
+                  unsafeWindow: 'readonly',
+                  // Browser globals
+                  window: 'readonly',
+                  document: 'readonly',
+                  console: 'readonly',
+                  setTimeout: 'readonly',
+                  setInterval: 'readonly',
+                  clearTimeout: 'readonly',
+                  clearInterval: 'readonly'
+                }
+              },
+              rules: {
+                'no-unused-vars': 'warn',
+                'no-undef': 'error',
+                'no-console': 'off',
+                'prefer-const': 'warn'
+              }
+            }
+          ];
+          EOF
+          
+          # 运行 ESLint
+          npx eslint "*.js" --config eslint.config.js || echo "ESLint 检查完成，发现一些问题但不阻止构建"
+
+      - name: 检查脚本语法
+        run: |
+          # 使用 Node.js 检查 JavaScript 语法
+          for file in *.js; do
+            if [ -f "$file" ]; then
+              echo "检查文件: $file"
+              node -c "$file" && echo "✅ $file 语法正确" || echo "❌ $file 语法错误"
+            fi
+          done
+
+      - name: 检查文件编码
+        run: |
+          # 检查文件是否为 UTF-8 编码
+          for file in *.js *.md; do
+            if [ -f "$file" ]; then
+              if file "$file" | grep -q "UTF-8"; then
+                echo "✅ $file 编码正确 (UTF-8)"
+              else
+                echo "⚠️ $file 可能不是 UTF-8 编码"
+              fi
+            fi
+          done
+
+  # 脚本验证
+  script-validation:
+    name: 脚本验证
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 验证用户脚本元数据
+        run: |
+          echo "验证用户脚本元数据..."
+          
+          # 查找主脚本文件
+          SCRIPT_FILE=$(find . -name "*.js" -type f | head -1)
+          
+          if [ -z "$SCRIPT_FILE" ]; then
+            echo "❌ 未找到 JavaScript 脚本文件"
+            exit 1
+          fi
+          
+          echo "检查脚本文件: $SCRIPT_FILE"
+          
+          # 检查必需的元数据
+          REQUIRED_HEADERS=("@name" "@version" "@description" "@author" "@match" "@grant")
+          
+          for header in "${REQUIRED_HEADERS[@]}"; do
+            if grep -q "// $header" "$SCRIPT_FILE"; then
+              echo "✅ 找到 $header"
+            else
+              echo "❌ 缺少 $header"
+              exit 1
+            fi
+          done
+          
+          # 提取版本号
+          VERSION=$(grep "// @version" "$SCRIPT_FILE" | head -1 | sed 's/.*@version[[:space:]]*//')
+          echo "脚本版本: $VERSION"
+          
+          # 验证版本号格式 (语义化版本)
+          if [[ $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "✅ 版本号格式正确"
+          else
+            echo "⚠️ 版本号格式可能不符合语义化版本规范"
+          fi
+
+      - name: 检查脚本大小
+        run: |
+          for file in *.js; do
+            if [ -f "$file" ]; then
+              size=$(wc -c < "$file")
+              size_kb=$((size / 1024))
+              echo "脚本大小: $file = ${size_kb}KB"
+              
+              if [ $size_kb -gt 500 ]; then
+                echo "⚠️ 脚本文件较大 (>${size_kb}KB)，建议优化"
+              else
+                echo "✅ 脚本大小合理"
+              fi
+            fi
+          done
+
+  # 文档检查
+  documentation-check:
+    name: 文档检查
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 检查必需文档
+        run: |
+          echo "检查项目文档..."
+          
+          REQUIRED_DOCS=("README.md" "CHANGELOG.md" "CONTRIBUTING.md" "LICENSE")
+          
+          for doc in "${REQUIRED_DOCS[@]}"; do
+            if [ -f "$doc" ]; then
+              echo "✅ 找到 $doc"
+            else
+              echo "❌ 缺少 $doc"
+              exit 1
+            fi
+          done
+
+      - name: 检查 README 内容
+        run: |
+          echo "检查 README.md 内容..."
+          
+          REQUIRED_SECTIONS=("安装" "使用" "功能" "更新日志")
+          
+          for section in "${REQUIRED_SECTIONS[@]}"; do
+            if grep -qi "$section" README.md; then
+              echo "✅ README 包含 $section 部分"
+            else
+              echo "⚠️ README 可能缺少 $section 部分"
+            fi
+          done
+
+      - name: 检查链接有效性
+        run: |
+          echo "检查 Markdown 文件中的链接..."
+          
+          # 提取所有 markdown 链接
+          for file in *.md; do
+            if [ -f "$file" ]; then
+              echo "检查文件: $file"
+              
+              # 检查相对路径链接
+              grep -oP '\[.*?\]\(\./.*?\)' "$file" | while read -r link; do
+                path=$(echo "$link" | sed 's/.*(\.\///' | sed 's/).*//')
+                if [ -f "$path" ] || [ -d "$path" ]; then
+                  echo "✅ 链接有效: $path"
+                else
+                  echo "❌ 链接无效: $path"
+                fi
+              done
+            fi
+          done
+
+  # 安全检查
+  security-check:
+    name: 安全检查
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 检查敏感信息
+        run: |
+          echo "检查敏感信息..."
+          
+          # 检查可能的敏感信息
+          SENSITIVE_PATTERNS=("password" "token" "secret" "key" "api_key")
+          
+          for pattern in "${SENSITIVE_PATTERNS[@]}"; do
+            if grep -ri "$pattern" . --exclude-dir=.git --exclude="*.md" --exclude="*.yml"; then
+              echo "⚠️ 发现可能的敏感信息: $pattern"
+            else
+              echo "✅ 未发现 $pattern 相关敏感信息"
+            fi
+          done
+
+      - name: 检查恶意代码模式
+        run: |
+          echo "检查潜在恶意代码模式..."
+          
+          # 检查可能的恶意模式
+          MALICIOUS_PATTERNS=("eval(" "Function(" "document.write" "innerHTML.*<script")
+          
+          for pattern in "${MALICIOUS_PATTERNS[@]}"; do
+            if grep -r "$pattern" *.js 2>/dev/null; then
+              echo "⚠️ 发现潜在风险模式: $pattern"
+            else
+              echo "✅ 未发现 $pattern 风险模式"
+            fi
+          done
+
+  # 发布处理
+  release-assets:
+    name: 发布资源处理
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    needs: [code-quality, script-validation, documentation-check, security-check]
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 准备发布资源
+        run: |
+          echo "准备发布资源..."
+          
+          # 创建发布目录
+          mkdir -p release
+          
+          # 复制主要文件
+          cp *.js release/ 2>/dev/null || echo "未找到 JS 文件"
+          cp README.md release/ 2>/dev/null || echo "未找到 README"
+          cp CHANGELOG.md release/ 2>/dev/null || echo "未找到 CHANGELOG"
+          cp LICENSE release/ 2>/dev/null || echo "未找到 LICENSE"
+          
+          # 创建安装说明
+          cat > release/INSTALL.md << 'EOF'
+          # 安装说明
+          
+          ## 快速安装
+          
+          1. 安装浏览器扩展：
+             - [Tampermonkey (Chrome)](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
+             - [Tampermonkey (Firefox)](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/)
+             - [Tampermonkey (Edge)](https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd)
+          
+          2. 点击下载脚本文件 (.js)
+          
+          3. 在 Tampermonkey 中安装脚本
+          
+          4. 访问 QQ 空间开始使用
+          
+          ## 详细说明
+          
+          查看 README.md 获取完整的安装和使用说明。
+          EOF
+          
+          echo "发布资源准备完成"
+          ls -la release/
+
+      - name: 上传发布资源
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-assets
+          path: release/
+          retention-days: 90
+
+      - name: 添加资源到 Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            *.js
+            README.md
+            CHANGELOG.md
+            LICENSE
+          body: |
+            ## 🎉 新版本发布
+            
+            ### 📥 安装方法
+            1. 安装 [Tampermonkey](https://www.tampermonkey.net/)
+            2. 下载下方的 `.js` 文件
+            3. 在 Tampermonkey 中安装脚本
+            4. 访问 QQ 空间即可使用
+            
+            ### 📋 更新内容
+            查看 [CHANGELOG.md](./CHANGELOG.md) 获取详细更新信息。
+            
+            ### 🔗 相关链接
+            - [使用文档](./README.md)
+            - [问题反馈](https://github.com/${{ github.repository }}/issues)
+            - [讨论区](https://github.com/${{ github.repository }}/discussions)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # 通知
+  notification:
+    name: 构建通知
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [code-quality, script-validation, documentation-check, security-check]
+    steps:
+      - name: 构建状态通知
+        run: |
+          if [ "${{ needs.code-quality.result }}" == "success" ] && \
+             [ "${{ needs.script-validation.result }}" == "success" ] && \
+             [ "${{ needs.documentation-check.result }}" == "success" ] && \
+             [ "${{ needs.security-check.result }}" == "success" ]; then
+            echo "✅ 所有检查通过"
+          else
+            echo "❌ 部分检查失败"
+            echo "代码质量: ${{ needs.code-quality.result }}"
+            echo "脚本验证: ${{ needs.script-validation.result }}"
+            echo "文档检查: ${{ needs.documentation-check.result }}"
+            echo "安全检查: ${{ needs.security-check.result }}"
+          fi

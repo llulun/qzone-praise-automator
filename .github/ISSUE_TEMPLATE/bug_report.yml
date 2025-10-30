@@ -1,0 +1,178 @@
+name: 🐛 Bug 报告
+description: 报告一个问题或错误
+title: "[Bug] "
+labels: ["bug", "需要确认"]
+assignees:
+  - llulun
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您报告问题！请填写以下信息帮助我们更好地理解和解决问题。
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 确认事项
+      description: 请确认您已经完成以下检查
+      options:
+        - label: 我已经搜索了现有的 Issues，确认这不是重复报告
+          required: true
+        - label: 我使用的是最新版本的脚本
+          required: true
+        - label: 我已经尝试重新安装脚本
+          required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: 脚本版本
+      description: 您使用的 QZone Praise Automator 版本
+      placeholder: "例如：2.11.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: 浏览器
+      description: 您使用的浏览器
+      options:
+        - Chrome
+        - Firefox
+        - Edge
+        - Safari
+        - Opera
+        - 其他
+    validations:
+      required: true
+
+  - type: input
+    id: browser-version
+    attributes:
+      label: 浏览器版本
+      description: 浏览器的具体版本号
+      placeholder: "例如：Chrome 120.0.6099.109"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: userscript-manager
+    attributes:
+      label: 用户脚本管理器
+      description: 您使用的用户脚本管理器
+      options:
+        - Tampermonkey
+        - Violentmonkey
+        - Greasemonkey
+        - 其他
+    validations:
+      required: true
+
+  - type: input
+    id: manager-version
+    attributes:
+      label: 脚本管理器版本
+      description: 脚本管理器的版本号
+      placeholder: "例如：Tampermonkey 4.19.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: 操作系统
+      description: 您的操作系统
+      options:
+        - Windows 11
+        - Windows 10
+        - macOS
+        - Linux
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: 问题描述
+      description: 清晰、简洁地描述遇到的问题
+      placeholder: 描述您遇到的具体问题...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: 期望行为
+      description: 描述您期望发生的行为
+      placeholder: 描述您期望的正确行为...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: 实际行为
+      description: 描述实际发生的行为
+      placeholder: 描述实际发生的行为...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: 复现步骤
+      description: 详细的复现步骤
+      placeholder: |
+        1. 打开 QQ 空间
+        2. 点击 '...'
+        3. 看到错误 '...'
+    validations:
+      required: true
+
+  - type: textarea
+    id: console-logs
+    attributes:
+      label: 控制台日志
+      description: 浏览器控制台中的错误信息（按 F12 打开开发者工具）
+      placeholder: 粘贴控制台中的错误信息...
+      render: shell
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图
+      description: 如果适用，请添加截图来帮助解释问题
+      placeholder: 拖拽图片到这里或粘贴图片链接...
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 其他信息
+      description: 任何其他有助于解决问题的信息
+      placeholder: 添加任何其他相关信息...
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 问题严重程度
+      description: 这个问题对您的使用影响有多大？
+      options:
+        - 低 - 轻微不便，有替代方案
+        - 中 - 影响使用，但可以继续工作
+        - 高 - 严重影响使用
+        - 紧急 - 完全无法使用
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: willingness
+    attributes:
+      label: 贡献意愿
+      description: 您是否愿意帮助解决这个问题？
+      options:
+        - label: 我愿意提供更多信息来帮助调试
+        - label: 我愿意测试修复方案
+        - label: 我愿意提交 Pull Request 来修复这个问题

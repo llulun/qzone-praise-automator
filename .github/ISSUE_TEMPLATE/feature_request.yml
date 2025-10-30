@@ -1,0 +1,167 @@
+name: ✨ 功能请求
+description: 建议一个新功能或改进
+title: "[Feature] "
+labels: ["enhancement", "需要讨论"]
+assignees:
+  - llulun
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢您的功能建议！请详细描述您的想法，这将帮助我们更好地理解和评估您的建议。
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 确认事项
+      description: 请确认您已经完成以下检查
+      options:
+        - label: 我已经搜索了现有的 Issues，确认这不是重复建议
+          required: true
+        - label: 我已经查看了最新版本的功能列表
+          required: true
+        - label: 这个功能符合项目的目标和范围
+          required: true
+
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: 功能类型
+      description: 这是什么类型的功能请求？
+      options:
+        - 新功能 - 全新的功能
+        - 改进 - 对现有功能的改进
+        - 用户界面 - UI/UX 改进
+        - 性能优化 - 性能相关的改进
+        - 配置选项 - 新的配置选项
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: 问题描述
+      description: 描述您遇到的问题或不便之处
+      placeholder: |
+        例如：
+        - 当前无法设置自定义的点赞间隔时间
+        - 希望能够过滤特定类型的动态
+        - 需要更直观的统计信息显示
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution-description
+    attributes:
+      label: 解决方案
+      description: 详细描述您希望的功能实现方式
+      placeholder: |
+        例如：
+        - 在设置面板中添加一个滑块来调整点赞间隔
+        - 添加动态类型过滤选项（文字、图片、视频等）
+        - 在状态栏显示今日点赞数量和成功率
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 替代方案
+      description: 描述您考虑过的其他解决方案
+      placeholder: 描述您考虑过的其他实现方式或替代方案...
+
+  - type: textarea
+    id: use-cases
+    attributes:
+      label: 使用场景
+      description: 描述这个功能的具体使用场景
+      placeholder: |
+        例如：
+        - 作为重度QQ空间用户，我每天需要给很多朋友点赞
+        - 我希望能够避免给某些类型的动态点赞
+        - 我需要了解脚本的运行效果和统计数据
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 优先级
+      description: 这个功能对您有多重要？
+      options:
+        - 低 - 有了更好，没有也无所谓
+        - 中 - 比较有用，希望能实现
+        - 高 - 非常需要，会显著改善使用体验
+        - 紧急 - 必须有，否则影响正常使用
+    validations:
+      required: true
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: 实现复杂度评估
+      description: 您认为这个功能的实现难度如何？
+      options:
+        - 简单 - 可能只需要修改配置或简单逻辑
+        - 中等 - 需要一些新的代码和逻辑
+        - 复杂 - 需要大量新代码或重构
+        - 不确定 - 我不清楚实现难度
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-details
+    attributes:
+      label: 技术细节
+      description: 如果您有技术背景，请提供实现建议
+      placeholder: |
+        例如：
+        - 可以在现有的配置对象中添加新字段
+        - 需要修改点赞逻辑来支持条件过滤
+        - 建议使用localStorage存储统计数据
+
+  - type: textarea
+    id: mockups
+    attributes:
+      label: 界面设计
+      description: 如果涉及UI变更，请描述或提供设计图
+      placeholder: |
+        描述界面变更，或者提供：
+        - 手绘草图
+        - 设计图片链接
+        - 参考其他应用的界面
+
+  - type: checkboxes
+    id: compatibility
+    attributes:
+      label: 兼容性考虑
+      description: 请考虑这个功能的兼容性影响
+      options:
+        - label: 这个功能不会影响现有用户的使用
+        - label: 这个功能需要新的权限或依赖
+        - label: 这个功能可能需要用户重新配置
+        - label: 这个功能与现有功能可能有冲突
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 其他信息
+      description: 任何其他有助于理解这个功能请求的信息
+      placeholder: |
+        例如：
+        - 相关的用户反馈
+        - 类似功能的参考链接
+        - 预期的用户群体
+
+  - type: checkboxes
+    id: willingness
+    attributes:
+      label: 贡献意愿
+      description: 您是否愿意帮助实现这个功能？
+      options:
+        - label: 我愿意参与功能设计讨论
+        - label: 我愿意提供测试和反馈
+        - label: 我愿意提交 Pull Request 来实现这个功能
+        - label: 我可以提供技术支持或咨询

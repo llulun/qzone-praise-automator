@@ -1,0 +1,153 @@
+name: ❓ 问题咨询
+description: 询问使用问题或寻求帮助
+title: "[Question] "
+labels: ["question", "需要回复"]
+assignees:
+  - llulun
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        欢迎提问！我们很乐意帮助您解决使用中遇到的问题。
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 确认事项
+      description: 请确认您已经完成以下检查
+      options:
+        - label: 我已经阅读了 README 文档
+          required: true
+        - label: 我已经搜索了现有的 Issues 和 Discussions
+          required: true
+        - label: 我已经查看了常见问题解答（如果有）
+          required: false
+
+  - type: dropdown
+    id: question-type
+    attributes:
+      label: 问题类型
+      description: 您的问题属于哪个类别？
+      options:
+        - 安装问题 - 脚本安装或配置相关
+        - 使用问题 - 功能使用或操作相关
+        - 配置问题 - 设置和参数配置相关
+        - 兼容性问题 - 浏览器或环境兼容性
+        - 性能问题 - 运行速度或资源占用
+        - 功能理解 - 不清楚某个功能如何工作
+        - 其他问题
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: 脚本版本
+      description: 您使用的 QZone Praise Automator 版本
+      placeholder: "例如：2.11.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: 浏览器环境
+      description: 您使用的浏览器和脚本管理器
+      options:
+        - Chrome + Tampermonkey
+        - Chrome + Violentmonkey
+        - Firefox + Tampermonkey
+        - Firefox + Greasemonkey
+        - Edge + Tampermonkey
+        - Safari + Userscripts
+        - 其他组合
+    validations:
+      required: true
+
+  - type: textarea
+    id: question-description
+    attributes:
+      label: 问题描述
+      description: 详细描述您的问题或疑问
+      placeholder: |
+        请详细描述您遇到的问题，包括：
+        - 具体的操作步骤
+        - 遇到的现象或错误
+        - 您的期望结果
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-situation
+    attributes:
+      label: 当前状况
+      description: 描述您当前的使用状况
+      placeholder: |
+        例如：
+        - 脚本是否正常加载？
+        - 能看到控制面板吗？
+        - 有哪些功能正常，哪些不正常？
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-taken
+    attributes:
+      label: 已尝试的解决方法
+      description: 描述您已经尝试过的解决方法
+      placeholder: |
+        例如：
+        - 重新安装脚本
+        - 清除浏览器缓存
+        - 重启浏览器
+        - 检查脚本权限设置
+
+  - type: textarea
+    id: console-logs
+    attributes:
+      label: 控制台信息
+      description: 如果有错误，请提供浏览器控制台的相关信息
+      placeholder: 粘贴控制台中的相关信息（按 F12 打开开发者工具）...
+      render: shell
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图说明
+      description: 如果有助于说明问题，请提供截图
+      placeholder: 拖拽图片到这里或粘贴图片链接...
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: 紧急程度
+      description: 这个问题对您的影响程度
+      options:
+        - 低 - 不急，有时间回复就行
+        - 中 - 希望能尽快得到回复
+        - 高 - 比较急，影响正常使用
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: 其他信息
+      description: 任何其他可能有助于解答的信息
+      placeholder: |
+        例如：
+        - 特殊的使用环境或配置
+        - 相关的网络环境信息
+        - 其他可能相关的软件或扩展
+
+  - type: checkboxes
+    id: follow-up
+    attributes:
+      label: 后续配合
+      description: 为了更好地帮助您，您是否愿意：
+      options:
+        - label: 提供更多详细信息（如果需要）
+        - label: 尝试建议的解决方案并反馈结果
+        - label: 参与进一步的问题排查
+        - label: 分享解决方案帮助其他用户
