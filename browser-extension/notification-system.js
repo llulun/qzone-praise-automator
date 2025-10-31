@@ -438,6 +438,13 @@ class NotificationSystem {
     // 显示应用内通知
     showInAppNotification(notification) {
         return new Promise((resolve) => {
+            // 检查是否在浏览器环境中
+            if (typeof document === 'undefined') {
+                console.warn('In-app notifications not available in non-browser environment');
+                resolve(null);
+                return;
+            }
+            
             const container = this.getOrCreateNotificationContainer();
             
             const notificationEl = document.createElement('div');
@@ -489,6 +496,10 @@ class NotificationSystem {
 
     // 获取或创建通知容器
     getOrCreateNotificationContainer() {
+        if (typeof document === 'undefined') {
+            return null;
+        }
+        
         let container = document.getElementById('notification-container');
         if (!container) {
             container = document.createElement('div');
@@ -501,6 +512,10 @@ class NotificationSystem {
 
     // 添加应用内通知样式
     addInAppNotificationStyles() {
+        if (typeof document === 'undefined') {
+            return;
+        }
+        
         if (document.getElementById('notification-styles')) {
             return;
         }
@@ -638,7 +653,9 @@ class NotificationSystem {
             }
         `;
         
-        document.head.appendChild(style);
+        if (document.head) {
+            document.head.appendChild(style);
+        }
     }
 
     // 移除应用内通知
@@ -770,18 +787,20 @@ class NotificationSystem {
             });
         }
         
-        // 监听页面可见性变化
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                // 页面隐藏时，优先使用桌面通知
-                this.settings.desktop = true;
-                this.settings.inApp = false;
-            } else {
-                // 页面可见时，优先使用应用内通知
-                this.settings.desktop = false;
-                this.settings.inApp = true;
-            }
-        });
+        // 监听页面可见性变化（仅在浏览器环境中）
+        if (typeof document !== 'undefined') {
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    // 页面隐藏时，优先使用桌面通知
+                    this.settings.desktop = true;
+                    this.settings.inApp = false;
+                } else {
+                    // 页面可见时，优先使用应用内通知
+                    this.settings.desktop = false;
+                    this.settings.inApp = true;
+                }
+            });
+        }
     }
 
     // 快捷方法

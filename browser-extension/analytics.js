@@ -14,6 +14,34 @@ class AnalyticsEngine {
         this.insights = [];
         this.recommendations = [];
         
+        // 初始化设置
+        this.settings = {
+            performanceMonitoring: {
+                enabled: true,
+                memoryInterval: 300000, // 5分钟
+                metricsInterval: 60000,  // 1分钟
+                alertThresholds: {
+                    memoryUsage: 0.8,
+                    responseTime: 5000,
+                    errorRate: 0.1
+                }
+            },
+            analysis: {
+                enabled: true,
+                insightInterval: 3600000, // 1小时
+                reportInterval: 86400000, // 24小时
+                dataRetention: 2592000000 // 30天
+            },
+            reporting: {
+                enabled: true,
+                autoExport: false,
+                format: 'json'
+            }
+        };
+        
+        this.performanceMonitoringStarted = false;
+        this.performanceObserver = null;
+        
         // 异步初始化，避免在构造函数中调用
         this.initAsync();
     }
@@ -562,8 +590,8 @@ class AnalyticsEngine {
             this.collectMemoryMetrics();
         }, Math.max(this.settings.performanceMonitoring.memoryInterval, 300000)); // 最少5分钟
         
-        // 页面加载时间监控
-        if ('PerformanceObserver' in window) {
+        // 页面加载时间监控（仅在浏览器环境中）
+        if (typeof window !== 'undefined' && 'PerformanceObserver' in window) {
             this.performanceObserver = new PerformanceObserver((list) => {
                 for (const entry of list.getEntries()) {
                     this.recordPageLoadTime(entry);

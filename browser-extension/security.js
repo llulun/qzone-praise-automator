@@ -411,15 +411,19 @@ class SecurityManager {
     // 检查网络安全
     async checkNetworkSecurity() {
         try {
-            // 检查是否在安全环境中运行
-            if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
-                console.warn('Running in insecure environment');
+            // 检查是否在安全环境中运行（仅在浏览器环境中）
+            if (typeof location !== 'undefined') {
+                if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+                    console.warn('Running in insecure environment');
+                }
             }
             
-            // 检查CSP设置
-            const csp = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
-            if (!csp) {
-                console.warn('No CSP header found');
+            // 检查CSP设置（仅在浏览器环境中）
+            if (typeof document !== 'undefined') {
+                const csp = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+                if (!csp) {
+                    console.warn('No CSP header found');
+                }
             }
             
             return true;
@@ -478,36 +482,40 @@ class SecurityManager {
 
     // 设置事件监听器
     setupEventListeners() {
-        // 监听页面可见性变化
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                this.auditLogger.log('page_hidden', {
+        // 监听页面可见性变化（仅在浏览器环境中）
+        if (typeof document !== 'undefined') {
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    this.auditLogger.log('page_hidden', {
+                        timestamp: Date.now()
+                    });
+                } else {
+                    this.auditLogger.log('page_visible', {
+                        timestamp: Date.now()
+                    });
+                }
+            });
+        }
+        
+        // 监听错误事件（仅在浏览器环境中）
+        if (typeof window !== 'undefined') {
+            window.addEventListener('error', (event) => {
+                this.auditLogger.log('javascript_error', {
+                    message: event.message,
+                    filename: event.filename,
+                    lineno: event.lineno,
                     timestamp: Date.now()
                 });
-            } else {
-                this.auditLogger.log('page_visible', {
-                    timestamp: Date.now()
-                });
-            }
-        });
-        
-        // 监听错误事件
-        window.addEventListener('error', (event) => {
-            this.auditLogger.log('javascript_error', {
-                message: event.message,
-                filename: event.filename,
-                lineno: event.lineno,
-                timestamp: Date.now()
             });
-        });
-        
-        // 监听未处理的Promise拒绝
-        window.addEventListener('unhandledrejection', (event) => {
-            this.auditLogger.log('unhandled_rejection', {
-                reason: event.reason,
-                timestamp: Date.now()
-            });
-        });
+            
+            // 监听未处理的Promise拒绝
+             window.addEventListener('unhandledrejection', (event) => {
+                 this.auditLogger.log('unhandled_rejection', {
+                     reason: event.reason,
+                     timestamp: Date.now()
+                 });
+             });
+        }
     }
 
     // 掩码敏感数据

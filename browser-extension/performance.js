@@ -554,7 +554,7 @@ class MemoryManager {
         this.cleanupMemoryPool();
         
         // 强制垃圾回收（如果支持）
-        if (window.gc) {
+        if (typeof window !== 'undefined' && window.gc) {
             window.gc();
         }
     }
@@ -846,7 +846,7 @@ class PerformanceMonitor {
     // 设置观察器
     setupObservers() {
         // Performance Observer
-        if ('PerformanceObserver' in window) {
+        if (typeof window !== 'undefined' && 'PerformanceObserver' in window) {
             const observer = new PerformanceObserver((list) => {
                 for (const entry of list.getEntries()) {
                     this.processPerformanceEntry(entry);
@@ -858,7 +858,7 @@ class PerformanceMonitor {
         }
         
         // Intersection Observer for visibility tracking
-        if ('IntersectionObserver' in window) {
+        if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {

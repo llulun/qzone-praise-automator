@@ -7,6 +7,27 @@ class RecommendationSystem {
         this.contextData = {};
         this.recommendations = [];
         
+        // 初始化设置
+        this.settings = {
+            contextUpdateInterval: 900000, // 15分钟
+            analysisInterval: 1800000,     // 30分钟
+            maxRecommendations: 10,
+            confidenceThreshold: 0.7,
+            adaptiveLearning: {
+                enabled: true,
+                learningRate: 0.1,
+                memoryDecay: 0.95
+            },
+            filters: {
+                duplicateThreshold: 0.8,
+                relevanceThreshold: 0.5,
+                timeWindow: 3600000 // 1小时
+            }
+        };
+        
+        this.contextMonitoringStarted = false;
+        this.contextUpdateInterval = null;
+        
         // 异步初始化，避免在构造函数中调用
         this.initAsync();
     }
@@ -809,6 +830,33 @@ class RecommendationSystem {
             }
         } catch (error) {
             console.error('Failed to update context from analytics:', error);
+        }
+    }
+
+    // 获取推荐列表
+    async getRecommendations(params = {}) {
+        try {
+            const recommendations = this.generateRecommendations();
+            
+            // 根据参数过滤推荐
+            let filteredRecommendations = recommendations;
+            
+            if (params.type) {
+                filteredRecommendations = filteredRecommendations.filter(r => r.type === params.type);
+            }
+            
+            if (params.priority) {
+                filteredRecommendations = filteredRecommendations.filter(r => r.priority === params.priority);
+            }
+            
+            if (params.limit) {
+                filteredRecommendations = filteredRecommendations.slice(0, params.limit);
+            }
+            
+            return filteredRecommendations;
+        } catch (error) {
+            console.error('Failed to get recommendations:', error);
+            return [];
         }
     }
 

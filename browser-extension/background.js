@@ -164,7 +164,7 @@ class BackgroundService {
             }
 
             // 性能监控
-            const startTime = performance.now();
+            const startTime = typeof performance !== 'undefined' ? performance.now() : Date.now();
             
             switch (message.action) {
                 case 'startAutomation':
@@ -263,7 +263,7 @@ class BackgroundService {
             }
 
             // 记录性能数据
-            const duration = performance.now() - startTime;
+            const duration = (typeof performance !== 'undefined' ? performance.now() : Date.now()) - startTime;
             this.performanceOptimizer.recordMessageHandling(message.action, duration);
             
         } catch (error) {
