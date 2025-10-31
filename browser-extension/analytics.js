@@ -14,7 +14,16 @@ class AnalyticsEngine {
         this.insights = [];
         this.recommendations = [];
         
-        this.init();
+        // 异步初始化，避免在构造函数中调用
+        this.initAsync();
+    }
+    
+    async initAsync() {
+        try {
+            await this.init();
+        } catch (error) {
+            console.error('Analytics engine initialization failed:', error);
+        }
     }
 
     async init() {
@@ -543,25 +552,45 @@ class AnalyticsEngine {
 
     // 开始性能监控
     startPerformanceMonitoring() {
-        // 监控内存使用
-        setInterval(() => {
-            if (performance.memory) {
-                this.recordPerformance('memoryUsage', performance.memory.usedJSHeapSize);
-            }
-        }, 60000); // 每分钟记录一次
+        if (this.performanceMonitoringStarted) {
+            return;
+        }
+        this.performanceMonitoringStarted = true;
         
-        // 监控页面性能
-        if (typeof PerformanceObserver !== 'undefined') {
-            const observer = new PerformanceObserver((list) => {
+        // 降低内存监控频率
+        this.memoryMonitoringInterval = setInterval(() => {
+            this.collectMemoryMetrics();
+        }, Math.max(this.settings.performanceMonitoring.memoryInterval, 300000)); // 最少5分钟
+        
+        // 页面加载时间监控
+        if ('PerformanceObserver' in window) {
+            this.performanceObserver = new PerformanceObserver((list) => {
                 for (const entry of list.getEntries()) {
-                    if (entry.entryType === 'navigation') {
-                        this.recordPerformance('pageLoadTime', entry.loadEventEnd - entry.loadEventStart);
-                    }
+                    this.recordPageLoadTime(entry);
                 }
             });
-            
-            observer.observe({ entryTypes: ['navigation'] });
+            this.performanceObserver.observe({ entryTypes: ['navigation'] });
         }
+    }
+
+    // 开始分析调度
+    startAnalysisScheduling() {
+        if (this.analysisSchedulingStarted) {
+            return;
+        }
+        this.analysisSchedulingStarted = true;
+        
+        // 降低分析频率
+        this.analysisInterval = setInterval(() => {
+            this.generateInsights();
+            this.generateRecommendations();
+        }, Math.max(this.settings.analysis.insightInterval, 3600000)); // 最少1小时
+        
+        // 延迟首次执行
+        setTimeout(() => {
+            this.generateInsights();
+            this.generateRecommendations();
+        }, 30000); // 30秒后执行，而不是5秒
     }
 
     // 定期分析
@@ -622,6 +651,37 @@ class AnalyticsEngine {
         });
         
         this.saveData();
+    }
+
+    // 停止所有监控和清理资源
+    stopMonitoring() {
+        if (this.memoryMonitoringInterval) {
+            clearInterval(this.memoryMonitoringInterval);
+            this.memoryMonitoringInterval = null;
+        }
+        
+        if (this.analysisInterval) {
+            clearInterval(this.analysisInterval);
+            this.analysisInterval = null;
+        }
+        
+        this.performanceMonitoringStarted = false;
+        this.analysisSchedulingStarted = false;
+    }
+
+    // 销毁分析引擎
+    destroy() {
+        this.stopMonitoring();
+        
+        // 清理PerformanceObserver
+        if (this.performanceObserver) {
+            this.performanceObserver.disconnect();
+            this.performanceObserver = null;
+        }
+        
+        this.data = null;
+        this.insights = null;
+        this.recommendations = null;
     }
 }
 

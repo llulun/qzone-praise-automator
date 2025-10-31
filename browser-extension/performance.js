@@ -67,7 +67,16 @@ class PerformanceOptimizer {
             }
         };
         
-        this.init();
+        // 异步初始化，避免在构造函数中调用
+        this.initAsync();
+    }
+    
+    async initAsync() {
+        try {
+            await this.init();
+        } catch (error) {
+            console.error('Performance optimizer initialization failed:', error);
+        }
     }
 
     async init() {
@@ -107,17 +116,23 @@ class PerformanceOptimizer {
 
     // 开始优化
     startOptimization() {
-        // 内存优化
+        // 防止重复启动
+        if (this.optimizationStarted) {
+            return;
+        }
+        this.optimizationStarted = true;
+        
+        // 内存优化 - 降低频率
         if (this.settings.memory.autoCleanup) {
-            setInterval(() => {
+            this.memoryCleanupInterval = setInterval(() => {
                 this.memoryManager.cleanup();
-            }, this.settings.memory.cleanupInterval);
+            }, Math.max(this.settings.memory.cleanupInterval, 300000)); // 最少5分钟
         }
         
-        // 缓存优化
-        setInterval(() => {
+        // 缓存优化 - 降低频率
+        this.cacheOptimizationInterval = setInterval(() => {
             this.cacheManager.optimize();
-        }, 60000); // 每分钟优化一次
+        }, 300000); // 每5分钟优化一次，而不是每分钟
         
         // 资源优化
         this.resourceOptimizer.start();
@@ -128,14 +143,16 @@ class PerformanceOptimizer {
 
     // 开始监控
     startMonitoring() {
-        if (!this.settings.monitoring.enabled) {
+        if (!this.settings.monitoring.enabled || this.monitoringStarted) {
             return;
         }
+        this.monitoringStarted = true;
         
-        setInterval(() => {
+        // 降低监控频率，避免过度消耗CPU
+        this.monitoringInterval = setInterval(() => {
             this.collectMetrics();
             this.checkAlerts();
-        }, this.settings.monitoring.metricsInterval);
+        }, Math.max(this.settings.monitoring.metricsInterval, 60000)); // 最少1分钟
         
         this.performanceMonitor.start();
     }
@@ -359,6 +376,54 @@ class PerformanceOptimizer {
             cache: { hitRate: 0, missRate: 0, size: 0, operations: 0 },
             network: { requestCount: 0, failureCount: 0, averageLatency: 0, bandwidth: 0 }
         };
+    }
+
+    // 停止所有优化和监控
+    stopOptimization() {
+        if (this.memoryCleanupInterval) {
+            clearInterval(this.memoryCleanupInterval);
+            this.memoryCleanupInterval = null;
+        }
+        
+        if (this.cacheOptimizationInterval) {
+            clearInterval(this.cacheOptimizationInterval);
+            this.cacheOptimizationInterval = null;
+        }
+        
+        this.optimizationStarted = false;
+    }
+
+    stopMonitoring() {
+        if (this.monitoringInterval) {
+            clearInterval(this.monitoringInterval);
+            this.monitoringInterval = null;
+        }
+        
+        if (this.performanceMonitor) {
+            this.performanceMonitor.stop();
+        }
+        
+        this.monitoringStarted = false;
+    }
+
+    // 销毁性能优化器
+    destroy() {
+        this.stopOptimization();
+        this.stopMonitoring();
+        
+        if (this.resourceOptimizer) {
+            this.resourceOptimizer.stop && this.resourceOptimizer.stop();
+        }
+        
+        if (this.networkOptimizer) {
+            this.networkOptimizer.stop && this.networkOptimizer.stop();
+        }
+        
+        this.memoryManager = null;
+        this.cacheManager = null;
+        this.performanceMonitor = null;
+        this.resourceOptimizer = null;
+        this.networkOptimizer = null;
     }
 }
 

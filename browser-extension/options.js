@@ -7,7 +7,16 @@ class OptionsManager {
         this.isDirty = false;
         this.currentTab = 'basic';
         
-        this.init();
+        // 异步初始化，避免在构造函数中调用
+        this.initAsync();
+    }
+    
+    async initAsync() {
+        try {
+            await this.init();
+        } catch (error) {
+            console.error('Options manager initialization failed:', error);
+        }
     }
 
     async init() {
@@ -827,3 +836,10 @@ class OptionsManager {
 document.addEventListener('DOMContentLoaded', () => {
     new OptionsManager();
 });
+
+// 导出供其他模块使用
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = OptionsManager;
+} else if (typeof window !== 'undefined') {
+    window.OptionsManager = OptionsManager;
+}

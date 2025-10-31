@@ -50,7 +50,16 @@ class SecurityManager {
             }
         };
         
-        this.init();
+        // 异步初始化，避免在构造函数中调用
+        this.initAsync();
+    }
+    
+    async initAsync() {
+        try {
+            await this.init();
+        } catch (error) {
+            console.error('Security manager initialization failed:', error);
+        }
     }
 
     async init() {
@@ -680,18 +689,38 @@ class ThreatDetector {
 
     stop() {
         this.isActive = false;
+        this.stopMonitoring();
     }
 
     startMonitoring() {
+        if (this.monitoringStarted) {
+            return;
+        }
+        this.monitoringStarted = true;
+        
         // 监控访问频率
-        setInterval(() => {
+        this.patternCheckInterval = setInterval(() => {
             this.checkAccessPatterns();
         }, 60000); // 每分钟检查一次
         
         // 清理旧数据
-        setInterval(() => {
+        this.cleanupInterval = setInterval(() => {
             this.cleanupOldActivities();
         }, 300000); // 每5分钟清理一次
+    }
+
+    stopMonitoring() {
+        if (this.patternCheckInterval) {
+            clearInterval(this.patternCheckInterval);
+            this.patternCheckInterval = null;
+        }
+        
+        if (this.cleanupInterval) {
+            clearInterval(this.cleanupInterval);
+            this.cleanupInterval = null;
+        }
+        
+        this.monitoringStarted = false;
     }
 
     recordActivity(type, data) {

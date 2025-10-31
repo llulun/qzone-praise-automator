@@ -175,7 +175,9 @@ class IntegrationTester {
             
             // 测试存储错误处理
             try {
-                await chrome.storage.local.set({ 'x'.repeat(10000): 'large_data'.repeat(100000) });
+                const largeKey = 'x'.repeat(10000);
+                const largeValue = 'large_data'.repeat(100000);
+                await chrome.storage.local.set({ [largeKey]: largeValue });
                 this.recordError('Error Handling', '应该处理存储限制错误');
             } catch (error) {
                 this.assert(true, '存储错误处理');

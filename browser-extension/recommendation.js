@@ -7,7 +7,16 @@ class RecommendationSystem {
         this.contextData = {};
         this.recommendations = [];
         
-        this.init();
+        // 异步初始化，避免在构造函数中调用
+        this.initAsync();
+    }
+    
+    async initAsync() {
+        try {
+            await this.init();
+        } catch (error) {
+            console.error('Recommendation system initialization failed:', error);
+        }
     }
 
     async init() {
@@ -761,10 +770,25 @@ class RecommendationSystem {
 
     // 开始上下文监控
     startContextMonitoring() {
-        // 定期更新上下文数据
-        setInterval(() => {
+        // 防止重复启动
+        if (this.contextMonitoringStarted) {
+            return;
+        }
+        this.contextMonitoringStarted = true;
+        
+        // 每15分钟更新一次上下文数据（原来是5分钟）
+        this.contextUpdateInterval = setInterval(() => {
             this.updateContextFromAnalytics();
-        }, 5 * 60 * 1000); // 每5分钟更新一次
+        }, Math.max(15 * 60 * 1000, this.settings.contextUpdateInterval || 15 * 60 * 1000));
+    }
+
+    // 停止上下文监控
+    stopContextMonitoring() {
+        if (this.contextUpdateInterval) {
+            clearInterval(this.contextUpdateInterval);
+            this.contextUpdateInterval = null;
+        }
+        this.contextMonitoringStarted = false;
     }
 
     // 从分析数据更新上下文

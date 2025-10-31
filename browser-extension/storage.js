@@ -10,7 +10,16 @@ class StorageManager {
         this.dataVersion = '1.0.0';
         this.migrationHandlers = new Map();
         
-        this.init();
+        // 异步初始化，避免在构造函数中调用
+        this.initAsync();
+    }
+    
+    async initAsync() {
+        try {
+            await this.init();
+        } catch (error) {
+            console.error('Storage manager initialization failed:', error);
+        }
     }
 
     async init() {
@@ -518,8 +527,6 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = StorageManager;
 } else if (typeof window !== 'undefined') {
     window.StorageManager = StorageManager;
-    window.storageManager = storageManager;
 } else {
     self.StorageManager = StorageManager;
-    self.storageManager = storageManager;
 }

@@ -8,7 +8,16 @@ class MLEngine {
         this.predictions = new Map();
         this.modelAccuracy = new Map();
         
-        this.init();
+        // 异步初始化，避免在构造函数中调用
+        this.initAsync();
+    }
+    
+    async initAsync() {
+        try {
+            await this.init();
+        } catch (error) {
+            console.error('ML engine initialization failed:', error);
+        }
     }
 
     async init() {
@@ -368,15 +377,34 @@ class MLEngine {
 
     // 开始持续学习
     startContinuousLearning() {
-        // 每小时重新训练模型
-        setInterval(() => {
-            this.retrainModels();
-        }, 60 * 60 * 1000);
+        // 防止重复启动
+        if (this.continuousLearningStarted) {
+            return;
+        }
+        this.continuousLearningStarted = true;
         
-        // 每天评估模型性能
-        setInterval(() => {
+        // 每6小时重新训练模型（原来是1小时）
+        this.retrainingInterval = setInterval(() => {
+            this.retrainModels();
+        }, 6 * 60 * 60 * 1000);
+        
+        // 每3天评估模型性能（原来是1天）
+        this.evaluationInterval = setInterval(() => {
             this.evaluateModels();
-        }, 24 * 60 * 60 * 1000);
+        }, 3 * 24 * 60 * 60 * 1000);
+    }
+
+    // 停止持续学习
+    stopContinuousLearning() {
+        if (this.retrainingInterval) {
+            clearInterval(this.retrainingInterval);
+            this.retrainingInterval = null;
+        }
+        if (this.evaluationInterval) {
+            clearInterval(this.evaluationInterval);
+            this.evaluationInterval = null;
+        }
+        this.continuousLearningStarted = false;
     }
 
     // 重新训练模型

@@ -17,7 +17,16 @@ class PopupController {
         this.security = null;
         this.performance = null;
         
-        this.init();
+        // 异步初始化，避免在构造函数中调用
+        this.initAsync();
+    }
+    
+    async initAsync() {
+        try {
+            await this.init();
+        } catch (error) {
+            console.error('Popup controller initialization failed:', error);
+        }
     }
 
     async init() {
@@ -464,6 +473,56 @@ class PopupController {
             return Math.floor(seconds / 3600) + '小时';
         }
     }
+
+    // 更新状态显示
+    updateStatus() {
+        if (this.statusUpdateInProgress) {
+            return;
+        }
+        this.statusUpdateInProgress = true;
+        
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            const tab = tabs[0];
+            if (tab && tab.url && tab.url.includes('qzone.qq.com')) {
+                chrome.tabs.sendMessage(tab.id, { action: 'getStatus' }, (response) => {
+                    if (chrome.runtime.lastError) {
+                        this.showOfflineStatus();
+                    } else if (response) {
+                        this.displayStatus(response);
+                    }
+                    this.statusUpdateInProgress = false;
+                });
+            } else {
+                this.showOfflineStatus();
+                this.statusUpdateInProgress = false;
+            }
+        });
+    }
+
+    // 开始状态监控
+    startStatusMonitoring() {
+        if (this.statusMonitoringStarted) {
+            return;
+        }
+        this.statusMonitoringStarted = true;
+        
+        // 降低状态查询频率
+        this.statusInterval = setInterval(() => {
+            this.updateStatus();
+        }, Math.max(this.settings.statusUpdateInterval, 5000)); // 最少5秒
+        
+        // 立即更新一次
+        this.updateStatus();
+    }
+
+    // 停止状态监控
+    stopStatusMonitoring() {
+        if (this.statusInterval) {
+            clearInterval(this.statusInterval);
+            this.statusInterval = null;
+        }
+        this.statusMonitoringStarted = false;
+    }
 }
 
 // 初始化
@@ -527,3 +586,10 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 });
+
+// 导出供其他模块使用
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = PopupController;
+} else if (typeof window !== 'undefined') {
+    window.PopupController = PopupController;
+}

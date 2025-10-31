@@ -27,7 +27,7 @@ class BackgroundService {
         this.securityManager = new SecurityManager();
         this.performanceOptimizer = new PerformanceOptimizer();
         
-        this.init();
+        // 不在构造函数中调用异步init方法
     }
 
     async init() {

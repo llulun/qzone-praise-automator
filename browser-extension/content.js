@@ -39,7 +39,16 @@ class QZonePraiseAutomator {
         this.statusBar = null;
         this.floatingButton = null;
         
-        this.init();
+        // 异步初始化，避免在构造函数中调用
+        this.initAsync();
+    }
+    
+    async initAsync() {
+        try {
+            await this.init();
+        } catch (error) {
+            console.error('QZone Praise Automator initialization failed:', error);
+        }
     }
 
     async init() {
@@ -750,13 +759,28 @@ class QZonePraiseAutomator {
 
     clearScheduledTasks() {
         // 清除所有定时器
-        const highestTimeoutId = setTimeout(() => {}, 0);
-        for (let i = 0; i < highestTimeoutId; i++) {
-            clearTimeout(i);
+        if (this.countdownTimer) {
+            clearTimeout(this.countdownTimer);
+            this.countdownTimer = null;
+        }
+        
+        if (this.statusCheckInterval) {
+            clearInterval(this.statusCheckInterval);
+            this.statusCheckInterval = null;
+        }
+        
+        if (this.automationTimer) {
+            clearTimeout(this.automationTimer);
+            this.automationTimer = null;
         }
     }
 
     startCountdown() {
+        // 清除之前的倒计时
+        if (this.countdownTimer) {
+            clearTimeout(this.countdownTimer);
+        }
+        
         const updateCountdown = () => {
             if (!this.isRunning || this.isPaused) return;
             
@@ -765,7 +789,7 @@ class QZonePraiseAutomator {
             
             if (seconds > 0) {
                 this.updateProgress(0, `下次执行: ${seconds}秒`);
-                setTimeout(updateCountdown, 1000);
+                this.countdownTimer = setTimeout(updateCountdown, 1000);
             }
         };
         
@@ -773,9 +797,56 @@ class QZonePraiseAutomator {
     }
 
     startStatusCheck() {
-        setInterval(() => {
+        // 防止重复启动
+        if (this.statusCheckInterval) {
+            return;
+        }
+        
+        this.statusCheckInterval = setInterval(() => {
             this.sendStatus();
         }, 5000);
+    }
+
+    stopStatusCheck() {
+        if (this.statusCheckInterval) {
+            clearInterval(this.statusCheckInterval);
+            this.statusCheckInterval = null;
+        }
+    }
+
+    // 清理资源
+    cleanup() {
+        this.clearScheduledTasks();
+        this.stopStatusCheck();
+        
+        // 移除事件监听器
+        if (this.floatingButton) {
+            this.floatingButton.removeEventListener('click', this.toggleStatusBar);
+        }
+        
+        // 移除状态栏事件监听器
+        const toggleBtn = document.getElementById('toggleStatus');
+        const pauseBtn = document.getElementById('pauseStatus');
+        const closeBtn = document.getElementById('closeStatus');
+        
+        if (toggleBtn) {
+            toggleBtn.removeEventListener('click', this.toggleAutomation);
+        }
+        if (pauseBtn) {
+            pauseBtn.removeEventListener('click', this.togglePause);
+        }
+        if (closeBtn) {
+            closeBtn.removeEventListener('click', this.hideStatusBar);
+        }
+        
+        // 清理DOM元素
+        if (this.statusBar && this.statusBar.parentNode) {
+            this.statusBar.parentNode.removeChild(this.statusBar);
+        }
+        
+        if (this.floatingButton && this.floatingButton.parentNode) {
+            this.floatingButton.parentNode.removeChild(this.floatingButton);
+        }
     }
 
     sendStatus() {
@@ -803,4 +874,11 @@ if (document.readyState === 'loading') {
     });
 } else {
     new QZonePraiseAutomator();
+}
+
+// 导出供其他模块使用
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = QZonePraiseAutomator;
+} else if (typeof window !== 'undefined') {
+    window.QZonePraiseAutomator = QZonePraiseAutomator;
 }

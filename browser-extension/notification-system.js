@@ -34,7 +34,16 @@ class NotificationSystem {
             }
         };
         
-        this.init();
+        // 异步初始化，避免在构造函数中调用
+        this.initAsync();
+    }
+    
+    async initAsync() {
+        try {
+            await this.init();
+        } catch (error) {
+            console.error('Notification system initialization failed:', error);
+        }
     }
 
     async init() {
@@ -716,17 +725,37 @@ class NotificationSystem {
 
     // 启动处理器
     startProcessor() {
+        if (this.processorStarted) {
+            return;
+        }
+        this.processorStarted = true;
+        
         // 定期处理队列
-        setInterval(() => {
+        this.queueProcessorInterval = setInterval(() => {
             if (!this.isProcessing && this.queue.length > 0) {
                 this.processQueue();
             }
         }, 1000);
         
         // 定期清理旧通知
-        setInterval(() => {
+        this.cleanupInterval = setInterval(() => {
             this.cleanupOldNotifications();
         }, 60000); // 每分钟清理一次
+    }
+
+    // 停止处理器
+    stopProcessor() {
+        if (this.queueProcessorInterval) {
+            clearInterval(this.queueProcessorInterval);
+            this.queueProcessorInterval = null;
+        }
+        
+        if (this.cleanupInterval) {
+            clearInterval(this.cleanupInterval);
+            this.cleanupInterval = null;
+        }
+        
+        this.processorStarted = false;
     }
 
     // 绑定事件
@@ -920,6 +949,7 @@ class NotificationSystem {
 
     // 销毁通知系统
     destroy() {
+        this.stopProcessor();
         this.clearAll();
         this.channels.clear();
         this.templates.clear();
