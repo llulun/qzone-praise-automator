@@ -1,16 +1,18 @@
 // QZone Praise Automator Pro - Background Service Worker
 
-// 导入高级功能模块
-importScripts(
-    'storage.js',
-    'analytics.js',
-    'recommendation.js',
-    'ml-engine.js',
-    'visualization.js',
-    'notification-system.js',
-    'security.js',
-    'performance.js'
-);
+// 导入高级功能模块（仅在浏览器扩展环境中）
+if (typeof importScripts !== 'undefined') {
+    importScripts(
+        'storage.js',
+        'analytics.js',
+        'recommendation.js',
+        'ml-engine.js',
+        'visualization.js',
+        'notification-system.js',
+        'security.js',
+        'performance.js'
+    );
+}
 
 class BackgroundService {
     constructor() {
@@ -18,14 +20,25 @@ class BackgroundService {
         this.alarmName = 'qzone-automator-alarm';
         this.notificationId = 'qzone-automator-notification';
         
-        // 初始化高级功能模块
-        this.storageManager = new StorageManager();
-        this.analyticsEngine = new AnalyticsEngine();
-        this.recommendationSystem = new RecommendationSystem();
-        this.mlEngine = new MLEngine();
-        this.notificationSystem = new NotificationSystem();
-        this.securityManager = new SecurityManager();
-        this.performanceOptimizer = new PerformanceOptimizer();
+        // 初始化高级功能模块（仅在浏览器扩展环境中）
+        if (typeof importScripts !== 'undefined' && typeof StorageManager !== 'undefined') {
+            this.storageManager = new StorageManager();
+            this.analyticsEngine = new AnalyticsEngine();
+            this.recommendationSystem = new RecommendationSystem();
+            this.mlEngine = new MLEngine();
+            this.notificationSystem = new NotificationSystem();
+            this.securityManager = new SecurityManager();
+            this.performanceOptimizer = new PerformanceOptimizer();
+        } else {
+            // 在非浏览器环境中提供空对象
+            this.storageManager = null;
+            this.analyticsEngine = null;
+            this.recommendationSystem = null;
+            this.mlEngine = null;
+            this.notificationSystem = null;
+            this.securityManager = null;
+            this.performanceOptimizer = null;
+        }
         
         // 不在构造函数中调用异步init方法
     }
@@ -74,42 +87,54 @@ class BackgroundService {
     }
 
     setupEventListeners() {
-        // 监听插件安装/更新
-        chrome.runtime.onInstalled.addListener((details) => {
-            this.handleInstall(details);
-        });
+        // 仅在浏览器扩展环境中设置事件监听器
+        if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.onInstalled) {
+            // 监听插件安装/更新
+            chrome.runtime.onInstalled.addListener((details) => {
+                this.handleInstall(details);
+            });
 
-        // 监听来自content script和popup的消息
-        chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-            this.handleMessage(message, sender, sendResponse);
-            return true; // 保持消息通道开放
-        });
+            // 监听来自content script和popup的消息
+            chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+                this.handleMessage(message, sender, sendResponse);
+                return true; // 保持消息通道开放
+            });
+        }
 
         // 监听定时器
-        chrome.alarms.onAlarm.addListener((alarm) => {
-            this.handleAlarm(alarm);
-        });
+        if (typeof chrome !== 'undefined' && chrome.alarms && chrome.alarms.onAlarm) {
+            chrome.alarms.onAlarm.addListener((alarm) => {
+                this.handleAlarm(alarm);
+            });
+        }
 
         // 监听通知点击
-        chrome.notifications.onClicked.addListener((notificationId) => {
-            this.handleNotificationClick(notificationId);
-        });
+        if (typeof chrome !== 'undefined' && chrome.notifications && chrome.notifications.onClicked) {
+            chrome.notifications.onClicked.addListener((notificationId) => {
+                this.handleNotificationClick(notificationId);
+            });
+        }
 
         // 监听标签页更新
-        chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-            this.handleTabUpdate(tabId, changeInfo, tab);
-        });
+        if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.onUpdated) {
+            chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+                this.handleTabUpdate(tabId, changeInfo, tab);
+            });
+        }
     }
 
     startPeriodicTasks() {
-        // 启动定期数据清理
-        chrome.alarms.create('data-cleanup', { periodInMinutes: 60 });
-        
-        // 启动性能监控
-        chrome.alarms.create('performance-monitor', { periodInMinutes: 30 });
-        
-        // 启动安全检查
-        chrome.alarms.create('security-check', { periodInMinutes: 120 });
+        // 仅在浏览器扩展环境中启动定期任务
+        if (typeof chrome !== 'undefined' && chrome.alarms && chrome.alarms.create) {
+            // 启动定期数据清理
+            chrome.alarms.create('data-cleanup', { periodInMinutes: 60 });
+            
+            // 启动性能监控
+            chrome.alarms.create('performance-monitor', { periodInMinutes: 30 });
+            
+            // 启动安全检查
+            chrome.alarms.create('security-check', { periodInMinutes: 120 });
+        }
     }
 
     startAdvancedFeatures() {
@@ -773,22 +798,28 @@ let backgroundService;
         // 创建基础服务实例作为后备
         backgroundService = new BackgroundService();
         await backgroundService.initializeBasicMode();
-        self.backgroundService = backgroundService;
+        
+        // 仅在浏览器扩展环境中设置全局引用
+        if (typeof self !== 'undefined') {
+            self.backgroundService = backgroundService;
+        }
     }
 })();
 
-// 全局错误处理
-self.addEventListener('error', (event) => {
-    console.error('Global error in background script:', event.error);
-    if (backgroundService?.analyticsEngine) {
-        backgroundService.analyticsEngine.recordError(event.error, 'global');
-    }
-});
+// 全局错误处理（仅在浏览器扩展环境中）
+if (typeof self !== 'undefined') {
+    self.addEventListener('error', (event) => {
+        console.error('Global error in background script:', event.error);
+        if (backgroundService?.analyticsEngine) {
+            backgroundService.analyticsEngine.recordError(event.error, 'global');
+        }
+    });
 
-// 未处理的Promise拒绝
-self.addEventListener('unhandledrejection', (event) => {
-    console.error('Unhandled promise rejection in background script:', event.reason);
-    if (backgroundService?.analyticsEngine) {
-        backgroundService.analyticsEngine.recordError(event.reason, 'unhandled_promise');
-    }
-});
+    // 未处理的Promise拒绝
+    self.addEventListener('unhandledrejection', (event) => {
+        console.error('Unhandled promise rejection in background script:', event.reason);
+        if (backgroundService?.analyticsEngine) {
+            backgroundService.analyticsEngine.recordError(event.reason, 'unhandled_promise');
+        }
+    });
+}

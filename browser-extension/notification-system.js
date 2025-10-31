@@ -674,6 +674,12 @@ class NotificationSystem {
             return;
         }
         
+        // 检查是否在浏览器环境中
+        if (typeof window === 'undefined' || !window.AudioContext && !window.webkitAudioContext) {
+            console.warn('Audio API not available in current environment');
+            return;
+        }
+        
         try {
             // 使用Web Audio API播放声音
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -877,9 +883,11 @@ class NotificationSystem {
         }
         
         // 清除应用内通知
-        const container = document.getElementById('notification-container');
-        if (container) {
-            container.innerHTML = '';
+        if (typeof document !== 'undefined') {
+            const container = document.getElementById('notification-container');
+            if (container) {
+                container.innerHTML = '';
+            }
         }
     }
 
@@ -974,14 +982,16 @@ class NotificationSystem {
         this.templates.clear();
         this.rules.clear();
         
-        const container = document.getElementById('notification-container');
-        if (container) {
-            container.remove();
-        }
-        
-        const styles = document.getElementById('notification-styles');
-        if (styles) {
-            styles.remove();
+        if (typeof document !== 'undefined') {
+            const container = document.getElementById('notification-container');
+            if (container) {
+                container.remove();
+            }
+            
+            const styles = document.getElementById('notification-styles');
+            if (styles) {
+                styles.remove();
+            }
         }
     }
 }

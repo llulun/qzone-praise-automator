@@ -1006,8 +1006,8 @@ class AuditLogger {
             action,
             details,
             timestamp: Date.now(),
-            userAgent: navigator.userAgent,
-            url: location.href
+            userAgent: (typeof navigator !== 'undefined' && navigator.userAgent) || 'unknown',
+            url: (typeof location !== 'undefined' && location.href) || 'unknown'
         };
         
         this.logs.push(logEntry);

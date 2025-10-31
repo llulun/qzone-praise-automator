@@ -1142,7 +1142,7 @@ class ResourceOptimizer {
     // 优化图片
     optimizeImage(img) {
         // 根据设备像素比调整图片大小
-        const dpr = window.devicePixelRatio || 1;
+        const dpr = (typeof window !== 'undefined' && window.devicePixelRatio) || 1;
         const rect = img.getBoundingClientRect();
         const optimalWidth = Math.ceil(rect.width * dpr);
         const optimalHeight = Math.ceil(rect.height * dpr);
