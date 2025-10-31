@@ -1,0 +1,81 @@
+{
+  "manifest_version": 3,
+  "name": "QZone Praise Automator Pro",
+  "version": "3.0.0",
+  "description": "QQ空间自动点赞增强版 - 智能、美观、功能强大的浏览器插件",
+  "author": "llulun (Enhanced Browser Extension)",
+  
+  "permissions": [
+    "storage",
+    "activeTab",
+    "notifications",
+    "alarms",
+    "tabs",
+    "scripting",
+    "webRequest",
+    "webNavigation",
+    "background",
+    "system.memory",
+    "system.cpu"
+  ],
+  
+  "host_permissions": [
+    "*://user.qzone.qq.com/*",
+    "*://qzone.qq.com/*",
+    "*://*.qzone.qq.com/*"
+  ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["*://user.qzone.qq.com/*", "*://qzone.qq.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "QZone Praise Automator Pro",
+    "default_icon": {
+      "16": "icons/icon-16.svg",
+      "48": "icons/icon-48.svg",
+      "128": "icons/icon-128.svg"
+    }
+  },
+  
+  "options_page": "options.html",
+  
+  "icons": {
+    "16": "icons/icon-16.svg",
+    "48": "icons/icon-48.svg",
+    "128": "icons/icon-128.svg"
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "content.css",
+        "popup.html",
+        "options.html",
+        "test.html",
+        "analytics.js",
+        "recommendation.js",
+        "ml-engine.js",
+        "visualization.js",
+        "notification-system.js",
+        "security.js",
+        "performance.js",
+        "storage.js",
+        "test-runner.js",
+        "performance-test.js",
+        "integration-test.js"
+      ],
+      "matches": ["*://user.qzone.qq.com/*", "*://qzone.qq.com/*"]
+    }
+  ]
+}
