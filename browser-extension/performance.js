@@ -1000,7 +1000,7 @@ class ResourceOptimizer {
 
     // 设置懒加载
     setupLazyLoading() {
-        if ('IntersectionObserver' in window) {
+        if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
             this.lazyLoadObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1020,7 +1020,7 @@ class ResourceOptimizer {
         this.preloadCriticalResources();
         
         // 空闲时预加载
-        if ('requestIdleCallback' in window) {
+        if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
             requestIdleCallback(() => {
                 this.preloadNextResources();
             });
