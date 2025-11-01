@@ -1029,10 +1029,12 @@ class ResourceOptimizer {
 
     // 预加载关键资源
     preloadCriticalResources() {
-        const criticalImages = document.querySelectorAll('img[data-critical]');
-        criticalImages.forEach(img => {
-            this.preloadImage(img.src);
-        });
+        if (typeof document !== 'undefined') {
+            const criticalImages = document.querySelectorAll('img[data-critical]');
+            criticalImages.forEach(img => {
+                this.preloadImage(img.src);
+            });
+        }
     }
 
     // 预加载下一批资源
@@ -1082,29 +1084,40 @@ class ResourceOptimizer {
         }
         
         return new Promise((resolve, reject) => {
-            const link = document.createElement('link');
-            link.rel = 'preload';
-            link.as = 'script';
-            link.href = url;
-            link.onload = () => {
+            if (typeof document !== 'undefined') {
+                const link = document.createElement('link');
+                link.rel = 'preload';
+                link.as = 'script';
+                link.href = url;
+                link.onload = () => {
+                    this.scriptCache.set(url, true);
+                    resolve();
+                };
+                link.onerror = reject;
+                document.head.appendChild(link);
+            } else {
+                // 在非浏览器环境中直接解析
                 this.scriptCache.set(url, true);
                 resolve();
-            };
-            link.onerror = reject;
-            document.head.appendChild(link);
+            }
         });
     }
 
     // 预加载样式
     preloadStyle(url) {
         return new Promise((resolve, reject) => {
-            const link = document.createElement('link');
-            link.rel = 'preload';
-            link.as = 'style';
-            link.href = url;
-            link.onload = resolve;
-            link.onerror = reject;
-            document.head.appendChild(link);
+            if (typeof document !== 'undefined') {
+                const link = document.createElement('link');
+                link.rel = 'preload';
+                link.as = 'style';
+                link.href = url;
+                link.onload = resolve;
+                link.onerror = reject;
+                document.head.appendChild(link);
+            } else {
+                // 在非浏览器环境中直接解析
+                resolve();
+            }
         });
     }
 
@@ -1227,7 +1240,7 @@ class ResourceOptimizer {
     // 开始优化
     start() {
         // 观察懒加载元素
-        if (this.lazyLoadObserver) {
+        if (this.lazyLoadObserver && typeof document !== 'undefined') {
             const lazyElements = document.querySelectorAll('[data-src]');
             lazyElements.forEach(element => {
                 this.lazyLoadObserver.observe(element);
@@ -1235,10 +1248,12 @@ class ResourceOptimizer {
         }
         
         // 优化现有图片
-        const images = document.querySelectorAll('img');
-        images.forEach(img => {
-            this.optimizeImage(img);
-        });
+        if (typeof document !== 'undefined') {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                this.optimizeImage(img);
+            });
+        }
     }
 
     // 优化
@@ -1415,7 +1430,7 @@ class NetworkOptimizer {
     // 开始
     start() {
         // 网络状态监控
-        if ('connection' in navigator) {
+        if (typeof navigator !== 'undefined' && 'connection' in navigator) {
             navigator.connection.addEventListener('change', () => {
                 this.adaptToNetworkConditions();
             });
@@ -1424,7 +1439,7 @@ class NetworkOptimizer {
 
     // 适应网络条件
     adaptToNetworkConditions() {
-        if ('connection' in navigator) {
+        if (typeof navigator !== 'undefined' && 'connection' in navigator) {
             const connection = navigator.connection;
             
             if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {

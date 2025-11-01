@@ -118,6 +118,12 @@
             color: #721c24;
         }
 
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
         .btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -205,10 +211,12 @@
 
         <div class="info-box">
             <h3>📋 测试说明</h3>
+            <p><strong>重要：</strong>此测试页面需要在浏览器扩展环境中运行才能正常工作</p>
             <p>1. 确保已安装 QZone Praise Automator Pro 浏览器插件</p>
-            <p>2. 点击下方按钮测试插件的各项功能</p>
-            <p>3. 查看控制台输出了解测试结果</p>
-            <p>4. 如有问题，请检查插件是否正确安装并启用</p>
+            <p>2. 将此页面作为扩展的一部分加载，或在扩展的弹出窗口中打开</p>
+            <p>3. 点击下方按钮测试插件的各项功能</p>
+            <p>4. 查看控制台输出了解测试结果</p>
+            <p>5. 如显示"需要在扩展环境中运行"，说明当前在普通网页环境中，需要在扩展上下文中访问</p>
         </div>
 
         <div class="test-section">
@@ -292,8 +300,9 @@
                     log('✅ 插件已正确安装', 'success');
                     return true;
                 } else {
-                    updateStatus('installStatus', 'error', '未安装');
-                    log('❌ 未检测到插件', 'error');
+                    updateStatus('installStatus', 'warning', '需要在扩展环境中运行');
+                    log('ℹ️ 当前在普通网页环境中运行，需要在浏览器扩展环境中才能检测到插件', 'info');
+                    log('💡 提示：请将此页面作为扩展的一部分加载，或在扩展的弹出窗口中打开', 'info');
                     return false;
                 }
             } catch (error) {
