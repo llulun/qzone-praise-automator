@@ -13,6 +13,14 @@
 
 </div>
 
+<!-- 🧭 快速导航：参考优秀开源项目的入口式导航，方便用户在多应用仓库中快速定位文档 -->
+<div align="center">
+
+**🧭 快速导航**  
+[项目总览](docs/OVERVIEW.md) · [应用列表](docs/APPS.md) · [自动登录脚本说明](qzone-auto-login-helper/README.md) · [仓库隐私政策](PRIVACY.md) · [自动登录隐私政策](qzone-auto-login-helper/PRIVACY.md) · [更新日志](CHANGELOG.md) · [贡献指南](CONTRIBUTING.md) · [行为准则](CODE_OF_CONDUCT.md) · [安全策略](SECURITY.md) · [开源许可证](LICENSE)
+
+</div>
+
 ## 📖 项目简介
 
 QZone Praise Automator 是一个功能强大的网页版 QQ 空间自动点赞工具，专为提升用户体验而设计。支持智能检测好友动态、自动点赞、滚动加载、定时刷新等核心功能。
@@ -57,7 +65,7 @@ QZone Praise Automator 是一个功能强大的网页版 QQ 空间自动点赞�
 - **安全机制** - 内置防重复点赞、错误重试、异常处理
 - **数据备份** - 配置备份/恢复功能，防止数据丢失
 - **兼容性** - 兼容主流浏览器，优化性能表现
-- **辅助工具** - 可与 QZone Auto Login Helper 结合使用
+- **辅助工具** - 可与 [QZone Auto Login Helper](qzone-auto-login-helper/README.md) 结合使用
 
 ## 🚀 快速开始
 
@@ -294,3 +302,22 @@ copies or substantial portions of the Software.
 [![Star History Chart](https://api.star-history.com/svg?repos=llulun/qzone-praise-automator&type=Date)](https://star-history.com/#llulun/qzone-praise-automator&Date)
 
 </div>
+
+---
+
+## 🧩 多应用总览
+
+本仓库包含多个应用（脚本/代码），支持独立或组合使用：
+
+- 自动点赞脚本（本页）
+- 自动登录辅助脚本：详见子模块说明文档 → [qzone-auto-login-helper/README.md](qzone-auto-login-helper/README.md)
+- 项目总览与应用清单：
+  - 总览 → [docs/OVERVIEW.md](docs/OVERVIEW.md)
+  - 应用列表 → [docs/APPS.md](docs/APPS.md)
+
+组合推荐：同时安装“自动登录辅助脚本”和“自动点赞脚本”。当登录过期或页面嵌入跨域登录框时，登录辅助脚本将自动跳转同源登录页并填入你的本地保存凭据，登录成功后自动点赞脚本继续执行，保障流程不中断。
+
+## 🔒 隐私政策
+
+- 仓库级隐私政策（覆盖所有应用）→ [PRIVACY.md](PRIVACY.md)
+- 自动登录辅助脚本隐私政策（子模块）→ [qzone-auto-login-helper/PRIVACY.md](qzone-auto-login-helper/PRIVACY.md)
