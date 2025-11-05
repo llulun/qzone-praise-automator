@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @author       llulun
 // @license      MIT
-// @version      1.5
+// @version      1.8
 // @description  这个脚本是QZone自动点赞脚本的辅助脚本，也可以单独使用。主要功能是自动保持登录状态：当登录失效或离线后，脚本会自动检测并触发浏览器密码自动填充（优先点击头像快捷登录，如果失败则尝试浏览器autofill），确保QZone自动点赞工作流不会因登录问题而停止。脚本不保存任何密码，仅依赖浏览器内置的密码管理器。包含控制面板（通过浮动按钮打开）用于自定义设置，如检测间隔、自动触发阈值等。状态栏显示当前步骤和日志。
 // @match        *://*.qzone.qq.com/*
 // @match        https://i.qq.com/*
@@ -23,13 +23,19 @@
     'use strict';
 
     // 从localStorage获取配置（专注于登录相关参数，包括文字颜色）
-    let tryBrowserAutofill = localStorage.getItem('lh-tryBrowserAutofill') !== 'false'; // 默认true
+    // 登录方式：'autofill'（优先使用浏览器自动填充）或 'avatar'（优先点击头像快捷登录）
+    let loginMethod = localStorage.getItem('lh-loginMethod') || 'autofill'; // 默认自动填充
     let checkInterval = parseInt(localStorage.getItem('lh-checkInterval')) || 60; // 默认60秒
     let autoTriggerThreshold = parseInt(localStorage.getItem('lh-autoTriggerThreshold')) || 3; // 默认3次检测失败后自动触发
+    let disableFallback = localStorage.getItem('lh-disableFallback') === 'true'; // 是否禁用回退，默认false
     let statusBgColor = localStorage.getItem('lh-statusBgColor') || 'linear-gradient(to right, #333, #222)'; // 默认黑色渐变
     let menuBgColor = localStorage.getItem('lh-menuBgColor') || '#ffffff'; // 默认白色
     let statusTextColor = localStorage.getItem('lh-statusTextColor') || 'auto'; // 默认auto
     let menuTextColor = localStorage.getItem('lh-menuTextColor') || 'auto'; // 默认auto
+    let standardizeNames = localStorage.getItem('lh-standardizeNames') !== 'false'; // 临时标准化 name 提升识别，默认开启
+    let savedUsername = localStorage.getItem('lh-savedUsername') || '';
+    let savedPassword = localStorage.getItem('lh-savedPassword') || '';
+    let preferredLoginUrl = localStorage.getItem('lh-preferredLoginUrl') || '';
     let currentTask = ''; // 当前任务名称
     let taskStartTime = 0; // 当前任务开始时间
     let taskDuration = 0; // 当前任务预计时长
@@ -89,8 +95,9 @@
         sidebar.innerHTML = `
             <h4 style="margin: 0 0 10px;">设置分类</h4>
             <ul style="list-style: none; padding: 0;">
-                <li><button id="lh-tab-core" style="width: 100%; text-align: left; padding: 5px; background: #e0e0e0; border: none; cursor: pointer; border-radius: 4px; margin-bottom: 5px;">登录参数</button></li>
-                <li><button id="lh-tab-ui" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; margin-bottom: 5px;">界面自定义</button></li>
+                <li><button id="lh-tab-core" style="width: 100%; text-align: left; padding: 5px; background: #e0e0e0; border: none; cursor: pointer; border-radius: 4px; margin-bottom: 5px;">🔐 登录</button></li>
+                <li><button id="lh-tab-advanced" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; margin-bottom: 5px;">⚙️ 高级</button></li>
+                <li><button id="lh-tab-ui" style="width: 100%; text-align: left; padding: 5px; background: none; border: none; cursor: pointer; border-radius: 4px; margin-bottom: 5px;">🎨 外观</button></li>
             </ul>
         `;
         menu.appendChild(sidebar);
@@ -121,14 +128,46 @@
             content.innerHTML = '<h3>Login Helper Control Panel</h3>'; // 每次切换保持标题
             if (tab === 'core') {
                 content.innerHTML += `
-                    <h4>登录参数</h4>
-                    <label style="display: block; margin-bottom: 10px;"><input type="checkbox" id="lh-tryBrowserAutofill" ${tryBrowserAutofill ? 'checked' : ''}> 启用浏览器自动填充触发</label>
-                    <label style="display: block; margin-bottom: 10px;">检测间隔 (秒): <input type="number" id="lh-checkInterval" value="${checkInterval}" min="10" style="width: 80px; margin-left: 10px;"></label>
-                    <label style="display: block; margin-bottom: 10px;">自动触发阈值 (失败次数): <input type="number" id="lh-autoTriggerThreshold" value="${autoTriggerThreshold}" min="1" style="width: 80px; margin-left: 10px;"></label>
+                    <h4>登录参数 <span style="font-size: 12px; color: #fff; background:#4CAF50; padding:2px 6px; border-radius:10px; margin-left:8px;">推荐：密码登录</span></h4>
+                    <div style="padding: 10px; border-radius: 10px; background: linear-gradient(to right, #f7f7f7, #eaeaea); margin-bottom: 12px;">
+                        <label style="display: block; margin-bottom: 10px;">登录方式: 
+                            <select id="lh-loginMethod" style="width: 220px; margin-left: 10px;">
+                                <option value="autofill" ${loginMethod === 'autofill' ? 'selected' : ''}>浏览器自动填充（已弃用）</option>
+                                <option value="avatar" ${loginMethod === 'avatar' ? 'selected' : ''}>点击头像快捷登录</option>
+                                <option value="saved" ${loginMethod === 'saved' ? 'selected' : ''}>使用保存的账户密码登录</option>
+                            </select>
+                        </label>
+                        <div style="font-size:12px;color:#666;margin-left:4px;">说明：自动填充仅保留以兼容少数环境，优先使用“账户密码登录”。</div>
+                    </div>
+                    <div style="padding: 10px; border-radius: 10px; background: linear-gradient(to right, #f7f7f7, #eaeaea); margin-bottom: 12px;">
+                        <label style="display: block; margin-bottom: 10px;"><input type="checkbox" id="lh-disableFallback" ${disableFallback ? 'checked' : ''}> 禁用回退（仅尝试所选方式）</label>
+                        <div style="font-size:12px;color:#666;margin-left:22px;">若开启，将不自动切换头像登录或自动填充。</div>
+                        <label style="display: block; margin: 10px 0;"><input type="checkbox" id="lh-standardizeNames" ${standardizeNames ? 'checked' : ''}> 辅助识别：临时标准化字段名</label>
+                        <div style="font-size:12px;color:#666;margin-left:22px;">登录前临时将 name 设为 username/password，提交前自动还原。</div>
+                        <label style="display: block; margin-top: 10px;">检测间隔 (秒): <input type="number" id="lh-checkInterval" value="${checkInterval}" min="10" style="width: 80px; margin-left: 10px;"></label>
+                        <label style="display: block; margin-top: 6px;">自动触发阈值 (失败次数): <input type="number" id="lh-autoTriggerThreshold" value="${autoTriggerThreshold}" min="1" style="width: 80px; margin-left: 10px;"></label>
+                    </div>
+                    <div style="padding: 10px; border-radius: 10px; background: linear-gradient(to right, #eef6ff, #e3f0ff);">
+                        <div style="font-weight: bold; margin-bottom: 6px;">保存账户密码（用于直接登录）：</div>
+                        <label style="display: block; margin-bottom: 8px;">账号：<input type="text" id="lh-savedUsername" value="${savedUsername}" placeholder="请输入QQ账号" style="width: 240px; margin-left: 10px;"></label>
+                        <label style="display: block; margin-bottom: 8px;">密码：<input type="password" id="lh-savedPassword" value="${savedPassword}" placeholder="请输入密码" style="width: 240px; margin-left: 10px;"></label>
+                        <div style="font-size: 12px; color: #666; margin-bottom:8px;">提示：凭据保存在本地浏览器（localStorage）。请在私人设备使用。</div>
+                        <button id="lh-clearCreds" style="background:#f44336;color:#fff;border:none;padding:6px 10px;border-radius:6px;cursor:pointer;">清除本地保存的账号与密码</button>
+                    </div>
+                `;
+            } else if (tab === 'advanced') {
+                content.innerHTML += `
+                    <h4>高级设置</h4>
+                    <div style="padding: 10px; border-radius: 10px; background: linear-gradient(to right, #f7f7f7, #eaeaea);">
+                        <label style="display:block; margin-bottom:8px;">优先登录页 URL（可选）：
+                            <input type="text" id="lh-preferredLoginUrl" value="${preferredLoginUrl}" placeholder="例如 https://xui.ptlogin2.qq.com/cgi-bin/xlogin?..." style="width: 320px; margin-left: 10px;">
+                        </label>
+                        <div style="font-size:12px;color:#666;">说明：当无法从页面自动获取登录框地址时，将跳转到此登录页再进行密码登录。</div>
+                    </div>
                 `;
             } else if (tab === 'ui') {
                 content.innerHTML += `
-                    <h4>界面自定义</h4>
+                    <h4>外观设置</h4>
                     <label style="display: block; margin-bottom: 10px;">状态栏背景: <select id="lh-statusBgColor" style="width: 200px; margin-left: 10px;">
                         <option value="linear-gradient(to right, #333, #222)" ${statusBgColor === 'linear-gradient(to right, #333, #222)' ? 'selected' : ''}>黑色渐变</option>
                         <option value="linear-gradient(to right, #f0f0f0, #e0e0e0)" ${statusBgColor === 'linear-gradient(to right, #f0f0f0, #e0e0e0)' ? 'selected' : ''}>白色渐变</option>
@@ -162,6 +201,7 @@
 
         // tab切换事件（添加活跃高亮：不同背景色、阴影）
         const coreTab = document.getElementById('lh-tab-core');
+        const advancedTab = document.getElementById('lh-tab-advanced');
         const uiTab = document.getElementById('lh-tab-ui');
 
         coreTab.addEventListener('click', () => {
@@ -172,20 +212,37 @@
             uiTab.style.boxShadow = 'none';
         });
 
+        advancedTab.addEventListener('click', () => {
+            showTab('advanced');
+            advancedTab.style.background = '#e0e0e0';
+            advancedTab.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+            coreTab.style.background = 'none';
+            coreTab.style.boxShadow = 'none';
+            uiTab.style.background = 'none';
+            uiTab.style.boxShadow = 'none';
+        });
+
         uiTab.addEventListener('click', () => {
             showTab('ui');
             uiTab.style.background = '#e0e0e0';
             uiTab.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
             coreTab.style.background = 'none';
             coreTab.style.boxShadow = 'none';
+            advancedTab.style.background = 'none';
+            advancedTab.style.boxShadow = 'none';
         });
 
         // 保存按钮事件
         document.getElementById('lh-save').addEventListener('click', function() {
             // 登录参数
-            tryBrowserAutofill = document.getElementById('lh-tryBrowserAutofill')?.checked || false;
+            loginMethod = document.getElementById('lh-loginMethod')?.value || 'autofill';
+            disableFallback = !!document.getElementById('lh-disableFallback')?.checked;
+            standardizeNames = !!document.getElementById('lh-standardizeNames')?.checked;
             checkInterval = parseInt(document.getElementById('lh-checkInterval')?.value) || 60;
             autoTriggerThreshold = parseInt(document.getElementById('lh-autoTriggerThreshold')?.value) || 3;
+            savedUsername = document.getElementById('lh-savedUsername')?.value || '';
+            savedPassword = document.getElementById('lh-savedPassword')?.value || '';
+            preferredLoginUrl = document.getElementById('lh-preferredLoginUrl')?.value || '';
 
             // UI参数（简化，无透明度）
             statusBgColor = document.getElementById('lh-statusBgColor')?.value || 'linear-gradient(to right, #333, #222)';
@@ -194,13 +251,25 @@
             menuTextColor = document.getElementById('lh-menuTextColor')?.value || 'auto';
 
             // 保存到localStorage
-            localStorage.setItem('lh-tryBrowserAutofill', tryBrowserAutofill);
+            localStorage.setItem('lh-loginMethod', loginMethod);
+            localStorage.setItem('lh-disableFallback', String(disableFallback));
+            localStorage.setItem('lh-standardizeNames', String(standardizeNames));
             localStorage.setItem('lh-checkInterval', checkInterval);
             localStorage.setItem('lh-autoTriggerThreshold', autoTriggerThreshold);
             localStorage.setItem('lh-statusBgColor', statusBgColor);
             localStorage.setItem('lh-statusTextColor', statusTextColor);
             localStorage.setItem('lh-menuBgColor', menuBgColor);
             localStorage.setItem('lh-menuTextColor', menuTextColor);
+            localStorage.setItem('lh-savedUsername', savedUsername);
+            localStorage.setItem('lh-savedPassword', savedPassword);
+            localStorage.setItem('lh-preferredLoginUrl', preferredLoginUrl);
+
+            // 若已填写凭据，默认切换为“保存账户密码登录”以提升便捷性
+            if (savedUsername && savedPassword) {
+                localStorage.setItem('lh-loginMethod', 'saved');
+                const lmSelect = document.getElementById('lh-loginMethod');
+                if (lmSelect) lmSelect.value = 'saved';
+            }
 
             alert('设置已保存并应用！部分变化可能需刷新页面生效。');
 
@@ -226,7 +295,10 @@
 
         // 测试按钮：立即触发登录尝试
         document.getElementById('lh-test').addEventListener('click', function() {
-            updateStatusBar('测试触发：将尝试头像或触发浏览器自动填充（检查控制台日志以获取诊断信息）');
+            const lm = document.getElementById('lh-loginMethod')?.value || loginMethod;
+            const msg = lm === 'autofill' ? '测试触发：将尝试浏览器自动填充'
+                        : (lm === 'saved' ? '测试触发：将尝试使用保存的账户密码登录' : '测试触发：将尝试头像快捷登录');
+            updateStatusBar(msg + '（检查控制台日志以获取诊断信息）');
             setTimeout(() => attemptLoginFlow(true), 200);
         });
 
@@ -257,6 +329,16 @@
         });
 
         document.body.appendChild(toggleBtn);
+
+        // 根据登录方式自适应测试按钮文案
+        const testBtn = document.getElementById('lh-test');
+        const loginSelect = document.getElementById('lh-loginMethod');
+        const updateTestLabel = () => {
+            if (!testBtn || !loginSelect) return;
+            testBtn.innerText = loginSelect.value === 'autofill' ? '测试自动填充' : (loginSelect.value === 'avatar' ? '测试头像登录' : '测试密码登录');
+        };
+        updateTestLabel();
+        loginSelect?.addEventListener('change', updateTestLabel);
     }
 
     // 创建状态栏（更新：缩小尺寸，简化显示，只显示当前步骤和日志；透明背景，文字不透明）
@@ -308,58 +390,200 @@
         `;
     }
 
-    // 主流程：尝试头像 -> 触发浏览器自动填充并提交
+    // 工具函数：模拟真实点击与键盘事件（有助于触发浏览器自动填充）
+    function simulateRealClick(el) {
+        try { el.dispatchEvent(new MouseEvent('mousedown', { bubbles: true })); } catch (_) {}
+        try { el.dispatchEvent(new MouseEvent('mouseup', { bubbles: true })); } catch (_) {}
+        try { el.click(); } catch (e) { el.dispatchEvent(new MouseEvent('click', { bubbles: true })); }
+    }
+    function simulateKey(el, key) {
+        try {
+            const opts = { bubbles: true, cancelable: true, key };
+            el.dispatchEvent(new KeyboardEvent('keydown', opts));
+            el.dispatchEvent(new KeyboardEvent('keyup', opts));
+        } catch (_) {}
+    }
+
+    // 判断元素是否可见且可交互
+    function isVisible(el) {
+        try {
+            const style = el.ownerDocument.defaultView.getComputedStyle(el);
+            if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') return false;
+            const rect = el.getBoundingClientRect();
+            if ((rect.width || 0) <= 0 || (rect.height || 0) <= 0) return false;
+            if (el.hasAttribute('disabled')) return false;
+            return el.offsetParent !== null;
+        } catch (_) { return true; }
+    }
+
+    // 逐字符模拟键入，触发 keydown/keypress/input/keyup 事件
+    async function simulateTyping(el, text) {
+        try {
+            el.focus();
+            // 清空现有值
+            el.value = '';
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            for (const ch of String(text)) {
+                el.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key: ch }));
+                // 更新值
+                el.value += ch;
+                try {
+                    el.dispatchEvent(new InputEvent('input', { bubbles: true, cancelable: true, data: ch, inputType: 'insertText' }));
+                } catch (_) {
+                    el.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+                el.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, cancelable: true, key: ch }));
+                await new Promise(r => setTimeout(r, 20));
+            }
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+            try { el.dispatchEvent(new Event('blur', { bubbles: true })); } catch (_) {}
+        } catch (e) { console.warn('[LoginHelper] 模拟键入异常：', e); }
+    }
+
+    // 自动填充相关逻辑已弃用（但保留选项供少数环境自测）。提示与检测函数移除以简化代码。
+
+    // 工具函数：尝试点击头像快捷登录
+    function tryClickAvatar() {
+        const avatarSelectors = [
+            '#qlogin_list .uin', '.qlogin_face img', '.mod_login_user .head img',
+            '.face, .qlogin_face_img, .qlogin_img', 'a[href*="ptlogin"] img', '.login-face img'
+        ];
+        for (const sel of avatarSelectors) {
+            const el = document.querySelector(sel);
+            if (el) {
+                console.log('[LoginHelper] 找到头像元素，尝试点击 ->', sel, el);
+                updateStatusBar('检测到头像，正在点击登录...');
+                try { el.click(); } catch (e) { console.warn(e); el.dispatchEvent(new MouseEvent('click', { bubbles: true })); }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 工具函数：遍历所有iframe与主文档，尽力触发浏览器自动填充
+    async function tryAutofillAcrossDocs(withUserGesture = false) {
+        // 1. 先在所有可访问的 iframe 中尝试
+        const iframes = document.querySelectorAll('iframe');
+        for (const iframe of iframes) {
+            try {
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                if (iframeDoc && await tryTriggerBrowserAutofillInDocument(iframeDoc, withUserGesture)) {
+                    return true;
+                }
+            } catch (e) { console.warn('[LoginHelper] iframe访问异常：', e); }
+        }
+        // 2. 再尝试主文档
+        return await tryTriggerBrowserAutofillInDocument(document, withUserGesture);
+    }
+
+    // 基于保存的账户密码，填充并提交（遍历iframe与主文档）
+    async function trySavedCredentialsAcrossDocs(username, password) {
+        const iframes = document.querySelectorAll('iframe');
+        let candidateLoginSrc = null;
+        for (const iframe of iframes) {
+            try {
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                if (iframeDoc && await fillAndSubmitWithSavedCredsInDocument(iframeDoc, username, password)) {
+                    return true;
+                }
+            } catch (e) {
+                console.warn('[LoginHelper] iframe访问异常：', e);
+                try {
+                    const src = iframe.getAttribute('src') || '';
+                    if (!candidateLoginSrc && /ptlogin2\.qq\.com|ui\.ptlogin2\.qq\.com|xui\.ptlogin2\.qq\.com/.test(src)) {
+                        candidateLoginSrc = src;
+                    }
+                } catch (_) {}
+            }
+        }
+        const ok = await fillAndSubmitWithSavedCredsInDocument(document, username, password);
+        if (!ok && candidateLoginSrc && location.host.indexOf('ptlogin2.qq.com') === -1) {
+            // 规范化URL，强制顶层跳转到登录页（同源后再填写）
+            let target = candidateLoginSrc;
+            if (/^\/\//.test(target)) target = 'https:' + target;
+            updateStatusBar('检测到跨域登录框，正在跳转到登录页以填写…');
+            console.log('[LoginHelper] 跨域登录iframe不可访问，跳转到登录页以直接填写 ->', target);
+            try { window.top?.location?.assign(target); } catch (_) { try { location.assign(target); } catch (_) {} }
+            return true;
+        }
+        // 若仍未找到且用户配置了优先登录页，则跳转尝试
+        if (!ok && !candidateLoginSrc && preferredLoginUrl && location.host.indexOf('ptlogin2.qq.com') === -1) {
+            updateStatusBar('使用优先登录页，准备跳转并进行密码登录…');
+            console.log('[LoginHelper] 使用优先登录页跳转 ->', preferredLoginUrl);
+            try { window.top?.location?.assign(preferredLoginUrl); } catch (_) { try { location.assign(preferredLoginUrl); } catch (_) {} }
+            return true;
+        }
+        return ok;
+    }
+
+    // 主流程：根据登录方式优先级尝试登录（自动填充或点击头像），失败则回退到另一种
     async function attemptLoginFlow(isManualTest = false) {
         currentTask = '尝试登录流程';
         taskStartTime = Date.now();
         taskDuration = 5; // 预计5秒
         nextTask = '等待下次检测';
-        updateStatusBar('开始尝试登录...');
+        updateStatusBar(
+            loginMethod === 'autofill'
+                ? '开始尝试自动填充...'
+                : (loginMethod === 'saved' ? '开始尝试密码登录...' : '开始尝试头像快捷登录...')
+        );
         try {
-            // 1. 尝试点击头像快捷登录
-            const avatarSelectors = [
-                '#qlogin_list .uin', '.qlogin_face img', '.mod_login_user .head img',
-                '.face, .qlogin_face_img, .qlogin_img', 'a[href*="ptlogin"] img', '.login-face img'
-            ];
-            for (const sel of avatarSelectors) {
-                const el = document.querySelector(sel);
-                if (el) {
-                    console.log('[LoginHelper] 找到头像元素，尝试点击 ->', sel, el);
-                    updateStatusBar('检测到头像，正在点击登录...');
-                    try { el.click(); } catch (e) { console.warn(e); el.dispatchEvent(new MouseEvent('click', { bubbles: true })); }
+            if (loginMethod === 'saved') {
+                if (!savedUsername || !savedPassword) {
+                    updateStatusBar('未设置保存的账号或密码，请在控制面板填写');
                     currentTask = '';
                     taskDuration = 0;
                     return;
                 }
-            }
-            console.log('[LoginHelper] 未找到头像元素，尝试触发浏览器自动填充...');
-
-            if (tryBrowserAutofill) {
-                // 2. 查找所有iframe（包括嵌套），尝试在每个中触发autofill
-                const iframes = document.querySelectorAll('iframe');
-                let triggered = false;
-                for (const iframe of iframes) {
-                    try {
-                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                        if (iframeDoc && await tryTriggerBrowserAutofillInDocument(iframeDoc)) {
-                            triggered = true;
-                            break;
-                        }
-                    } catch (e) { console.warn('[LoginHelper] iframe访问异常：', e); }
+                updateStatusBar('使用保存的账户密码登录...');
+                const ok = await trySavedCredentialsAcrossDocs(savedUsername, savedPassword);
+                if (ok) {
+                    updateStatusBar('已填写保存的账号密码，正在提交...');
+                    currentTask = '';
+                    taskDuration = 0;
+                    return;
+                } else {
+                    updateStatusBar('未找到可填写的登录表单，提交失败');
                 }
-
-                // 3. 如果iframe中未触发，再尝试主文档
-                if (!triggered) {
-                    triggered = await tryTriggerBrowserAutofillInDocument(document);
-                }
-
+            } else if (loginMethod === 'autofill') {
+                const triggered = await tryAutofillAcrossDocs(isManualTest);
                 if (triggered) {
                     updateStatusBar('已尝试触发浏览器自动填充，正在等待提交...');
+                    currentTask = '';
+                    taskDuration = 0;
+                    return;
+                }
+                if (disableFallback) {
+                    console.log('[LoginHelper] 自动填充失败，已禁用回退。');
+                    updateStatusBar('自动填充失败（已禁用回退）');
                 } else {
-                    updateStatusBar('未能触发自动填充或未找到可用表单（查看控制台获取详细信息）');
+                    console.log('[LoginHelper] 自动填充失败，尝试点击头像快捷登录...');
+                    if (tryClickAvatar()) {
+                        currentTask = '';
+                        taskDuration = 0;
+                        return;
+                    }
+                    updateStatusBar('未能触发自动填充且未找到可点击头像（查看控制台）');
                 }
             } else {
-                updateStatusBar('已禁用浏览器 autofill 触发。若需要请在设置中开启。');
+                // loginMethod === 'avatar'
+                if (tryClickAvatar()) {
+                    currentTask = '';
+                    taskDuration = 0;
+                    return;
+                }
+                if (disableFallback) {
+                    console.log('[LoginHelper] 未找到头像元素，且已禁用回退。');
+                    updateStatusBar('未找到可点击头像（已禁用回退）');
+                } else {
+                    console.log('[LoginHelper] 未找到头像元素，尝试触发浏览器自动填充...');
+                    const triggered = await tryAutofillAcrossDocs(isManualTest);
+                    if (triggered) {
+                        updateStatusBar('已尝试触发浏览器自动填充，正在等待提交...');
+                    } else {
+                        updateStatusBar('未能触发自动填充或未找到可用表单（查看控制台获取详细信息）');
+                    }
+                }
             }
 
             currentTask = '';
@@ -373,43 +597,133 @@
     }
 
     // 在指定 document（主文档或 iframe document）中尽力触发浏览器 autofill 并提交
-    async function tryTriggerBrowserAutofillInDocument(doc) {
+    async function tryTriggerBrowserAutofillInDocument(doc, withUserGesture = false) {
         try {
+            // 若存在“密码登录”切换按钮，先点击以显示账号密码表单
+            try {
+                const switcher = doc.querySelector('#switcher_plogin') ||
+                    Array.from(doc.querySelectorAll('a, button')).find(el => /密码登录|帐号密码|账号密码/i.test((el.textContent || '').trim()));
+                if (switcher) {
+                    console.log('[LoginHelper] 检测到密码登录开关，尝试点击显示表单 ->', switcher);
+                    try { switcher.click(); } catch (e) { switcher.dispatchEvent(new MouseEvent('click', { bubbles: true })); }
+                    await new Promise(r => setTimeout(r, 300)); // 等待界面切换
+                }
+            } catch (e) {
+                console.warn('[LoginHelper] 切换密码登录开关异常：', e);
+            }
+
             // 查找 username & password 输入（尽量多试几个常见选择器）
-            const userSelectors = ['input[name="u"]', 'input[name="acct"]', 'input[id*="u"]', 'input[name*="user"]', 'input[type="email"]', 'input[type="text"]'];
-            const passSelectors = ['input[name="p"]', 'input[name="pwd"]', 'input[type="password"]'];
-            const submitSelectors = ['input[type="submit"]', 'button[type="submit"]', '#go', '.btn', 'input[value*="登录"]', 'button:contains("登录")'];
+            const userSelectors = ['#u', 'input[name="u"]', 'input[name="acct"]', 'input[id*="u"]', 'input[name*="user"]', 'input[type="email"]', 'input[type="text"]'];
+            const passSelectors = ['#p', 'input[name="p"]', 'input[name="pwd"]', 'input[type="password"]'];
+            // 提交按钮选择器（移除非标准的 :contains 伪选择器），扩展常见 id/class
+            const submitSelectors = [
+                'input[type="submit"]', 'button[type="submit"]',
+                '#go', '.btn', '.btn-login', '.login', '.submit', '#submit', '#login',
+                'button[id*="login"]', 'button[class*="login"]', 'input[id*="login"]', 'input[class*="login"]',
+                'button[id*="signin"]', 'button[class*="signin"]', 'input[id*="signin"]', 'input[class*="signin"]',
+                'button[id*="submit"]', 'button[class*="submit"]', 'input[id*="submit"]', 'input[class*="submit"]'
+            ];
 
             let uEl = null, pEl = null, submitEl = null;
             for (const s of userSelectors) { const e = doc.querySelector(s); if (e) { uEl = e; break; } }
             for (const s of passSelectors) { const e = doc.querySelector(s); if (e) { pEl = e; break; } }
             for (const s of submitSelectors) { const e = doc.querySelector(s); if (e) { submitEl = e; break; } }
 
+            // 若未找到标准提交元素，尝试通过文本/值匹配“登录/Log in/Sign in”
+            if (!submitEl) {
+                const candidates = Array.from(doc.querySelectorAll('button, input[type="submit"], input[type="button"], a[role="button"], a.button, a.btn, a[href^="javascript:"]'));
+                submitEl = candidates.find(el => {
+                    const text = (el.textContent || '').trim();
+                    const val = (el.value || '').trim();
+                    const re = /登录|登陆|log\s*-?\s*in|login|sign\s*-?\s*in/i;
+                    return re.test(text) || re.test(val);
+                }) || null;
+            }
+
             if (!uEl || !pEl) {
                 console.log('[LoginHelper] 未找到用户名或密码输入字段，无法触发autofill');
                 return false;
             }
 
-            // 触发浏览器autofill：焦点到用户名字段，模拟输入事件
+            // 设置有助于Chrome识别的 autocomplete 提示
+            try { uEl.setAttribute('autocomplete', 'username'); } catch (_) {}
+            try { pEl.setAttribute('autocomplete', 'current-password'); } catch (_) {}
+
+            // 临时调整name以提高密码管理器识别度（提交前还原）
+            let originalNameU = null, originalNameP = null;
+            if (standardizeNames) {
+                originalNameU = uEl.getAttribute('name');
+                originalNameP = pEl.getAttribute('name');
+                try { uEl.setAttribute('name', 'username'); } catch (_) {}
+                try { pEl.setAttribute('name', 'password'); } catch (_) {}
+            }
+
+            //（已弃用）触发浏览器autofill：保留基本焦点与输入事件，减少复杂动作
+            try { uEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_) {}
+            simulateRealClick(uEl);
+            await new Promise(r => setTimeout(r, 150));
             uEl.focus();
+            try { uEl.dispatchEvent(new FocusEvent('focus', { bubbles: true })); } catch (_) {}
+            try { uEl.dispatchEvent(new Event('focusin', { bubbles: true })); } catch (_) {}
             uEl.dispatchEvent(new Event('input', { bubbles: true }));
             uEl.dispatchEvent(new Event('change', { bubbles: true }));
             await new Promise(r => setTimeout(r, 500)); // 等待autofill
 
+            // 已弃用的检测逻辑移除：不再轮询或显示提示
+
             // 焦点到密码字段，类似
+            try { pEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_) {}
+            simulateRealClick(pEl);
+            await new Promise(r => setTimeout(r, 120));
             pEl.focus();
+            try { pEl.dispatchEvent(new FocusEvent('focus', { bubbles: true })); } catch (_) {}
+            try { pEl.dispatchEvent(new Event('focusin', { bubbles: true })); } catch (_) {}
             pEl.dispatchEvent(new Event('input', { bubbles: true }));
             pEl.dispatchEvent(new Event('change', { bubbles: true }));
             await new Promise(r => setTimeout(r, 500));
 
+            // 简化提交逻辑：若两个值已存在则尝试提交
+            if (uEl.value && pEl.value) {
+                // 提交前还原name，避免影响站点读取
+                if (standardizeNames) {
+                    try {
+                        if (originalNameU !== null) uEl.setAttribute('name', originalNameU); else uEl.removeAttribute('name');
+                        if (originalNameP !== null) pEl.setAttribute('name', originalNameP); else pEl.removeAttribute('name');
+                    } catch (_) {}
+                }
+                if (submitEl) {
+                    console.log('[LoginHelper] 检测到已有值，提交 ->', submitEl);
+                    try { submitEl.click(); } catch (e) { console.warn(e); submitEl.dispatchEvent(new MouseEvent('click', { bubbles: true })); }
+                } else {
+                    const form = pEl.closest('form');
+                    if (form) {
+                        console.log('[LoginHelper] 检测到已有值，提交表单');
+                        form.submit();
+                    }
+                }
+            }
+
             // 如果找到提交按钮，点击它
             if (submitEl) {
+                // 提交前还原name，避免影响站点读取
+                if (standardizeNames) {
+                    try {
+                        if (originalNameU !== null) uEl.setAttribute('name', originalNameU); else uEl.removeAttribute('name');
+                        if (originalNameP !== null) pEl.setAttribute('name', originalNameP); else pEl.removeAttribute('name');
+                    } catch (_) {}
+                }
                 console.log('[LoginHelper] 找到提交按钮，尝试点击 ->', submitEl);
                 submitEl.click();
             } else {
                 // 否则，尝试提交表单
                 const form = pEl.closest('form');
                 if (form) {
+                    if (standardizeNames) {
+                        try {
+                            if (originalNameU !== null) uEl.setAttribute('name', originalNameU); else uEl.removeAttribute('name');
+                            if (originalNameP !== null) pEl.setAttribute('name', originalNameP); else pEl.removeAttribute('name');
+                        } catch (_) {}
+                    }
                     console.log('[LoginHelper] 未找到提交按钮，尝试提交表单');
                     form.submit();
                 } else {
@@ -420,6 +734,139 @@
             return true;
         } catch (err) {
             console.error('[LoginHelper] 触发autofill异常：', err);
+            return false;
+        }
+    }
+
+    // 在指定 document（主文档或 iframe）中用保存的账户密码填充并提交
+    async function fillAndSubmitWithSavedCredsInDocument(doc, username, password) {
+        try {
+            // 切到密码登录界面
+            try {
+                const switcher = doc.querySelector('#switcher_plogin') ||
+                    Array.from(doc.querySelectorAll('a, button')).find(el => /密码登录|帐号密码|账号密码/i.test((el.textContent || '').trim()));
+                if (switcher) { try { switcher.click(); } catch (e) { switcher.dispatchEvent(new MouseEvent('click', { bubbles: true })); } await new Promise(r => setTimeout(r, 250)); }
+            } catch (_) {}
+
+            const userSelectors = ['#u', 'input[name="u"]', 'input[id*="u"]', 'input[name*="user"]', 'input[type="email"]', 'input[type="text"]'];
+            const passSelectors = ['#p', 'input[name="p"]', 'input[name="pwd"]', 'input[type="password"]'];
+
+            let uEl = null, pEl = null;
+            for (const s of userSelectors) { const e = doc.querySelector(s); if (e && isVisible(e)) { uEl = e; break; } }
+            for (const s of passSelectors) { const e = doc.querySelector(s); if (e && isVisible(e)) { pEl = e; break; } }
+            if (!uEl || !pEl) return false;
+
+            // 临时标准化字段名以提高识别（提交前还原）
+            let originalNameU = null, originalNameP = null;
+            if (standardizeNames) {
+                originalNameU = uEl.getAttribute('name');
+                originalNameP = pEl.getAttribute('name');
+                try { uEl.setAttribute('name', 'username'); } catch (_) {}
+                try { pEl.setAttribute('name', 'password'); } catch (_) {}
+            }
+
+            // 填充值并派发事件
+            try { uEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_) {}
+            simulateRealClick(uEl);
+            await new Promise(r => setTimeout(r, 120));
+            uEl.focus();
+            // 设置 autocomplete，帮助站点脚本识别
+            try { uEl.setAttribute('autocomplete', 'username'); } catch (_) {}
+            // 优先逐字符键入账号
+            await simulateTyping(uEl, username);
+            if (!uEl.value) {
+                uEl.value = username;
+                uEl.dispatchEvent(new Event('input', { bubbles: true }));
+                uEl.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+            // 隐藏提示标签
+            const uTips = doc.querySelector('#uin_tips');
+            if (uTips) { try { uTips.style.display = 'none'; } catch (_) {} }
+            uEl.dispatchEvent(new Event('input', { bubbles: true }));
+            uEl.dispatchEvent(new Event('change', { bubbles: true }));
+            uEl.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, cancelable: true, key: 'End' }));
+            try { uEl.dispatchEvent(new Event('blur', { bubbles: true })); } catch (_) {}
+            await new Promise(r => setTimeout(r, 150));
+
+            try { pEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (_) {}
+            simulateRealClick(pEl);
+            await new Promise(r => setTimeout(r, 120));
+            pEl.focus();
+            try { pEl.setAttribute('autocomplete', 'current-password'); } catch (_) {}
+            // 优先逐字符键入密码
+            await simulateTyping(pEl, password);
+            if (!pEl.value) {
+                pEl.value = password;
+                pEl.dispatchEvent(new Event('input', { bubbles: true }));
+                pEl.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+            const pTips = doc.querySelector('#pwd_tips');
+            if (pTips) { try { pTips.style.display = 'none'; } catch (_) {} }
+            pEl.dispatchEvent(new Event('input', { bubbles: true }));
+            pEl.dispatchEvent(new Event('change', { bubbles: true }));
+            pEl.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, cancelable: true, key: 'Enter' }));
+            try { pEl.dispatchEvent(new Event('blur', { bubbles: true })); } catch (_) {}
+            await new Promise(r => setTimeout(r, 150));
+
+            // 如果存在验证码区域且可见，提示用户
+            try {
+                const verifyArea = doc.querySelector('#verifyArea');
+                if (verifyArea && (verifyArea.style.display !== 'none')) {
+                    console.warn('[LoginHelper] 检测到验证码区域，可能需要手动处理验证码');
+                }
+            } catch (_) {}
+
+            // 提交
+            let submitEl = null;
+            const submitSelectors = [
+                'input[type="submit"]', 'button[type="submit"]',
+                '#go', '.btn', '.btn-login', '.login', '.submit', '#submit', '#login',
+                'button[id*="login"]', 'button[class*="login"]', 'input[id*="login"]', 'input[class*="login"]',
+                'button[id*="signin"]', 'button[class*="signin"]', 'input[id*="signin"]', 'input[class*="signin"]',
+                'button[id*="submit"]', 'button[class*="submit"]', 'input[id*="submit"]', 'input[class*="submit"]',
+                'a[href^="javascript:"]'
+            ];
+            for (const s of submitSelectors) { const e = doc.querySelector(s); if (e) { submitEl = e; break; } }
+            // 优先点击明确的登录按钮 id
+            const loginBtn = doc.querySelector('#login_button');
+            const loginAnchor = doc.querySelector('a.login_button');
+            if (loginBtn) submitEl = loginBtn;
+            if (!submitEl && loginAnchor) submitEl = loginAnchor;
+            if (submitEl) {
+                // 触发点击，并尽量触发表单的 onsubmit 处理
+                try { submitEl.click(); } catch (e) { submitEl.dispatchEvent(new MouseEvent('click', { bubbles: true })); }
+                const form = doc.querySelector('#loginform') || pEl.closest('form');
+                if (form) {
+                    if (standardizeNames) {
+                        try {
+                            if (originalNameU !== null) uEl.setAttribute('name', originalNameU); else uEl.removeAttribute('name');
+                            if (originalNameP !== null) pEl.setAttribute('name', originalNameP); else pEl.removeAttribute('name');
+                        } catch (_) {}
+                    }
+                    try { form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })); } catch (_) {}
+                }
+                return true;
+            } else {
+                const form = doc.querySelector('#loginform') || pEl.closest('form');
+                if (form) {
+                    // 优先派发 submit 事件以触发站点逻辑（避免直接 form.submit 绕过 onsubmit）
+                    try {
+                        const ok = form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+                        if (!ok) return true;
+                    } catch (_) {}
+                    if (standardizeNames) {
+                        try {
+                            if (originalNameU !== null) uEl.setAttribute('name', originalNameU); else uEl.removeAttribute('name');
+                            if (originalNameP !== null) pEl.setAttribute('name', originalNameP); else pEl.removeAttribute('name');
+                        } catch (_) {}
+                    }
+                    form.submit();
+                    return true;
+                }
+            }
+            return true;
+        } catch (err) {
+            console.error('[LoginHelper] 保存凭据填充异常：', err);
             return false;
         }
     }
@@ -442,6 +889,48 @@
         }
     }, checkInterval * 1000);
 
+    // 登录成功与跳转检测（轻量监控）
+    (function setupSuccessMonitor(){
+        let lastHref = location.href;
+        setInterval(() => {
+            const href = location.href;
+            if (href !== lastHref) {
+                updateStatusBar('页面跳转中，正在确认登录状态…');
+                lastHref = href;
+            }
+            const isQzone = /qzone\.qq\.com|user\.qzone\.qq\.com/i.test(location.hostname);
+            const inLoginPage = /ptlogin2\.qq\.com|xui\.ptlogin2\.qq\.com|ui\.ptlogin2\.qq\.com/i.test(location.hostname);
+            if (isQzone && !/登录/i.test(document.title)) {
+                updateStatusBar('登录成功');
+            } else if (!inLoginPage && /登录/i.test(document.title)) {
+                // 保持原有逻辑由未登录检测驱动
+            }
+        }, 1500);
+    })();
+
     // 初始触发
     setTimeout(attemptLoginFlow, 2000);
 })();
+        // 清除本地凭据按钮
+        document.addEventListener('click', (ev) => {
+            const t = ev.target;
+            if (t && t.id === 'lh-clearCreds') {
+                try {
+                    localStorage.removeItem('lh-savedUsername');
+                    localStorage.removeItem('lh-savedPassword');
+                } catch (_) {}
+                savedUsername = '';
+                savedPassword = '';
+                const uInput = document.getElementById('lh-savedUsername');
+                const pInput = document.getElementById('lh-savedPassword');
+                if (uInput) uInput.value = '';
+                if (pInput) pInput.value = '';
+                // 若当前登录方式为saved，改回头像登录以避免误触
+                const lmSelect = document.getElementById('lh-loginMethod');
+                if (lmSelect && lmSelect.value === 'saved') {
+                    lmSelect.value = 'avatar';
+                    localStorage.setItem('lh-loginMethod', 'avatar');
+                }
+                alert('已清除本地保存的账号与密码。');
+            }
+        });

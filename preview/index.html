@@ -20,9 +20,6 @@
     window.GM_notification = function(opts){ console.log('GM_notification', opts); };
     window.GM_getValue = function(k, d){ try{ var v = localStorage.getItem('GM_'+k); return v===null?d:JSON.parse(v);}catch(e){return d;} };
     window.GM_setValue = function(k, v){ try{ localStorage.setItem('GM_'+k, JSON.stringify(v)); }catch(e){} };
-  </script>
-</head>
-<body>
   <div class="hint">
     预览说明：
     <br>- 自动加载并显示控制面板与状态栏
