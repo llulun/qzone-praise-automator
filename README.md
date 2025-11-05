@@ -17,7 +17,7 @@
 <div align="center">
 
 **🧭 快速导航**  
-[项目总览](docs/OVERVIEW.md) · [应用列表](docs/APPS.md) · [自动登录脚本说明](qzone-auto-login-helper/README.md) · [仓库隐私政策](PRIVACY.md) · [自动登录隐私政策](qzone-auto-login-helper/PRIVACY.md) · [更新日志](CHANGELOG.md) · [贡献指南](CONTRIBUTING.md) · [行为准则](CODE_OF_CONDUCT.md) · [安全策略](SECURITY.md) · [开源许可证](LICENSE)
+[项目总览](docs/OVERVIEW.md) · [应用列表](docs/APPS.md) · [自动登录脚本说明](qzone-auto-login-helper/README.md) · [仓库隐私政策](PRIVACY.md) · [自动登录隐私政策](qzone-auto-login-helper/PRIVACY.md) · [自动点赞隐私政策](QZone%20Praise%20Automator%20PRIVACY.md) · [更新日志](CHANGELOG.md) · [贡献指南](CONTRIBUTING.md) · [行为准则](CODE_OF_CONDUCT.md) · [安全策略](SECURITY.md) · [开源许可证](LICENSE)
 
 </div>
 
