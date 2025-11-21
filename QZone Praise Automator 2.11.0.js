@@ -2,7 +2,7 @@
 // @name         QZone Praise Automator
 // @namespace    https://github.com/llulun/qzone-autopraise-pro
 // @license      MIT
-// @version      2.11.0
+// @version      2.11.1
 // @description  网页版QQ空间自动点赞工具（增强版：简化工作流，通过检测点赞元素判断是否在好友动态页面，有则直接执行点赞，无则切换到好友动态后刷新页面重走流程，移除菜单元素，添加延迟处理、安全点赞、菜单调整、状态栏美化、滚动模拟等功能。更新：状态栏更详细显示任务进度、剩余时间等，美化透明度与阴影；控制面板增大、居中、透明化；修复状态栏文字模糊与重叠问题，通过分行显示、调整字体与行高确保清晰；状态栏背景改为黑色渐变，添加透明阴影与底部圆角；扩展控制面板为左侧菜单栏式结构，添加更多参数调整如状态栏/控制面板透明度、颜色、屏蔽用户、过滤选项、重试次数、滚动步长、初始延迟等，所有可调参数均集成到面板中，支持动态应用变化；移除双击页面调用setConfig事件，所有设置统一通过控制面板；控制面板默认隐藏，通过点击浮动按钮打开；修复状态栏文字随背景透明问题，添加文字颜色与亮度设置；新增：暂停/恢复功能，允许用户暂停或恢复自动点赞流程，状态栏显示暂停状态；修复：状态栏第二行参数与等待时间显示错误，确保实时同步最新参数和正确时间；优化：修复状态栏多余分隔符逻辑，避免显示异常；兼容：将模板字符串改为字符串连接，提高旧浏览器兼容性，避免潜在语法报错。贡献更新（v2.4）：美化控制面板和状态栏的UI（添加过渡动画、圆角按钮、响应式布局）；修复潜在bug如滚动事件重复触发点赞、暂停时定时器未完全清理、cookie值解析边缘案例；优化性能（减少不必要的setInterval调用、批量DOM操作）；添加暗黑模式自动适配选项。贡献更新（v2.5）：修复bug：在点赞或滚动任务执行过程中，如果任务时间超过刷新间隔，导致倒计时重置的问题（通过在任务开始时推迟nextTime来避免中断）；美化状态栏：添加进度条表示当前任务进度、使用emoji图标增强视觉反馈、优化字体和间距以提高可读性。贡献更新（v2.6）：修复状态栏逻辑问题：防止safeLike重复调用导致nextTime多次推迟和倒计时跳动；优化点赞逻辑，仅调度实际需要点赞的动态，避免不必要延迟和卡在“跳过”步骤；如果所有动态被跳过，立即完成任务并更新状态栏为等待刷新，而不是等待无谓时间或显示跳过消息。贡献更新（v2.8）：UI美化升级（主题系统、响应式设计、微交互）；新增动态关键词过滤（屏蔽/允许模式，支持正则）；黑名单扩展（分组、白名单、导入/导出）；每日点赞上限；浏览器通知；性能监控（点赞成功率统计）；多账号支持（配置切换）。贡献更新（v2.8.1）：修复动态元素事件监听器添加问题，确保在tab内容加载后绑定事件，避免null错误；优化JSON解析错误处理；确保所有字符串连接正确，避免语法问题。贡献更新（v2.8.2）：修复关键词屏蔽不生效问题，将内容提取改为innerText以避免HTML标签干扰匹配；加强已赞动态检测，添加点赞后延迟检查class更新，防止手动滚动触发重复点赞导致取消；优化日志记录关键词匹配细节。贡献更新（v2.8.3）：新增自动登录检测与提醒（如果检测到登录过期，暂停脚本并通知用户）；优化滚动模拟以支持无限滚动页面（动态检测底部加载元素）；添加配置备份/恢复功能到控制面板；修复多账号切换时日志和统计不隔离的问题；增强暗黑模式兼容性，支持自定义主题色调调整。贡献更新（v2.8.4）：修复控制面板浮动按钮被状态栏遮挡的问题，提高浮动按钮z-index至10003，确保其显示在状态栏上方。贡献更新（v2.8.5）：增强存储功能，使用localStorage存储性能统计数据，确保网页刷新后不会清空。）贡献更新（v2.8.6）：增强登录检测：添加自动重登录选项，如果检测到过期，可选重定向到登录页，避免手动干预；添加冷却机制防循环。贡献更新（v2.8.7）：添加MutationObserver以监控动态内容加载，提高脚本对QQ空间无限滚动的响应性和稳定性；优化safeLike以避免重复触发。贡献更新（v2.8.8）：使日志存储持久化，使用localStorage存储日志，避免页面刷新后丢失。贡献更新（v2.8.9）：在控制面板的日志标签添加导出日志按钮，允许用户下载日志为JSON文件，便于调试和分享。贡献更新（v2.11.0）：全面UI界面美化与优化：添加饼图数据可视化展示点赞统计；优化状态栏显示效果（添加进度条动画、脉冲效果、滑入动画）；重构控制面板布局（添加卡片式设计、过渡动画、响应式布局）；实现8种精美主题预设（默认、科技、生态、暗黑、紫色、日落、海洋、樱花）；添加主题实时预览功能；增强微交互体验（添加涟漪效果、按钮反馈、加载动画）；优化动画和过渡效果，提升整体视觉体验。
 // @author       llulun (with contributions)
 // @match        *://*.qzone.qq.com/*
@@ -68,10 +68,12 @@
     let stats = safeJsonParse(localStorage.getItem('al-stats')) || {}; // 修改：使用localStorage存储性能统计
     let accounts = safeJsonParse(getCookie('al-accounts')) || {}; // 新增：多账号
     let currentAccount = uin; // 当前账号
-    let enableLoginCheck = Boolean(getCookie('al-enableLoginCheck')) || true; // 新增：登录检测
+    let enableLoginCheck = (getCookie('al-enableLoginCheck') !== undefined) ? Boolean(getCookie('al-enableLoginCheck')) : true; // 新增：登录检测
     let themeHue = parseInt(getCookie('al-themeHue')) || 0; // 新增：主题色调调整
     let enableAutoRelogin = Boolean(getCookie('al-enableAutoRelogin')) || false; // 新增：自动重登录
     let totalLikes = parseInt(getCookie('al-totalLikes')) || 0; // 新增：总点赞数统计
+    let timeUpdateInterval = null;
+    let statusUpdateInterval = null;
 
     // 新增：安全JSON解析
     function safeJsonParse(str) {
@@ -1272,14 +1274,7 @@
             }
         });
 
-        // 暂停/恢复
-        document.getElementById('al-pause').addEventListener('click', function() {
-            isPaused = !isPaused;
-            this.innerText = isPaused ? '恢复' : '暂停';
-            updateStatusBar(isPaused ? '已暂停' : '已恢复');
-            if (!isPaused) executeWorkflow();
-            clearAllTimeouts();
-        });
+        
 
         // 测试执行
         document.getElementById('al-test').addEventListener('click', function() {
@@ -1420,7 +1415,7 @@
         btn.style.borderRadius = '50px';
         btn.style.cursor = 'pointer';
         // 层级：按钮 < 面板(2147483647)；按钮 > 状态栏(2147483646)
-        btn.style.zIndex = '2147483646';
+        btn.style.zIndex = '2147483647';
         btn.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
         btn.style.transition = 'background 0.2s';
         btn.innerText = 'AL Menu';
@@ -1818,7 +1813,7 @@
         statusBar.appendChild(rightSection);
         
         // 更新时间显示
-        setInterval(() => {
+        timeUpdateInterval = setInterval(() => {
             const timeEl = document.getElementById('al-current-time');
             if (timeEl) {
                 timeEl.textContent = new Date().toLocaleTimeString();
@@ -1878,7 +1873,7 @@
         addHoverEffect(statusBar, '1.01');
         addClickFeedback(statusBar);
 
-        setInterval(updateStatusBar, 1000);
+        statusUpdateInterval = setInterval(updateStatusBar, 1000);
         updateStatusBar();
 
         log('INFO', '状态栏加载完成');
@@ -1943,9 +1938,9 @@
 
         // 构建详细的状态信息
         const dailyProgress = dailyLimit > 0 ? `${dailyCount}/${dailyLimit}` : `${dailyCount}`;
-        // 重新获取 totalLikes 确保变量可访问
-        const currentTotalLikes = parseInt(getCookie('al-totalLikes')) || 0;
-        const successRate = currentTotalLikes > 0 ? Math.round((currentTotalLikes / (currentTotalLikes + (stats.errors || 0))) * 100) : 100;
+        const accStatsForRate = stats[currentAccount] || { likes: 0, skips: 0, errors: 0 };
+        const totalActions = accStatsForRate.likes + accStatsForRate.skips + accStatsForRate.errors;
+        const successRate = totalActions > 0 ? Math.round(((accStatsForRate.likes + accStatsForRate.skips) / totalActions) * 100) : 100;
         
         // 计算任务倒计时信息
         let taskCountdownInfo = '';
@@ -2194,7 +2189,7 @@
                 
                 let cumulativeDelay = 0;
                 toLike.forEach(function(item, idx) {
-                    let delay = likeDelay * 1000 + Math.random() * (randomDelayMax - randomDelayMin) * 1000;
+                    let delay = likeDelay * 1000 + (randomDelayMin + Math.random() * (randomDelayMax - randomDelayMin)) * 1000;
                     cumulativeDelay += delay;
                     setTimeout(function() {
                         if (isPaused || (dailyLimit > 0 && dailyCount >= dailyLimit)) return;
@@ -2503,6 +2498,14 @@
             }
             if (typeof scrollDebounce !== 'undefined' && scrollDebounce) {
                 clearTimeout(scrollDebounce);
+            }
+            if (typeof timeUpdateInterval !== 'undefined' && timeUpdateInterval) {
+                clearInterval(timeUpdateInterval);
+                timeUpdateInterval = null;
+            }
+            if (typeof statusUpdateInterval !== 'undefined' && statusUpdateInterval) {
+                clearInterval(statusUpdateInterval);
+                statusUpdateInterval = null;
             }
         } catch (e) {
             console.error('[AL] 清理资源时出错:', e);

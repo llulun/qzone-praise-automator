@@ -3,7 +3,7 @@
 <div align="center">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/Version-2.11.0-blue.svg)](https://github.com/llulun/qzone-praise-automator/releases/tag/v2.11.0)
+[![Version](https://img.shields.io/badge/Version-2.11.1-blue.svg)](https://github.com/llulun/qzone-praise-automator/releases/tag/v2.11.1)
 [![Stars](https://img.shields.io/github/stars/llulun/qzone-praise-automator)](https://github.com/llulun/qzone-praise-automator/stargazers)
 [![Forks](https://img.shields.io/github/forks/llulun/qzone-praise-automator)](https://github.com/llulun/qzone-praise-automator/network/members)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
@@ -78,7 +78,7 @@ QZone Praise Automator 是一个功能强大的网页版 QQ 空间自动点赞�
 2. **获取脚本**
    ```bash
    # 方式一：直接下载
-   wget https://github.com/llulun/qzone-praise-automator/raw/main/QZone%20Praise%20Automator%202.11.0.js
+   wget https://github.com/llulun/qzone-praise-automator/raw/main/QZone%20Praise%20Automator%202.11.1.js
    
    # 方式二：克隆仓库
    git clone https://github.com/llulun/qzone-praise-automator.git
@@ -152,7 +152,11 @@ QZone Praise Automator 是一个功能强大的网页版 QQ 空间自动点赞�
 
 ## 📋 更新日志
 
-### 🎉 v2.11.0 (2025-10-26) - 最新版本
+### 🎉 v2.11.1 (2025-11-21) - 最新版本
+- 🐛 修复：登录检测开关默认值、状态栏成功率统计、随机延迟计算
+- 🔧 改进：浮动按钮层级提升、状态栏定时器清理与资源管理
+
+### 🎉 v2.11.0 (2025-10-26)
 - ✨ **全面UI界面美化与优化**
   - 新增饼图数据可视化展示点赞统计
   - 优化状态栏显示效果（进度条动画、脉冲效果、滑入动画）
