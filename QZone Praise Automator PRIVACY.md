@@ -19,6 +19,7 @@
 本脚本为实现配置与功能持久化，会在浏览器的 Cookies 与 `localStorage` 中保存以下数据项：
 
 ### Cookies（以 `al-` 前缀为主）
+
 - 运行与界面参数：
   - `al-duration`、`al-refreshDelay`、`al-likeDelay`、`al-scrollCount`
   - `al-statusOpacity`、`al-statusBgColor`、`al-statusTextColor`、`al-statusTextBrightness`
@@ -34,6 +35,7 @@
   - `al-accounts`（序列化的多账号配置）
 
 ### localStorage
+
 - `al-logs`：系统日志（按账号隔离），仅本地保存。
 - `al-stats`：性能统计（点赞/跳过/错误计数，按账号隔离），仅本地保存。
 - `al-config-backup` / `al-backup`：本地配置备份数据（可选）。
@@ -53,6 +55,7 @@
 ## 数据清理
 
 你可以通过以下方式清理本地数据：
+
 1. 在脚本的控制面板中恢复默认设置，或清除相关配置项。
 2. 在浏览器设置中清理站点 Cookies 与 `localStorage`。
 3. 通过开发者工具执行：
