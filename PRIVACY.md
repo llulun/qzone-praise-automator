@@ -3,6 +3,7 @@
 最近更新日期：2025-11-05
 
 本隐私政策适用于本仓库内所有应用/脚本，包括但不限于：
+
 - QZone Praise Automator（自动点赞脚本）
 - QZone Auto Login Helper（自动登录辅助脚本）
 
