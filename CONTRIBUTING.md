@@ -97,6 +97,7 @@ git push origin feature/your-feature-name
 ### 本地开发设置
 
 1. **安装用户脚本**：
+
    ```javascript
    // 在 Tampermonkey 中创建新脚本
    // 复制 QZone Praise Automator 2.11.0.js 的内容
@@ -113,26 +114,31 @@ git push origin feature/your-feature-name
 我们欢迎以下类型的贡献：
 
 ### 🐛 Bug 修复
+
 - 修复现有功能的问题
 - 改进错误处理
 - 解决兼容性问题
 
 ### ✨ 新功能
+
 - 添加新的自动化功能
 - 改进用户界面
 - 增强用户体验
 
 ### 📚 文档改进
+
 - 更新 README
 - 改进代码注释
 - 添加使用示例
 
 ### 🔧 代码优化
+
 - 性能优化
 - 代码重构
 - 依赖更新
 
 ### 🎨 UI/UX 改进
+
 - 界面美化
 - 交互优化
 - 响应式设计
@@ -142,17 +148,20 @@ git push origin feature/your-feature-name
 ### 1. 需求提出和讨论
 
 **📝 创建 Issue**
+
 - 在 [Issues](https://github.com/llulun/qzone-praise-automator/issues) 页面创建新条目
 - 选择合适的模板：「功能建议」或「Bug 报告」
 - 清晰描述现状、目标与动机
 - 提供验收标准（例如：在好友动态页，10 分钟内自动点赞不少于 X 条，且不取消已赞）
 
 **💬 方案讨论**
+
 - 策划方：负责范围界定、用户体验与风险提示
 - 开发者：负责技术方案、实现可行性与边界条件
 - 共同拆解任务，产出最小可行迭代（MVP）与后续增强列表
 
 **✅ 决策共识**
+
 - 通过 Issue 评论或 [Discussions](https://github.com/llulun/qzone-praise-automator/discussions) 达成结论
 - 形成「待实现任务清单」与「验收清单」
 - 标注里程碑与优先级，避免一次性大改动影响稳定性
@@ -160,11 +169,13 @@ git push origin feature/your-feature-name
 ### 2. 开发实现
 
 **🔧 技术要求**
+
 - 基于现有分支创建功能分支
 - 遵循代码规范和最佳实践
 - 进行充分的本地测试
 
 **📤 提交代码**
+
 - 使用规范的提交信息
 - 推送到个人 Fork 仓库
 - 创建 Pull Request
@@ -176,14 +187,14 @@ git push origin feature/your-feature-name
 ```javascript
 // ✅ 好的示例
 function calculateLikeDelay(baseDelay, randomFactor) {
-    const minDelay = baseDelay * 0.8;
-    const maxDelay = baseDelay * 1.2;
-    return Math.random() * (maxDelay - minDelay) + minDelay;
+  const minDelay = baseDelay * 0.8;
+  const maxDelay = baseDelay * 1.2;
+  return Math.random() * (maxDelay - minDelay) + minDelay;
 }
 
 // ❌ 避免的写法
 function calc(d, r) {
-    return Math.random() * (d * 1.2 - d * 0.8) + d * 0.8;
+  return Math.random() * (d * 1.2 - d * 0.8) + d * 0.8;
 }
 ```
 
@@ -300,12 +311,15 @@ Closes #123
 
 ```markdown
 ## 📝 变更描述
+
 简要描述本次变更的内容和目的。
 
 ## 🔗 关联 Issue
+
 Closes #123
 
 ## 📋 变更类型
+
 - [ ] Bug 修复
 - [ ] 新功能
 - [ ] 文档更新
@@ -313,15 +327,19 @@ Closes #123
 - [ ] 性能优化
 
 ## 🧪 测试说明
+
 描述如何测试这些变更：
+
 1. 步骤一
 2. 步骤二
 3. 步骤三
 
 ## 📸 截图/录屏
+
 （如有 UI 变更，请提供前后对比）
 
 ## ⚠️ 注意事项
+
 列出任何需要特别注意的事项或已知风险。
 ```
 
@@ -349,6 +367,7 @@ Closes #123
 ### 安全问题
 
 对于安全或隐私相关问题，请通过以下方式联系：
+
 - 📧 邮箱：`mail@llulun.top`
 - 🔒 请勿在公开 Issue 中披露安全漏洞
 
@@ -357,6 +376,7 @@ Closes #123
 ### 行为准则
 
 我们致力于为所有人提供友好、安全和欢迎的环境，无论：
+
 - 性别、性别认同和表达
 - 性取向
 - 残疾
